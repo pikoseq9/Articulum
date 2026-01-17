@@ -1,14 +1,21 @@
 import { Link, useNavigate } from 'react-router-dom';
 import './Dashboard.css';
+import BookSearch, { Book } from './BookSearch';
+import { useState } from 'react';
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const [selectedCandidate, setSelectedCandidate] = useState<Book | null>(null);
 
   const stats = {
     booksRead: 12,
     annualGoal: 52,
     streak: 5,
     pagesRead: 3450
+  };
+
+  const handleBookSelect = (book: Book) => {
+    setSelectedCandidate(book);
   };
 
   const currentBook = {
@@ -27,16 +34,33 @@ export default function Dashboard() {
 
   const annualProgress = Math.round((stats.booksRead / stats.annualGoal) * 100);
 
+  const handleAddClick = () => {
+    if (selectedCandidate) {
+      console.log("Dodawanie wybranej:", selectedCandidate);
+      navigate('/add', { state: { prefilledBook: selectedCandidate } });
+    } else {
+      navigate('/add');
+    }
+  };
+
   return (
     <div className="dashboard-container">
       <header className="dash-header">
-        <div>
-          <h1>Cześć, Czytelniku! 👋</h1>
+        
+        <div className="header-greeting">
+          <h1>Cześć, Czytelniku!</h1>
           <p>Oto Twój literacki "Command Center".</p>
         </div>
-        <button className="btn-add-book" onClick={() => navigate('/add')}>
-          + Dodaj Książkę
-        </button>
+
+        <div className="header-search">
+             <BookSearch onSelectBook={handleBookSelect} />
+        </div>
+
+        <div className="header-actions">
+            <button className="btn-add-book" onClick={handleAddClick}>
+            {selectedCandidate ? `+ Dodaj "${selectedCandidate.title}"` : '+ Dodaj Książkę'}
+            </button>
+        </div>
       </header>
 
       <div className="dash-grid">

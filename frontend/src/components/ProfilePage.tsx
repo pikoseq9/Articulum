@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../axios";
 import { useAuth } from "../authContext";
+import './ProfilePage.css';
 
 interface MfaSetupResponse {
   qrCodeSetupImageUrl?: string;

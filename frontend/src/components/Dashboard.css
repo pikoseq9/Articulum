@@ -1,26 +1,3 @@
-/* Dashboard.css - Dark Mode Trello Style */
-
-:root {
-  --bg-color: #1d2125;
-  --card-bg: #22272b;
-  --column-bg: #161a1d;
-  
-  --text-main: #b6c2cf;
-  --text-muted: #9fadbc;
-  --text-inverse: #1d2125;
-
-  --primary: #579dff;
-  --primary-hover: #85b8ff;
-  
-  --accent-green: #4bce97;
-  --accent-orange: #f5cd47;
-
-  --border-color: #38414a;
-  --progress-bg: #3b4754;
-  --shadow-sm: 0 1px 1px rgba(0,0,0,0.5);
-  --radius: 8px;
-}
-
 body {
   margin: 0;
   background-color: var(--bg-color);
@@ -30,46 +7,113 @@ body {
   padding: 2rem;
   background-color: var(--bg-color);
   min-height: 100vh;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   color: var(--text-main);
+  transition: background-color 0.3s ease;
 }
 
 .dash-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.header-greeting {
+  flex: 0 0 auto;
 }
 
 .dash-header h1 {
   font-size: 1.8rem;
   margin: 0;
-  color: #ffffff;
+  color: var(--text-main);
+  font-weight: 700;
+  letter-spacing: -0.5px;
 }
 
 .dash-header p {
   color: var(--text-muted);
-  margin: 0.2rem 0 0 0;
+  margin: 0.4rem 0 0 0;
+}
+
+.header-search {
+  flex: 1;
+  max-width: 600px;
+  min-width: 300px;
+  display: flex;
+  justify-content: center;
+}
+
+.header-search .search-wrapper {
+  width: 100%;
+  max-width: 100%;
+}
+
+.header-search .search-input {
+  background-color: var(--card-bg);
+  height: 48px;
+  border: 1px solid var(--border-color);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.header-search .search-input:focus {
+  background-color: var(--column-bg);
+  border-color: var(--primary);
+}
+
+.header-actions {
+  flex: 0 0 auto;
 }
 
 .btn-add-book {
   background-color: var(--primary);
   color: var(--text-inverse);
   border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  font-weight: bold;
+  height: 48px;
+  padding: 0 24px;
+  border-radius: var(--radius);
+  font-weight: 700;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(217, 143, 123, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
 }
 
 .btn-add-book:hover {
   background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(217, 143, 123, 0.6);
+}
+
+@media (max-width: 768px) {
+  .dash-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.5rem;
+  }
+  
+  .header-search {
+    max-width: 100%;
+    order: 3;
+  }
+  
+  .header-greeting {
+    text-align: center;
+  }
+  
+  .btn-add-book {
+    width: 100%;
+  }
 }
 
 .dash-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 1.5rem;
   align-items: start;
 }
@@ -82,11 +126,19 @@ body {
 
 .card {
   background: var(--card-bg);
-  border: 1px solid var(--border-color);
+  /* Usunięcie twardego borderu na rzecz miękkiego cienia */
+  border: 1px solid transparent; 
   border-radius: var(--radius);
   padding: 1.5rem;
   box-shadow: var(--shadow-sm);
   color: var(--text-main);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Subtelny efekt hover na kartach */
+.card:hover {
+    border-color: var(--border-color);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.3);
 }
 
 .user-card .user-info {
@@ -105,17 +157,19 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
+  font-weight: 700;
   font-size: 1.2rem;
+  box-shadow: 0 2px 8px rgba(217, 143, 123, 0.4);
 }
 
 .badge {
-  background: #39424a;
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  color: var(--text-main);
-  border: 1px solid var(--border-color);
+  background: rgba(212, 180, 106, 0.15); /* Półprzezroczyste złoto */
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-orange);
+  border: 1px solid rgba(212, 180, 106, 0.3);
 }
 
 .streak-info {
@@ -125,24 +179,26 @@ body {
 }
 
 .streak-info strong {
-  color: #ff9f1a;
+  color: var(--accent-orange);
 }
 
 .link-text {
   color: var(--primary);
   text-decoration: none;
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
+  transition: color 0.2s;
 }
 
 .link-text:hover {
+  color: var(--primary-hover);
   text-decoration: underline;
 }
 
 .progress-stats {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--text-main);
@@ -154,24 +210,26 @@ body {
 
 .progress-bar-container {
   width: 100%;
-  height: 10px;
+  height: 12px; /* Trochę grubszy pasek */
   background: var(--progress-bg);
-  border-radius: 5px;
+  border-radius: 6px;
   overflow: hidden;
+  padding: 2px; /* Padding dla efektu ramki */
 }
 
 .progress-bar-fill {
   height: 100%;
   background: var(--accent-green);
-  border-radius: 5px;
-  transition: width 0.5s ease-in-out;
-  box-shadow: 0 0 10px rgba(75, 206, 151, 0.4);
+  border-radius: 4px;
+  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); /* Sprężysta animacja */
+  /* Miękka, szałwiowa poświata */
+  box-shadow: 0 0 12px rgba(148, 180, 145, 0.5);
 }
 
 .subtext {
   font-size: 0.8rem;
   color: var(--text-muted);
-  margin-top: 0.5rem;
+  margin-top: 0.8rem;
   text-align: right;
 }
 
@@ -183,34 +241,35 @@ body {
 
 .stat-mini h4 {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
+  font-weight: 600;
 }
 
 .stat-mini p {
   margin: 0.5rem 0 0 0;
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #ffffff;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-main);
 }
 
 .card-header-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .status-tag {
-  background: rgba(75, 206, 151, 0.2);
+  background: rgba(148, 180, 145, 0.15);
   color: var(--accent-green);
-  padding: 4px 8px;
-  border-radius: 4px;
+  padding: 4px 12px;
+  border-radius: 20px;
   font-size: 0.8rem;
-  font-weight: bold;
-  border: 1px solid rgba(75, 206, 151, 0.3);
+  font-weight: 600;
+  border: 1px solid rgba(148, 180, 145, 0.3);
 }
 
 .book-detail-flex {
@@ -219,137 +278,153 @@ body {
 }
 
 .book-cover {
-  width: 100px;
-  height: 150px;
+  width: 110px;
+  height: 165px;
   object-fit: cover;
-  border-radius: 4px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
 }
 
 .book-info h2 {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   margin: 0 0 0.5rem 0;
-  color: #ffffff;
+  color: var(--text-main);
+  font-weight: 700;
 }
 
 .book-info .author {
   color: var(--text-muted);
   font-style: italic;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .mini-progress label {
     font-size: 0.85rem;
     color: var(--text-muted);
+    display: block;
+    margin-bottom: 5px;
 }
 
 .mini-progress progress {
   width: 100%;
-  height: 8px;
-  border-radius: 4px;
-  margin-top: 5px;
+  height: 10px;
+  border-radius: 5px;
+  border: none;
 }
 
+/* Stylizowanie elementu <progress> */
 .mini-progress progress::-webkit-progress-bar {
     background-color: var(--progress-bg);
-    border-radius: 4px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
 }
 .mini-progress progress::-webkit-progress-value {
     background-color: var(--primary);
     border-radius: 4px;
+    /* Subtelna koralowa poświata */
+    box-shadow: 0 0 8px rgba(217, 143, 123, 0.5);
 }
 
 .btn-secondary {
-  margin-top: 1rem;
-  background: #39424a;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
+  margin-top: 1.5rem;
+  background: rgba(217, 143, 123, 0.1); /* Półprzezroczysty primary */
+  border: 1px solid rgba(217, 143, 123, 0.3);
+  padding: 10px 20px;
+  border-radius: var(--radius);
   cursor: pointer;
-  color: var(--text-main);
-  transition: background 0.2s;
+  color: var(--primary);
+  font-weight: 600;
+  transition: all 0.2s;
 }
 
 .btn-secondary:hover {
-  background: #4a545e;
+  background: rgba(217, 143, 123, 0.2);
+  border-color: var(--primary);
 }
 
 .trello-col {
   background: var(--column-bg);
   border-radius: var(--radius);
-  padding: 1rem;
+  padding: 1.2rem;
   height: fit-content;
   border: 1px solid var(--border-color);
 }
 
 .trello-header h3 {
-  margin: 0 0 1rem 0;
-  font-size: 1rem;
+  margin: 0 0 1.2rem 0;
+  font-size: 0.95rem;
   text-transform: uppercase;
   color: var(--text-muted);
   font-weight: 700;
+  letter-spacing: 1px;
 }
 
 .trello-list {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 1rem;
 }
 
 .trello-card {
   background: var(--card-bg);
-  padding: 0.8rem;
-  border-radius: 4px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  padding: 1rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
   cursor: pointer;
-  transition: transform 0.1s, background 0.1s;
+  transition: all 0.2s ease;
   border: 1px solid transparent;
 }
 
 .trello-card:hover {
-  background: #2c333a;
-  transform: translateY(-2px);
-  border-color: var(--primary);
+  transform: translateY(-3px);
+  border-color: rgba(217, 143, 123, 0.5); /* Koralowa ramka przy hover */
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
 }
 
 .trello-tags {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
 }
 
 .tag {
   font-size: 0.7rem;
-  padding: 2px 6px;
-  border-radius: 3px;
-  color: #1d2125;
-  font-weight: bold;
+  padding: 3px 8px;
+  border-radius: 12px;
+  color: var(--text-inverse);
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
-.tag.sci-fi { background-color: #579dff; }
-.tag.rozwój { background-color: #4bce97; }
-.tag.fantasy { background-color: #f5cd47; }
+/* Nowe, pastelowe kolory tagów */
+.tag.sci-fi { background-color: #8ab6d6; /* Zgaszony niebieski */ color: #1e1c1b; }
+.tag.rozwój { background-color: var(--accent-green); color: #1e1c1b;}
+.tag.fantasy { background-color: var(--primary); color: #1e1c1b; }
 
 .trello-card h4 {
-  margin: 0 0 0.2rem 0;
-  font-size: 0.95rem;
+  margin: 0 0 0.4rem 0;
+  font-size: 1rem;
   color: var(--text-main);
+  font-weight: 600;
 }
 
 .trello-card p {
   margin: 0;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
 }
 
 .trello-card-add {
-  padding: 0.5rem;
+  padding: 0.8rem;
   color: var(--text-muted);
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: var(--radius);
   font-size: 0.9rem;
   transition: 0.2s;
+  border: 1px dashed var(--border-color);
+  text-align: center;
 }
 
 .trello-card-add:hover {
-  background-color: rgba(255,255,255,0.08);
+  background-color: rgba(217, 143, 123, 0.08);
   color: var(--primary);
+  border-color: var(--primary);
 }

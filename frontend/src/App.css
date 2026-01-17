@@ -1,121 +1,69 @@
-/* Global */
-body {
-  font-family: "Inter", sans-serif;
-  background-color: #1f2125;
-  color: #e6e6e6;
-  margin: 0;
-  padding: 0;
+:root {
+  --bg-color: #1e1c1b;       
+  --card-bg: #292624;        
+  --column-bg: #181615;      
+  
+  --text-main: #e3ded9;      
+  --text-muted: #a19b94;     
+  --text-inverse: #292624;   
+
+  --primary: #d98f7b;
+  --primary-hover: #e8a695;  
+  
+  --accent-green: #94b491;   
+  --accent-orange: #d4b46a;  
+  --accent-red: #cf7272;     
+
+  --border-color: #3a3633;   
+  --shadow-sm: 0 4px 12px rgba(0,0,0,0.25);
+  --radius: 12px;
 }
 
-/* Button */
-.buttons {
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+}
+
+.content {
+  min-height: 100vh;
   display: flex;
+  flex-direction: column;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.nav-btns {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--column-bg);
+  border-bottom: 1px solid var(--border-color);
   gap: 1rem;
 }
 
-button {
-  border: none;
-  padding: 0.6rem 1rem;
-  border-radius: 0.5rem;
+.login-btn button, .btn-profile {
+  background-color: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+  padding: 8px 16px;
+  border-radius: var(--radius);
   cursor: pointer;
-  background-color: #4b8df5;
-  color: white;
   font-weight: 600;
-  transition: 0.25s;
+  transition: all 0.2s;
 }
 
-button:hover {
-  transform: scale(1.05);
-  background-color: #6aa2ff;
-}
-
-/* Form */
-.car-form {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem 2.5rem;
-  margin-bottom: 2rem;
-}
-
-.car-form label {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  font-size: 0.95rem;
-  font-weight: 500;
-}
-
-.car-form input,
-.car-form select {
-  padding: 0.65rem;
-  border-radius: 0.5rem;
-  border: 1px solid #444;
-  background-color: #1f2125;
-  color: #eee;
-  font-size: 1rem;
-}
-
-.car-form input:focus,
-.car-form select:focus {
-  outline: none;
-  border-color: #4b8df5;
-  box-shadow: 0 0 0 2px rgba(75, 141, 245, 0.4);
-}
-
-.car-form button {
-  grid-column: span 2;
-  margin: 0 auto;
-  padding: 0.8rem 2rem;
-  background-color: #4b8df5;
-  font-size: 1.1rem;
-}
-
-.back-btn {
-  border: none;
-  background-color: #444851;
-  padding: 0.6rem 1rem;
-  border-radius: 0.5rem;
-  margin-top: 2rem;
-  cursor: pointer;
-  color: white;
-  font-size: 1rem;
-}
-
-.back-btn:hover {
-  background-color: #5b5f68;
-  transform: scale(1.03);
-  transition: 0.2s;
-}
-
-.details-card {
-  background-color: #2b2e34;
-  padding: 2rem;
-  border-radius: 1rem;
-  color: white;
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.details-card h1 {
-  margin-bottom: 1.5rem;
-  text-align: center;
-  font-size: 2rem;
-}
-
-.details-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.2rem;
-}
-
-.details-grid div {
-  background-color: #393c43;
-  padding: 1rem;
-  border-radius: 0.6rem;
-}
-
-.error {
-  color: rgb(145, 73, 73);
+.login-btn button:hover, .btn-profile:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background-color: rgba(217, 143, 123, 0.05);
 }
 
 .modal-overlay {
@@ -124,226 +72,111 @@ button:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.55);
+  background: rgba(0,0,0,0.7);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 2000;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transition: backdrop-filter 0.3s ease;
+  backdrop-filter: blur(5px);
 }
 
 .modal {
-  background: #32353c;
-  color: #1f2125;
-  padding: 24px;
-  border-radius: 10px;
-  width: 350px;
+  background: var(--card-bg);
+  color: var(--text-main);
+  padding: 2rem;
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 400px;
   position: relative;
-  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  border: 1px solid var(--border-color);
 }
 
 .modal h2 {
   text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 1.5rem;
+  color: var(--primary);
 }
 
 .modal form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-}
-
-.nav-btns {
-  display: flex;
-  margin-top: 1rem;
-  gap: 1rem;
+  gap: 1.2rem;
 }
 
 .modal input {
-  padding: 10px;
-  border: 1px solid #aaa;
-  border-radius: 6px;
+  padding: 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-size: 1rem;
 }
 
-.btn-close {
-  position: absolute;
-  top: 8px;
-  right: 8px;
+.modal input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(217, 143, 123, 0.2);
 }
 
 .modal-buttons {
   display: flex;
   gap: 10px;
-  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.modal button {
+  flex: 1;
+  padding: 12px;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.modal button[type="submit"], 
+.modal button:not(.btn-toggle):not(.btn-close) {
+    background-color: var(--primary);
+    color: var(--text-inverse);
+    transition: background 0.2s;
+}
+
+.modal button[type="submit"]:hover {
+    background-color: var(--primary-hover);
 }
 
 .btn-toggle {
-  padding: 10px;
-  background: #aaa;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+  background: transparent !important;
+  color: var(--text-muted) !important;
+  border: 1px dashed var(--border-color) !important;
 }
 
 .btn-toggle:hover {
-  background: #888;
+  color: var(--text-main) !important;
+  border-color: var(--text-muted) !important;
+}
+
+.btn-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent !important;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  padding: 5px !important;
+  width: auto !important;
+}
+
+.btn-close:hover {
+    color: var(--accent-red);
 }
 
 .error {
-  color: red;
-  font-size: 14px;
-  text-align: center;
-}
-
-/* --- PROFILE PAGE & MFA STYLES --- */
-
-.profile-container {
-    margin-top: 2rem;
-    max-width: 700px; /* Trochę węższy kontener dla profilu wygląda lepiej */
-    color: #e6e6e6;
-}
-
-.profile-header h1 {
-    margin-top: 0;
-    color: white;
-}
-
-.user-info p {
-    font-size: 1.1rem;
-    margin: 0.5rem 0;
-}
-
-.divider {
-    border: 0;
-    height: 1px;
-    background: #444;
-    margin: 2rem 0;
-}
-
-.mfa-desc {
-    color: #aaa;
-    margin-bottom: 1.5rem;
-    line-height: 1.5;
-}
-
-/* Status Messages */
-.status-msg {
-    padding: 1rem;
-    border-radius: 0.5rem;
-    margin-bottom: 1.5rem;
-    font-weight: 600;
-}
-
-.status-msg.success {
-    background-color: rgba(75, 245, 106, 0.15);
-    color: #4bf56a;
-    border: 1px solid #4bf56a;
-}
-
-.status-msg.error {
-    background-color: rgba(245, 75, 75, 0.15);
-    color: #f54b4b;
-    border: 1px solid #f54b4b;
-}
-
-/* MFA Setup Box */
-.mfa-setup-box {
-    background-color: #32353c; /* Trochę jaśniejszy niż tło contentu */
-    padding: 2rem;
-    border-radius: 1rem;
-    margin-top: 1rem;
-    animation: fadeIn 0.4s ease;
-}
-
-.mfa-setup-box h3 {
-    margin-top: 0;
+    color: var(--accent-red);
     text-align: center;
-}
-
-/* QR Code styling */
-.qr-container {
-    display: flex;
-    justify-content: center;
-    margin: 1.5rem 0;
-}
-
-.qr-image {
-    background-color: white; /* KLUCZOWE dla dark mode */
-    padding: 10px;
-    border-radius: 8px;
-    width: 200px;
-    height: 200px;
-}
-
-/* Manual Key */
-.manual-key-box {
-    text-align: center;
-    margin-bottom: 2rem;
-    font-size: 0.9rem;
-    color: #bbb;
-}
-
-.manual-key-box code {
-    display: block;
-    margin-top: 0.5rem;
-    font-family: monospace;
-    background: #1f2125;
-    padding: 0.8rem;
+    background: rgba(207, 114, 114, 0.1);
+    padding: 0.5rem;
     border-radius: 6px;
-    font-size: 1.2rem;
-    letter-spacing: 2px;
-    color: #4b8df5;
-    border: 1px dashed #555;
-}
-
-/* Verify Form */
-.mfa-verify-form {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    max-width: 300px;
-    margin: 0 auto;
-}
-
-.input-group {
-    display: flex;
-    gap: 10px;
-}
-
-.input-group input {
-    flex: 1;
-    text-align: center;
-    letter-spacing: 4px;
-    font-size: 1.2rem;
-}
-
-/* Buttons Variants */
-.btn-primary {
-    background-color: #4b8df5;
-    color: white;
-    padding: 0.8rem 1.5rem;
-    font-size: 1rem;
-}
-
-.btn-text {
-    background: transparent;
-    color: #aaa;
-    margin-top: 1rem;
-    width: 100%;
-    text-decoration: underline;
     font-size: 0.9rem;
-}
-
-.btn-text:hover {
-    background: transparent;
-    color: white;
-    transform: none;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
 }
