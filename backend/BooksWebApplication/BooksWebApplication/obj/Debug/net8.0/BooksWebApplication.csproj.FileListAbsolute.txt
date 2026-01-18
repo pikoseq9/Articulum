@@ -169,4 +169,5 @@ W:\Aplikacje webowe\PROJEKT\backend\BooksWebApplication\BooksWebApplication\bin\
 W:\Aplikacje webowe\PROJEKT\backend\BooksWebApplication\BooksWebApplication\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 W:\Aplikacje webowe\PROJEKT\backend\BooksWebApplication\BooksWebApplication\bin\Debug\net8.0\Google.Authenticator.dll
 W:\Aplikacje webowe\PROJEKT\backend\BooksWebApplication\BooksWebApplication\bin\Debug\net8.0\QRCoder.dll
+W:\Aplikacje webowe\PROJEKT\backend\BooksWebApplication\BooksWebApplication\bin\Debug\net8.0\Microsoft.Extensions.ObjectPool.dll
 W:\Aplikacje webowe\PROJEKT\backend\BooksWebApplication\BooksWebApplication\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

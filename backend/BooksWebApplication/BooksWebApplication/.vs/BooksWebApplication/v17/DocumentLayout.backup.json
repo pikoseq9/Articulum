@@ -3,6 +3,59 @@
   "WorkspaceRootPath": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A44D00BC-348E-429F-AADE-8995BA417124}|..\\Books.Application\\Books.Application.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\books.application\\books\\addbyisbn.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\bookswebapplication\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{290B3C7E-9A2C-456A-BBB6-C01F2B1EAFB1}|..\\Books.Infrastructure\\Books.Infrastructure.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\books.infrastructure\\useraccessor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{290B3C7E-9A2C-456A-BBB6-C01F2B1EAFB1}|..\\Books.Infrastructure\\Books.Infrastructure.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\books.infrastructure\\seed.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A44D00BC-348E-429F-AADE-8995BA417124}|..\\Books.Application\\Books.Application.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\books.application\\books\\delete.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A44D00BC-348E-429F-AADE-8995BA417124}|..\\Books.Application\\Books.Application.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\books.application\\books\\edit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A44D00BC-348E-429F-AADE-8995BA417124}|..\\Books.Application\\Books.Application.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\books.application\\books\\details.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A44D00BC-348E-429F-AADE-8995BA417124}|..\\Books.Application\\Books.Application.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\books.application\\books\\list.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1FE6798-A7DB-4737-A1E3-0E03C34E5987}|..\\Books.Domain\\Books.Domain.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\books.domain\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\bookswebapplication\\controllers\\bookscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|solutionrelative:controllers\\bookscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A44D00BC-348E-429F-AADE-8995BA417124}|..\\Books.Application\\Books.Application.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\books.application\\result.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A44D00BC-348E-429F-AADE-8995BA417124}|..\\Books.Application\\Books.Application.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\books.application\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A44D00BC-348E-429F-AADE-8995BA417124}|..\\Books.Application\\Books.Application.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\books.application\\booksvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A44D00BC-348E-429F-AADE-8995BA417124}|..\\Books.Application\\Books.Application.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\books.application\\books\\add.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{290B3C7E-9A2C-456A-BBB6-C01F2B1EAFB1}|..\\Books.Infrastructure\\Books.Infrastructure.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\books.infrastructure\\datacontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1FE6798-A7DB-4737-A1E3-0E03C34E5987}|..\\Books.Domain\\Books.Domain.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\books.domain\\appuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{290B3C7E-9A2C-456A-BBB6-C01F2B1EAFB1}|..\\Books.Infrastructure\\Books.Infrastructure.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\books.infrastructure\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\bookswebapplication\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|solutionrelative:accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -30,21 +83,8 @@
       "RelativeMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|solutionrelative:email\\emailverificationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A1FE6798-A7DB-4737-A1E3-0E03C34E5987}|..\\Books.Domain\\Books.Domain.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\books.domain\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\bookswebapplication\\disablemfadto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|solutionrelative:disablemfadto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A1FE6798-A7DB-4737-A1E3-0E03C34E5987}|..\\Books.Domain\\Books.Domain.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\books.domain\\appuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\bookswebapplication\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{290B3C7E-9A2C-456A-BBB6-C01F2B1EAFB1}|..\\Books.Infrastructure\\Books.Infrastructure.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\books.infrastructure\\datacontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\bookswebapplication\\sendemailcodedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -74,7 +114,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 11,
+          "SelectedChildIndex": 12,
           "Children": [
             {
               "$type": "Bookmark",
@@ -86,7 +126,176 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
+              "Title": "Seed.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Infrastructure\\Seed.cs",
+              "RelativeDocumentMoniker": "..\\Books.Infrastructure\\Seed.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Infrastructure\\Seed.cs",
+              "RelativeToolTip": "..\\Books.Infrastructure\\Seed.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAgwCoAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:53:07.294Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UserAccessor.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Infrastructure\\UserAccessor.cs",
+              "RelativeDocumentMoniker": "..\\Books.Infrastructure\\UserAccessor.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Infrastructure\\UserAccessor.cs",
+              "RelativeToolTip": "..\\Books.Infrastructure\\UserAccessor.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:45:56.238Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "BooksController.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\Controllers\\BooksController.cs",
+              "RelativeDocumentMoniker": "Controllers\\BooksController.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\Controllers\\BooksController.cs",
+              "RelativeToolTip": "Controllers\\BooksController.cs",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAAwGoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:44:26.268Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Result.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Application\\Result.cs",
+              "RelativeDocumentMoniker": "..\\Books.Application\\Result.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Application\\Result.cs",
+              "RelativeToolTip": "..\\Books.Application\\Result.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:44:20.815Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Application\\Class1.cs",
+              "RelativeDocumentMoniker": "..\\Books.Application\\Class1.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Application\\Class1.cs",
+              "RelativeToolTip": "..\\Books.Application\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:44:20.136Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "BooksValidator.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Application\\BooksValidator.cs",
+              "RelativeDocumentMoniker": "..\\Books.Application\\BooksValidator.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Application\\BooksValidator.cs",
+              "RelativeToolTip": "..\\Books.Application\\BooksValidator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:44:11.209Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "List.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Application\\Books\\List.cs",
+              "RelativeDocumentMoniker": "..\\Books.Application\\Books\\List.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Application\\Books\\List.cs",
+              "RelativeToolTip": "..\\Books.Application\\Books\\List.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:44:00.633Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Edit.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Application\\Books\\Edit.cs",
+              "RelativeDocumentMoniker": "..\\Books.Application\\Books\\Edit.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Application\\Books\\Edit.cs",
+              "RelativeToolTip": "..\\Books.Application\\Books\\Edit.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAswD0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:43:57.26Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Details.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Application\\Books\\Details.cs",
+              "RelativeDocumentMoniker": "..\\Books.Application\\Books\\Details.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Application\\Books\\Details.cs",
+              "RelativeToolTip": "..\\Books.Application\\Books\\Details.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAUwCoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:43:53.378Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Delete.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Application\\Books\\Delete.cs",
+              "RelativeDocumentMoniker": "..\\Books.Application\\Books\\Delete.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Application\\Books\\Delete.cs",
+              "RelativeToolTip": "..\\Books.Application\\Books\\Delete.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAiwC8AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:43:50.099Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AddByIsbn.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Application\\Books\\AddByIsbn.cs",
+              "RelativeDocumentMoniker": "..\\Books.Application\\Books\\AddByIsbn.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Application\\Books\\AddByIsbn.cs",
+              "RelativeToolTip": "..\\Books.Application\\Books\\AddByIsbn.cs",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAkwGEAAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:43:46.885Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Add.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Application\\Books\\Add.cs",
+              "RelativeDocumentMoniker": "..\\Books.Application\\Books\\Add.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Application\\Books\\Add.cs",
+              "RelativeToolTip": "..\\Books.Application\\Books\\Add.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAiwDIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:42:51.867Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Infrastructure\\Class1.cs",
+              "RelativeDocumentMoniker": "..\\Books.Infrastructure\\Class1.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Infrastructure\\Class1.cs",
+              "RelativeToolTip": "..\\Books.Infrastructure\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:40:36.072Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
               "Title": "LoginDto.cs",
               "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\LoginDto.cs",
               "RelativeDocumentMoniker": "LoginDto.cs",
@@ -99,7 +308,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 20,
               "Title": "UserDto.cs",
               "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\UserDto.cs",
               "RelativeDocumentMoniker": "UserDto.cs",
@@ -112,20 +321,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "Class1.cs",
               "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Domain\\Class1.cs",
               "RelativeDocumentMoniker": "..\\Books.Domain\\Class1.cs",
               "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Domain\\Class1.cs",
               "RelativeToolTip": "..\\Books.Domain\\Class1.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-18T16:14:28.262Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 24,
               "Title": "DisableMfaDto.cs",
               "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\DisableMfaDto.cs",
               "RelativeDocumentMoniker": "DisableMfaDto.cs",
@@ -138,7 +347,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 19,
               "Title": "MfaDto.cs",
               "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\MfaDto.cs",
               "RelativeDocumentMoniker": "MfaDto.cs",
@@ -151,20 +360,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 1,
               "Title": "Program.cs",
               "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAAB8AAAArAAAAAAAAAA==",
+              "ViewState": "AgIAACEAAAAAAAAAAAD4v0YAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-18T16:07:57.01Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 15,
               "Title": "AppUser.cs",
               "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Domain\\AppUser.cs",
               "RelativeDocumentMoniker": "..\\Books.Domain\\AppUser.cs",
@@ -177,7 +386,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 14,
               "Title": "DataContext.cs",
               "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Infrastructure\\DataContext.cs",
               "RelativeDocumentMoniker": "..\\Books.Infrastructure\\DataContext.cs",
@@ -190,7 +399,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 21,
               "Title": "EmailVerificationCode.cs",
               "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Domain\\EmailVerificationCode.cs",
               "RelativeDocumentMoniker": "..\\Books.Domain\\EmailVerificationCode.cs",
@@ -203,46 +412,46 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 17,
               "Title": "AccountController.cs",
               "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\AccountController.cs",
               "RelativeDocumentMoniker": "AccountController.cs",
               "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\AccountController.cs",
               "RelativeToolTip": "AccountController.cs",
-              "ViewState": "AgIAAJgAAAAAAAAAAAD4v60AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAJgAAAAAAAAAAAD4v6wAAABtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-18T16:04:07.483Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 26,
               "Title": "VerifyEmail.Dto.cs",
               "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\VerifyEmail.Dto.cs",
               "RelativeDocumentMoniker": "VerifyEmail.Dto.cs",
               "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\VerifyEmail.Dto.cs",
               "RelativeToolTip": "VerifyEmail.Dto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAUAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAA6wAUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-18T16:03:36.967Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 25,
               "Title": "SendEmailCodeDto.cs",
               "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\SendEmailCodeDto.cs",
               "RelativeDocumentMoniker": "SendEmailCodeDto.cs",
               "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\SendEmailCodeDto.cs",
               "RelativeToolTip": "SendEmailCodeDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAMAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAA6wAMAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-18T16:03:19.868Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 27,
               "Title": "VerificationCodeGenerator.cs",
               "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\Email\\VerificationCodeGenerator.cs",
               "RelativeDocumentMoniker": "Email\\VerificationCodeGenerator.cs",
@@ -255,20 +464,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 28,
               "Title": "IEmailService.cs",
               "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\Email\\IEmailService.cs",
               "RelativeDocumentMoniker": "Email\\IEmailService.cs",
               "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\Email\\IEmailService.cs",
               "RelativeToolTip": "Email\\IEmailService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAQAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAA6wAQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-18T16:02:22.592Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 23,
               "Title": "EmailVerificationService.cs",
               "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\Email\\EmailVerificationService.cs",
               "RelativeDocumentMoniker": "Email\\EmailVerificationService.cs",
@@ -281,20 +490,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 22,
               "Title": "EmailSettings.cs",
               "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\Email\\EmailSettings.cs",
               "RelativeDocumentMoniker": "Email\\EmailSettings.cs",
               "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\Email\\EmailSettings.cs",
               "RelativeToolTip": "Email\\EmailSettings.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAgAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAA6wAgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-18T16:01:44.678Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 29,
               "Title": "EmailService.cs",
               "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\Email\\EmailService.cs",
               "RelativeDocumentMoniker": "Email\\EmailService.cs",
