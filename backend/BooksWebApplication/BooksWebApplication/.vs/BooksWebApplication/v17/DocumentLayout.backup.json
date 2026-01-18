@@ -1,0 +1,313 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\bookswebapplication\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|solutionrelative:accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\bookswebapplication\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|solutionrelative:logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\bookswebapplication\\mfadto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|solutionrelative:mfadto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\bookswebapplication\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|solutionrelative:userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1FE6798-A7DB-4737-A1E3-0E03C34E5987}|..\\Books.Domain\\Books.Domain.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\books.domain\\emailverificationcode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\bookswebapplication\\email\\emailsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|solutionrelative:email\\emailsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\bookswebapplication\\email\\emailverificationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|solutionrelative:email\\emailverificationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1FE6798-A7DB-4737-A1E3-0E03C34E5987}|..\\Books.Domain\\Books.Domain.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\books.domain\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\bookswebapplication\\disablemfadto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|solutionrelative:disablemfadto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1FE6798-A7DB-4737-A1E3-0E03C34E5987}|..\\Books.Domain\\Books.Domain.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\books.domain\\appuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\bookswebapplication\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{290B3C7E-9A2C-456A-BBB6-C01F2B1EAFB1}|..\\Books.Infrastructure\\Books.Infrastructure.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\books.infrastructure\\datacontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\bookswebapplication\\sendemailcodedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|solutionrelative:sendemailcodedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\bookswebapplication\\verifyemail.dto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|solutionrelative:verifyemail.dto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\bookswebapplication\\email\\verificationcodegenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|solutionrelative:email\\verificationcodegenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\bookswebapplication\\email\\iemailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|solutionrelative:email\\iemailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|w:\\aplikacje webowe\\projekt\\backend\\bookswebapplication\\bookswebapplication\\email\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C198CC7-4E03-420A-9F7E-39B84D80A92E}|BooksWebApplication.csproj|solutionrelative:email\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 11,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{fabf9319-47eb-497e-b8f6-d9f73fba5f55}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:2108028335:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "LoginDto.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\LoginDto.cs",
+              "RelativeDocumentMoniker": "LoginDto.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\LoginDto.cs",
+              "RelativeToolTip": "LoginDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:17:27.348Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UserDto.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\UserDto.cs",
+              "RelativeDocumentMoniker": "UserDto.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\UserDto.cs",
+              "RelativeToolTip": "UserDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:17:16.918Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Domain\\Class1.cs",
+              "RelativeDocumentMoniker": "..\\Books.Domain\\Class1.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Domain\\Class1.cs",
+              "RelativeToolTip": "..\\Books.Domain\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:14:28.262Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "DisableMfaDto.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\DisableMfaDto.cs",
+              "RelativeDocumentMoniker": "DisableMfaDto.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\DisableMfaDto.cs",
+              "RelativeToolTip": "DisableMfaDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:12:23.132Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MfaDto.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\MfaDto.cs",
+              "RelativeDocumentMoniker": "MfaDto.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\MfaDto.cs",
+              "RelativeToolTip": "MfaDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:11:49.949Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Program.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAAB8AAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:07:57.01Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AppUser.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Domain\\AppUser.cs",
+              "RelativeDocumentMoniker": "..\\Books.Domain\\AppUser.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Domain\\AppUser.cs",
+              "RelativeToolTip": "..\\Books.Domain\\AppUser.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:06:28.365Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "DataContext.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Infrastructure\\DataContext.cs",
+              "RelativeDocumentMoniker": "..\\Books.Infrastructure\\DataContext.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Infrastructure\\DataContext.cs",
+              "RelativeToolTip": "..\\Books.Infrastructure\\DataContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAABQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:06:04.353Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "EmailVerificationCode.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Domain\\EmailVerificationCode.cs",
+              "RelativeDocumentMoniker": "..\\Books.Domain\\EmailVerificationCode.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\Books.Domain\\EmailVerificationCode.cs",
+              "RelativeToolTip": "..\\Books.Domain\\EmailVerificationCode.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:05:46.325Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\AccountController.cs",
+              "RelativeDocumentMoniker": "AccountController.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\AccountController.cs",
+              "RelativeToolTip": "AccountController.cs",
+              "ViewState": "AgIAAJgAAAAAAAAAAAD4v60AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:04:07.483Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "VerifyEmail.Dto.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\VerifyEmail.Dto.cs",
+              "RelativeDocumentMoniker": "VerifyEmail.Dto.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\VerifyEmail.Dto.cs",
+              "RelativeToolTip": "VerifyEmail.Dto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:03:36.967Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "SendEmailCodeDto.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\SendEmailCodeDto.cs",
+              "RelativeDocumentMoniker": "SendEmailCodeDto.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\SendEmailCodeDto.cs",
+              "RelativeToolTip": "SendEmailCodeDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:03:19.868Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "VerificationCodeGenerator.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\Email\\VerificationCodeGenerator.cs",
+              "RelativeDocumentMoniker": "Email\\VerificationCodeGenerator.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\Email\\VerificationCodeGenerator.cs",
+              "RelativeToolTip": "Email\\VerificationCodeGenerator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:02:39.635Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "IEmailService.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\Email\\IEmailService.cs",
+              "RelativeDocumentMoniker": "Email\\IEmailService.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\Email\\IEmailService.cs",
+              "RelativeToolTip": "Email\\IEmailService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:02:22.592Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "EmailVerificationService.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\Email\\EmailVerificationService.cs",
+              "RelativeDocumentMoniker": "Email\\EmailVerificationService.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\Email\\EmailVerificationService.cs",
+              "RelativeToolTip": "Email\\EmailVerificationService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:02:02.638Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "EmailSettings.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\Email\\EmailSettings.cs",
+              "RelativeDocumentMoniker": "Email\\EmailSettings.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\Email\\EmailSettings.cs",
+              "RelativeToolTip": "Email\\EmailSettings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:01:44.678Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "EmailService.cs",
+              "DocumentMoniker": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\Email\\EmailService.cs",
+              "RelativeDocumentMoniker": "Email\\EmailService.cs",
+              "ToolTip": "W:\\Aplikacje webowe\\PROJEKT\\backend\\BooksWebApplication\\BooksWebApplication\\Email\\EmailService.cs",
+              "RelativeToolTip": "Email\\EmailService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T16:01:26.254Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

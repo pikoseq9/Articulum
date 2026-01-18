@@ -1,0 +1,15 @@
+W:\Aplikacje webowe\PROJEKT\backend\BooksWebApplication\Books.Infrastructure\obj\Debug\net8.0\Books.Infrastructure.csproj.AssemblyReference.cache
+W:\Aplikacje webowe\PROJEKT\backend\BooksWebApplication\Books.Infrastructure\obj\Debug\net8.0\Books.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+W:\Aplikacje webowe\PROJEKT\backend\BooksWebApplication\Books.Infrastructure\obj\Debug\net8.0\Books.Infrastructure.AssemblyInfoInputs.cache
+W:\Aplikacje webowe\PROJEKT\backend\BooksWebApplication\Books.Infrastructure\obj\Debug\net8.0\Books.Infrastructure.AssemblyInfo.cs
+W:\Aplikacje webowe\PROJEKT\backend\BooksWebApplication\Books.Infrastructure\obj\Debug\net8.0\Books.Infrastructure.csproj.CoreCompileInputs.cache
+W:\Aplikacje webowe\PROJEKT\backend\BooksWebApplication\Books.Infrastructure\bin\Debug\net8.0\Books.Infrastructure.deps.json
+W:\Aplikacje webowe\PROJEKT\backend\BooksWebApplication\Books.Infrastructure\bin\Debug\net8.0\Books.Infrastructure.dll
+W:\Aplikacje webowe\PROJEKT\backend\BooksWebApplication\Books.Infrastructure\bin\Debug\net8.0\Books.Infrastructure.pdb
+W:\Aplikacje webowe\PROJEKT\backend\BooksWebApplication\Books.Infrastructure\bin\Debug\net8.0\Books.Domain.dll
+W:\Aplikacje webowe\PROJEKT\backend\BooksWebApplication\Books.Infrastructure\bin\Debug\net8.0\Books.Domain.pdb
+W:\Aplikacje webowe\PROJEKT\backend\BooksWebApplication\Books.Infrastructure\obj\Debug\net8.0\Books.In.4D83BBDE.Up2Date
+W:\Aplikacje webowe\PROJEKT\backend\BooksWebApplication\Books.Infrastructure\obj\Debug\net8.0\Books.Infrastructure.dll
+W:\Aplikacje webowe\PROJEKT\backend\BooksWebApplication\Books.Infrastructure\obj\Debug\net8.0\refint\Books.Infrastructure.dll
+W:\Aplikacje webowe\PROJEKT\backend\BooksWebApplication\Books.Infrastructure\obj\Debug\net8.0\Books.Infrastructure.pdb
+W:\Aplikacje webowe\PROJEKT\backend\BooksWebApplication\Books.Infrastructure\obj\Debug\net8.0\ref\Books.Infrastructure.dll
