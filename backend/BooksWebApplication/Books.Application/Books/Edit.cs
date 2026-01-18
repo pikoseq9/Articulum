@@ -8,38 +8,46 @@ namespace Books.Application.Books
 {
     public class Edit
     {
-        public class Command : IRequest<Unit>
+        public class Command : IRequest<Result<Unit>> // Zmieniono na Result dla spójności błędów
         {
             public required UserBook UserBook { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Unit>
+        public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;
+            private readonly IUserAccessor _userAccessor;
 
-            public Handler(DataContext context)
+            public Handler(DataContext context, IUserAccessor userAccessor)
             {
                 _context = context;
+                _userAccessor = userAccessor;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var book = await _context.Books.FindAsync(request.UserBook.Id);
+                // Szukamy książki sprawdzając ID oraz czy należy do zalogowanego użytkownika
+                var book = await _context.Books
+                    .FirstOrDefaultAsync(x => x.Id == request.UserBook.Id &&
+                                              x.AppUser.UserName == _userAccessor.GetUsername(),
+                                         cancellationToken);
 
+                if (book == null)
+                    return Result<Unit>.Failure("Nie znaleziono książki lub brak uprawnień do edycji");
 
+                // Aktualizacja pól
                 book.Title = request.UserBook.Title ?? book.Title;
                 book.Author = request.UserBook.Author ?? book.Author;
                 book.Isbn = request.UserBook.Isbn ?? book.Isbn;
                 book.ImageUrl = request.UserBook.ImageUrl ?? book.ImageUrl;
                 book.Description = request.UserBook.Description ?? book.Description;
-
-
                 book.Status = request.UserBook.Status;
 
+                var result = await _context.SaveChangesAsync(cancellationToken) > 0;
 
-                await _context.SaveChangesAsync();
-
-                return Unit.Value;
+                return result
+                    ? Result<Unit>.Success(Unit.Value)
+                    : Result<Unit>.Failure("Wystąpił błąd podczas aktualizacji bazy danych");
             }
 
             public class CommandValidator : AbstractValidator<Command>

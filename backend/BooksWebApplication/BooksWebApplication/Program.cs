@@ -34,12 +34,19 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
 
 
+// 1. To jest niezbêdne, aby UserAccessor móg³ dobraæ siê do HttpContext
+builder.Services.AddHttpContextAccessor();
+
+// 2. To rejestruje Twój interfejs i jego implementacjê
+// Upewnij siê, ¿e u¿ywasz poprawnych przestrzeni nazw (using Books.Infrastructure;)
+builder.Services.AddScoped<IUserAccessor, UserAccessor>();
+
 builder.Services.AddIdentityServices(builder.Configuration);
 
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<Add>();
 
-
+builder.Services.AddScoped<IUserAccessor, UserAccessor>();
 builder.Services.AddMediatR(cfg =>
 cfg.RegisterServicesFromAssembly(typeof(List.Handler).Assembly));
 

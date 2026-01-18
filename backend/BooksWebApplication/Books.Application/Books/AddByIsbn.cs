@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Linq;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 
 namespace Books.Application.Books
 {
@@ -19,11 +20,15 @@ namespace Books.Application.Books
         {
             private readonly DataContext _context;
             private readonly IHttpClientFactory _httpClientFactory;
+            // POPRAWKA: Zmiana z UserAccessor na IUserAccessor
+            private readonly IUserAccessor _userAccessor;
 
-            public Handler(DataContext context, IHttpClientFactory httpClientFactory)
+            // POPRAWKA: Wstrzykujemy interfejs IUserAccessor
+            public Handler(DataContext context, IHttpClientFactory httpClientFactory, IUserAccessor userAccessor)
             {
                 _context = context;
                 _httpClientFactory = httpClientFactory;
+                _userAccessor = userAccessor;
             }
 
             public async Task<Result<UserBook>> Handle(Command request, CancellationToken cancellationToken)
@@ -46,11 +51,18 @@ namespace Books.Application.Books
 
                 var bookData = response[$"ISBN:{request.Isbn}"];
 
+                // Pobieramy użytkownika na podstawie nazwy z tokena
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername(), cancellationToken);
+
+                if (user == null) return Result<UserBook>.Failure("Nie znaleziono zalogowanego użytkownika");
+
                 var book = new UserBook
                 {
                     Id = Guid.NewGuid(),
                     Isbn = request.Isbn,
                     Title = bookData.Title,
+                    AppUser = user, // Przypisujemy obiekt użytkownika
+                    AppUserId = user.Id, // I jego ID dla pewności relacji
                     Author = bookData.Authors != null
                         ? string.Join(", ", bookData.Authors.Select(x => x.Name))
                         : "Nieznany autor",
