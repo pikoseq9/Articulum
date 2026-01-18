@@ -1,72 +1,45 @@
-export enum FuelType {
-    Petrol = 'Petrol',
-    Hybrid = 'Hybrid',
-    Diesel = 'Diesel',
-    LPG = 'LPG'
+// types.ts
+
+export enum BookStatus {
+  ToRead = 0,
+  Reading = 1,
+  Read = 2
 }
 
-
-export enum BodyType {
-    Hatchback = 'Hatchback', 
-    Sedan = 'Sedan', 
-    Kombi = 'Kombi',
-    SUV = 'SUV', 
-    Roadster = 'Roadster', 
-}
-
-
-export const FuelTypeMap: Record<number, FuelType> = {
-    1: FuelType.Petrol,
-    2: FuelType.Hybrid,
-    3: FuelType.Diesel,
-    4: FuelType.LPG
-}
-
-export const BodyTypeMap: Record<number, BodyType> = {
-    1: BodyType.Hatchback,
-    2: BodyType.Sedan,
-    3: BodyType.Kombi,
-    4: BodyType.SUV,
-    5: BodyType.Roadster
-}
-
-export const FuelTypeReverseMap: Record<string, number> = {
-    "Petrol": 1,
-    "Hybrid": 2,
-    "Diesel": 3,
-    "LPG": 4
+// Mapowanie statusów na czytelne etykiety (opcjonalne, przydatne w UI)
+export const BookStatusLabels: Record<number, string> = {
+  [BookStatus.ToRead]: "Do przeczytania",
+  [BookStatus.Reading]: "W trakcie",
+  [BookStatus.Read]: "Przeczytane"
 };
 
-export const BodyTypeReverseMap: Record<string, number> = {
-    "Hatchback": 1,
-    "Sedan": 2,
-    "Kombi": 3,
-    "SUV": 4,
-    "Roadster": 5
-};
-
-
-export interface Car {
-    id: string,
-    brand: string,
-    model: string,
-    doorsNumber: number,
-    luggageCapacity: number,
-    engineCapacity: number,
-    fuelType: FuelType,
-    productionDate: string, 
-    carFuelConsumption: number,
-    bodyType: BodyType
+export interface UserBook {
+  id: string;
+  title: string;
+  author: string;
+  isbn?: string;
+  imageUrl?: string;
+  description?: string;
+  pages?: number;
+  status: BookStatus;
+  addedAt: string;
 }
 
-export interface CarCreateUpdate {
-    brand: string,
-    model: string,
-    doorsNumber: number,
-    luggageCapacity: number,
-    engineCapacity: number,
-    fuelType: FuelType,
-    productionDate: string, 
-    carFuelConsumption: number,
-    bodyType: BodyType
+export interface BookCreateUpdate {
+  title: string;
+  author: string;
+  isbn?: string;
+  imageUrl?: string;
+  description?: string;
+  pages?: number;
+  status: BookStatus;
+}
+
+export interface UserDto {
+  displayName: string;
+  userName: string;
+  token: string;
+  isMfaRequired: boolean;
+  isMfaEnabled: boolean;
+  mfaMethod?: "authenticator" | "email";
 }

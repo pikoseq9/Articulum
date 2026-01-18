@@ -1,20 +1,11 @@
 import React, { useState } from "react";
 import api from "../axios";
-import { useAuth } from "../authContext";
+import { UserDto } from "../utils/types";
 
 interface LoginModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onLogin: (user: any) => void; 
-}
-
-interface UserDto {
-  displayName: string;
-  userName: string;
-  token: string;
-  isMfaRequired: boolean;
-  isMfaEnabled: boolean;
-  mfaMethod?: "authenticator" | "email"; 
+  onLogin: (user: UserDto) => void;
 }
 
 const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogin }) => {
@@ -28,13 +19,12 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogin }) => 
 
   const [mfaCode, setMfaCode] = useState("");
   const [error, setError] = useState("");
-    const [mfaMethod, setMfaMethod] = useState<"authenticator" | "email" | null>(null);
+  const [mfaMethod, setMfaMethod] = useState<"authenticator" | "email" | null>(null);
 
   if (!isOpen) return null;
 
   const handleLoginResponse = (data: UserDto) => {
       if (data.isMfaRequired) {
-        
           setStep("mfa");
           setMfaMethod(data.mfaMethod || null);
           setError("");
@@ -54,13 +44,13 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogin }) => 
 
     try {
       if (mode === "login") {
-        const res = await api.post<UserDto>("/account/login", { email, password });
+        const res = await api.post<UserDto>("/api/account/login", { email, password });
         handleLoginResponse(res.data);
       } else {
-        const res = await api.post<UserDto>("/account/register", { 
+        const res = await api.post<UserDto>("/api/account/register", { 
             email, 
             password, 
-            displayName: displayName, 
+            displayName, 
             userName: username 
         });
         onLogin(res.data); 
@@ -68,13 +58,12 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogin }) => 
       }
     } catch (err: any) {
       console.error(err);
-      if (err.response?.data?.errors) {
-          const errors = Object.values(err.response.data.errors).flat().join(", ");
-          setError(errors);
-      } else if (typeof err.response?.data === 'string') {
-          setError(err.response.data);
+      if (err.response?.data) {
+          if (typeof err.response.data === 'string') setError(err.response.data);
+          else if (Array.isArray(err.response.data)) setError(err.response.data.map((e:any) => e.description).join(", "));
+          else setError("Wystąpił błąd logowania.");
       } else {
-          setError("Błąd logowania/rejestracji");
+          setError("Błąd połączenia z serwerem.");
       }
     }
   };
@@ -82,7 +71,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogin }) => 
   const submitMfa = async (e: React.FormEvent) => {
       e.preventDefault();
       try {
-          const res = await api.post<UserDto>("/account/verify-mfa", { email, code: mfaCode });
+          const res = await api.post<UserDto>("/api/account/verify-mfa", { email, code: mfaCode });
           onLogin(res.data);
           onClose();
           resetForm();
@@ -106,52 +95,26 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogin }) => 
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <h2>
-            {step === "mfa" ? "Weryfikacja dwuetapowa" : (mode === "login" ? "Logowanie" : "Rejestracja")}
+            {step === "mfa" ? "Weryfikacja 2FA" : (mode === "login" ? "Logowanie" : "Rejestracja")}
         </h2>
 
         {step === "credentials" && (
             <form onSubmit={submitCredentials}>
             {mode === "register" && (
                 <>
-                    <input
-                        type="text"
-                        placeholder="Nazwa użytkownika (login)"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                    />
-                    <input
-                        type="text"
-                        placeholder="Nazwa wyświetlana"
-                        value={displayName}
-                        onChange={(e) => setDisplayName(e.target.value)}
-                        required
-                    />
+                    <input type="text" placeholder="Login" value={username} onChange={(e) => setUsername(e.target.value)} required />
+                    <input type="text" placeholder="Nazwa wyświetlana" value={displayName} onChange={(e) => setDisplayName(e.target.value)} required />
                 </>
             )}
+            <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <input type="password" placeholder="Hasło" value={password} onChange={(e) => setPassword(e.target.value)} required />
 
-            <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-            />
-
-            <input
-                type="password"
-                placeholder="Hasło"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-            />
-
-            {error && <p className="error" style={{color: 'red', fontSize: '0.9em'}}>{error}</p>}
+            {error && <p className="error" style={{color: 'red'}}>{error}</p>}
 
             <div className="modal-buttons">
-                <button type="submit" className="btn-login">{mode === "login" ? "Dalej" : "Zarejestruj"}</button>
+                <button type="submit" className="btn-login">{mode === "login" ? "Zaloguj" : "Zarejestruj"}</button>
                 <button type="button" className="btn-toggle" onClick={() => setMode(mode === "login" ? "register" : "login")}>
-                {mode === "login" ? "Przejdź do rejestracji" : "Przejdź do logowania"}
+                {mode === "login" ? "Nie masz konta? Zarejestruj się" : "Masz konto? Zaloguj się"}
                 </button>
             </div>
             </form>
@@ -159,26 +122,12 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogin }) => 
 
         {step === "mfa" && (
             <form onSubmit={submitMfa}>
-                {mfaMethod === "authenticator" && (
-                    <p>Podaj 6-cyfrowy kod z aplikacji Authenticator.</p>
-                )}
-                {mfaMethod === "email" && (
-                    <p>Podaj kod wysłany na Twój e-mail.</p>
-                )}
-                <input 
-                    type="text" 
-                    placeholder="Kod 6-cyfrowy"
-                    value={mfaCode}
-                    onChange={(e) => setMfaCode(e.target.value)}
-                    maxLength={6}
-                    autoFocus
-                />
+                <p>Podaj kod {mfaMethod === "email" ? "z maila" : "z aplikacji Authenticator"}:</p>
+                <input type="text" placeholder="Kod 6-cyfrowy" value={mfaCode} onChange={(e) => setMfaCode(e.target.value)} maxLength={6} autoFocus />
                  {error && <p className="error" style={{color: 'red'}}>{error}</p>}
-                 <button type="submit" className="btn-login">Zaloguj</button>
-                 <button type="button" onClick={() => {setStep("credentials"); setError("")}} style={{marginTop: '10px'}}>Wróć</button>
+                 <button type="submit" className="btn-login">Zatwierdź</button>
             </form>
         )}
-
         <button className="btn-close" onClick={onClose}>X</button>
       </div>
     </div>

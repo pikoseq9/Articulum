@@ -1,70 +1,74 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
-import { Car } from "../utils/types";
+import { UserBook, BookStatusLabels } from "../utils/types";
 import api from "../axios";
 
 export default function Details() {
     const navigate = useNavigate();
     const { id } = useParams();
-
-    const [car, setCar] = useState<Car | null>(null);
+    const [book, setBook] = useState<UserBook | null>(null);
 
     useEffect(() => {
-        const fetchCar = async () => {
+        const fetchBook = async () => {
             try {
-                const res = await api.get<Car>(`/Cars/${id}`);
-                setCar(res.data);
+                const res = await api.get<UserBook>(`/api/Books/${id}`);
+                setBook(res.data);
             } catch (err) {
                 console.error(err);
             }
         };
-        fetchCar();
+        fetchBook();
     }, [id]);
 
-    if (!car) {
-        return <h2>Ładowanie...</h2>;
+    const handleDelete = async () => {
+        if(window.confirm("Czy na pewno chcesz usunąć tę książkę?")) {
+            try {
+                await api.delete(`/api/Books/${id}`);
+                navigate("/");
+            } catch(err) {
+                alert("Błąd podczas usuwania");
+            }
+        }
     }
 
+    if (!book) return <h2>Ładowanie...</h2>;
+
     return (
-        <>
-            <button className="back-btn" onClick={() => navigate("/")}>
-                Powrót
-            </button>
+        <div className="details-container">
+            <button className="back-btn" onClick={() => navigate("/")}>&larr; Powrót</button>
 
             <div className="details-card">
-                <h1>{car.brand} {car.model}</h1>
-
-                <div className="details-grid">
+                <div className="details-header">
+                    {book.imageUrl && <img src={book.imageUrl} alt="Okładka" className="detail-cover-img" style={{maxWidth: 100, float: 'left', marginRight: 20}} />}
                     <div>
-                        <strong>Marka:</strong> {car.brand}
-                    </div>
-                    <div>
-                        <strong>Model:</strong> {car.model}
-                    </div>
-                    <div>
-                        <strong>Liczba drzwi:</strong> {car.doorsNumber}
-                    </div>
-                    <div>
-                        <strong>Pojemność bagażnika:</strong> {car.luggageCapacity}
-                    </div>
-                    <div>
-                        <strong>Pojemność silnika:</strong> {car.engineCapacity}
-                    </div>
-                    <div>
-                        <strong>Typ paliwa:</strong> {car.fuelType}
-                    </div>
-                    <div>
-                        <strong>Data produkcji:</strong> {car.productionDate?.split("T")[0]}
-                    </div>
-                    <div>
-                        <strong>Spalanie:</strong> {car.carFuelConsumption}
-                    </div>
-                    <div>
-                        <strong>Typ nadwozia:</strong> {car.bodyType}
+                        <h1>{book.title}</h1>
+                        <span className="author-subtitle">autorstwa {book.author}</span>
                     </div>
                 </div>
+                <div style={{clear: 'both'}}></div>
+
+                <div className="details-grid">
+                    <div><strong>Status:</strong> {BookStatusLabels[book.status]}</div>
+                    
+                    <div><strong>ISBN:</strong> {book.isbn || "-"}</div>
+                    
+                    <div><strong>Dodano:</strong> {new Date(book.addedAt).toLocaleDateString()}</div>
+                    
+                    <div><strong>Liczba stron:</strong> {book.pages || "-"}</div>
+                </div>
+
+                {book.description && (
+                    <div className="notes-section">
+                        <h3>Opis</h3>
+                        <p>{book.description}</p>
+                    </div>
+                )}
+
+                <div className="details-actions">
+                    <button className="btn-edit" onClick={() => navigate(`/edit/${book.id}`)}>Edytuj</button>
+                    <button className="btn-delete" onClick={handleDelete}>Usuń</button>
+                </div>
             </div>
-        </>
+        </div>
     );
 }
