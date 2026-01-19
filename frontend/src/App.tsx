@@ -9,10 +9,11 @@ import NotFound from './components/NotFound';
 import LoginModal from './components/loginModal';
 
 import { useAuth } from './authContext';
+import { CommunitySidebar } from './components/CommunitySidebar';
 
 function App() {
   const { user, login, logout, appLoading } = useAuth(); 
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   if (appLoading) {
     return (
@@ -31,33 +32,46 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className='content'>
+        <div className='content'>
+          {user && (
+            <nav className='nav-btns'>
+              <button 
+                className="btn-profile" 
+                onClick={() => setIsSidebarOpen(true)}
+                style={{ borderColor: 'var(--primary)', color: 'var(--primary)' }}
+              >
+                  👥 Społeczność
+              </button>
+              <Link to="/profile">
+                <button className="btn-profile">Mój Profil</button>
+              </Link>
+              <div className='login-btn'>
+                <button onClick={logout}>Wyloguj</button>
+              </div>
+            </nav>
+          )}
+
+          <LoginModal
+            isOpen={!user} 
+            onClose={() => {}}
+            onLogin={login}
+          />
+
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/show/:id" element={<Details />} />
+            <Route path="/add" element={<BookForm />} />
+            <Route path="/edit/:id" element={<BookForm />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path='/*' element={<NotFound />} />
+          </Routes>
+        </div>
         {user && (
-          <nav className='nav-btns'>
-            <Link to="/profile">
-              <button className="btn-profile">Mój Profil</button>
-            </Link>
-            <div className='login-btn'>
-              <button onClick={logout}>Wyloguj</button>
-            </div>
-          </nav>
+            <CommunitySidebar 
+                isOpen={isSidebarOpen} 
+                onClose={() => setIsSidebarOpen(false)} 
+            />
         )}
-
-        <LoginModal
-          isOpen={!user} 
-          onClose={() => {}}
-          onLogin={login}
-        />
-
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/show/:id" element={<Details />} />
-          <Route path="/add" element={<BookForm />} />
-          <Route path="/edit/:id" element={<BookForm />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path='/*' element={<NotFound />} />
-        </Routes>
-      </div>
     </BrowserRouter>
   );
 }

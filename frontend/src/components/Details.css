@@ -1,5 +1,6 @@
 .details-container {
     padding: 2rem;
+    width: 60vw;
     max-width: 800px;
     margin: 0 auto;
     color: var(--text-main);
@@ -85,7 +86,6 @@
     margin-bottom: 0.25rem;
 }
 
-/* Sekcja Notatek/Opisu */
 .notes-section {
     margin-top: 2rem;
     padding-top: 2rem;

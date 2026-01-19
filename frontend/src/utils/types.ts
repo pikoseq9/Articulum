@@ -1,4 +1,3 @@
-// ✅ To musi być 'enum', żeby działało jako wartość (0, 1, 2) w kodzie
 export enum BookStatus {
   ToRead = 0,
   Reading = 1,
@@ -53,4 +52,11 @@ export interface UserDto {
   isMfaEnabled: boolean;
   mfaMethod?: "authenticator" | "email";
   myGoal: number;
+}
+
+export interface CommunityUser {
+    username: string;
+    displayName: string;
+    currentBookTitle?: string;
+    currentBookAuthor?: string;
 }
