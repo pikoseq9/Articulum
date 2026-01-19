@@ -550,3 +550,232 @@ body {
     color: #fff;
     border-color: #4cd137;
 }
+
+/* Kontener dla przycisku i menu (żeby menu było pozycjonowane względem przycisku) */
+.menu-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* Przycisk trzykropka */
+.btn-dots, .btn-icon-action {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+}
+
+.btn-dots:hover, .btn-icon-action:hover {
+    background: rgba(255,255,255,0.1);
+    color: var(--text-main);
+}
+
+/* SAMO MENU ROZWIJANE */
+.action-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 160px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    z-index: 100;
+    overflow: hidden;
+    padding: 5px 0;
+    animation: fadeIn 0.15s ease-out;
+}
+
+.action-menu button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 10px 15px;
+    color: var(--text-main);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.action-menu button:hover {
+    background-color: rgba(255,255,255,0.05);
+    color: var(--primary);
+}
+
+/* Mały przycisk "Ukończ" w widoku pojedynczym */
+.btn-primary-small {
+    background-color: var(--accent-green);
+    color: #1e1c1b;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.85rem;
+    margin-left: 10px;
+}
+
+.clickable-card {
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+}
+
+.clickable-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    border-color: var(--primary);
+}
+
+.clickable-card::after {
+    content: "Zobacz listę →";
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.clickable-card:hover::after {
+    opacity: 1;
+}
+
+/* MODAL HISTORII */
+.read-history-modal {
+    width: 500px;
+    max-width: 90vw;
+    background-color: var(--card-bg);
+    padding: 0 !important; /* Reset paddingu, ustawimy go wewnątrz */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-height: 80vh;
+}
+
+.modal-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--column-bg);
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: var(--text-main);
+}
+
+.close-icon {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.close-icon:hover {
+    color: var(--accent-red);
+}
+
+/* Lista wewnątrz modala */
+.read-list-container {
+    padding: 1rem;
+    overflow-y: auto; /* Scrollowanie */
+}
+
+.read-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid var(--border-color);
+    transition: background 0.2s;
+}
+
+.read-list-item:last-child {
+    border-bottom: none;
+}
+
+.read-list-item:hover {
+    background-color: rgba(255,255,255,0.03);
+}
+
+.read-item-info {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.read-item-info img {
+    width: 40px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.read-item-info h4 {
+    margin: 0 0 4px 0;
+    font-size: 0.95rem;
+    color: var(--text-main);
+}
+
+.read-item-info span {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* Przyciski akcji w liście */
+.read-item-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn-undo {
+    background: transparent;
+    border: 1px solid var(--text-muted);
+    color: var(--text-muted);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-undo:hover {
+    border-color: var(--accent-orange);
+    color: var(--accent-orange);
+}
+
+.btn-dots-small {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.empty-text {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-muted);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}

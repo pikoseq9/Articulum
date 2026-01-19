@@ -9,29 +9,40 @@ interface User {
 }
 
 interface AuthContextType {
-  [x: string]: any;
   user: User | null;
   login: (user: User) => void;
   logout: () => void;
+  appLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);  
+  const [user, setUser] = useState<User | null>(null);
+  const [appLoading, setAppLoading] = useState(true); 
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
-    if (!token) return;
+    if (!token) {
+        setAppLoading(false);
+        return;
+    }
 
-    api.get<User>("/Account")
+    api.get<User>("/api/Account")
       .then(res => {
-        setUser(res.data);
-        localStorage.setItem("jwt", res.data.token);
+        const tokenToSave = res.data.token || token;
+        const userWithToken = { ...res.data, token: tokenToSave };
+        
+        setUser(userWithToken);
+        localStorage.setItem("jwt", tokenToSave);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error("Błąd przywracania sesji:", err);
         localStorage.removeItem("jwt");
         setUser(null);
+      })
+      .finally(() => {
+        setAppLoading(false);
       });
   }, []);
 
@@ -42,12 +53,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = () => {
     setUser(null);
-    localStorage.clear();
+    localStorage.removeItem("jwt");
     window.location.href = "/";
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, appLoading }}>
       {children}
     </AuthContext.Provider>
   );
