@@ -49,6 +49,7 @@ namespace BooksWebApplication
                     UserName = user.UserName,
                     DisplayName = user.DisplayName,
                     Token = "",
+                    MyGoal =0,
                     IsMfaRequired = true,
                     IsMfaEnabled = true,
                     MfaMethod = user.TwoFactorMethod
@@ -109,8 +110,9 @@ namespace BooksWebApplication
             {
                 DisplayName = user.DisplayName,
                 Token = _tokenService.CreateToken(user),
-                UserName = user.UserName
-            };
+                UserName = user.UserName,
+                MyGoal = user.MyGoal
+            }; 
         }
 
 
@@ -286,6 +288,7 @@ namespace BooksWebApplication
                 DisplayName = user.DisplayName,
                 UserName = user.UserName,
                 Token = _tokenService.CreateToken(user),
+                MyGoal = user.MyGoal,
                 IsMfaRequired = false,
                 IsMfaEnabled = user.TwoFactorEnabled
             };
@@ -363,5 +366,26 @@ namespace BooksWebApplication
 
             return Ok(new { Message = $"Użytkownik {email} został usunięty" });
         }
+
+        [Authorize]
+        [HttpPost("update-goal")]
+        public async Task<ActionResult> UpdateGoal(UpdateGoalDto goalDto)
+        {
+            var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+
+            if (user == null) return Unauthorized();
+
+            user.MyGoal = goalDto.NewGoal;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (result.Succeeded)
+            {
+                return Ok(new { message = "Cel został zaktualizowany", goal = user.MyGoal });
+            }
+
+            return BadRequest("Wystąpił błąd podczas aktualizacji celu");
+        }
+
     }
 }

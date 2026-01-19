@@ -8,7 +8,7 @@ namespace Books.Application.Books
 {
     public class Edit
     {
-        public class Command : IRequest<Result<Unit>> // Zmieniono na Result dla spójności błędów
+        public class Command : IRequest<Result<Unit>>
         {
             public required UserBook UserBook { get; set; }
         }
@@ -26,7 +26,6 @@ namespace Books.Application.Books
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                // Szukamy książki sprawdzając ID oraz czy należy do zalogowanego użytkownika
                 var book = await _context.Books
                     .FirstOrDefaultAsync(x => x.Id == request.UserBook.Id &&
                                               x.AppUser.UserName == _userAccessor.GetUsername(),
@@ -35,19 +34,31 @@ namespace Books.Application.Books
                 if (book == null)
                     return Result<Unit>.Failure("Nie znaleziono książki lub brak uprawnień do edycji");
 
-                // Aktualizacja pól
+                // Aktualizacja standardowych pól
                 book.Title = request.UserBook.Title ?? book.Title;
                 book.Author = request.UserBook.Author ?? book.Author;
                 book.Isbn = request.UserBook.Isbn ?? book.Isbn;
                 book.ImageUrl = request.UserBook.ImageUrl ?? book.ImageUrl;
                 book.Description = request.UserBook.Description ?? book.Description;
+                book.Pages = request.UserBook.Pages ?? book.Pages;
                 book.Status = request.UserBook.Status;
+
+                // NOWE POLA:
+                book.Subject = request.UserBook.Subject ?? book.Subject;
+                book.CurrentPage = request.UserBook.CurrentPage ?? book.CurrentPage;
+
+                // Opcjonalna logika: Jeśli użytkownik zaczął czytać, zmień status na "Reading"
+                if (book.CurrentPage > 0 && book.CurrentPage < book.Pages && book.Status == BookStatus.ToRead)
+                {
+                    book.Status = BookStatus.Reading;
+                }
 
                 var result = await _context.SaveChangesAsync(cancellationToken) > 0;
 
-                return result
-                    ? Result<Unit>.Success(Unit.Value)
-                    : Result<Unit>.Failure("Wystąpił błąd podczas aktualizacji bazy danych");
+                // Zwracamy Success nawet jeśli result == 0, 
+                // bo jeśli użytkownik nic nie zmienił w polach i kliknął "Zapisz", 
+                // SaveChanges zwróci 0, ale to nie jest błąd aplikacji.
+                return Result<Unit>.Success(Unit.Value);
             }
 
             public class CommandValidator : AbstractValidator<Command>

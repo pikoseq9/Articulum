@@ -1,10 +1,7 @@
 ﻿using MediatR;
 using Books.Domain;
 using Books.Infrastructure;
-using System.Threading;
-using System.Threading.Tasks;
 using FluentValidation;
-using System;
 
 namespace Books.Application.Books
 {
@@ -26,16 +23,18 @@ namespace Books.Application.Books
 
             public async Task<Result<UserBook>> Handle(Command request, CancellationToken cancellationToken)
             {
+                if (request.UserBook.Id == Guid.Empty) request.UserBook.Id = Guid.NewGuid();
+                if (request.UserBook.AddedAt == default) request.UserBook.AddedAt = DateTime.UtcNow;
+
                 _context.Books.Add(request.UserBook);
 
                 var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 
                 if (!success)
                 {
-                    return Result<UserBook>.Failure("Nie udało się zapisać samochodu do bazy danych");
-                    // Zwracamy obiekt, który faktycznie został utworzony (z Id)
-                    
+                    return Result<UserBook>.Failure("Nie udało się zapisać książki do bazy danych");
                 }
+
                 return Result<UserBook>.Success(request.UserBook);
             }
 

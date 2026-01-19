@@ -13,6 +13,8 @@
         public string? ImageUrl { get; set; }
         public string? Description { get; set; }
         public int? Pages { get; set; }
+        public string? Subject { get; set; }
+        public int? CurrentPage { get; set; }
 
         // Status książki: np. 0 - Do przeczytania, 1 - W trakcie, 2 - Przeczytane
         public BookStatus Status { get; set; } = BookStatus.ToRead;

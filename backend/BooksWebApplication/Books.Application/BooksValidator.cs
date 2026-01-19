@@ -1,11 +1,5 @@
 ﻿using Books.Domain;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Books.Application
 {
@@ -13,12 +7,31 @@ namespace Books.Application
     {
         public BooksValidator()
         {
-            RuleFor(x => x.Title).NotEmpty().WithMessage("Title is required");
-            RuleFor(x => x.Author).NotEmpty().WithMessage("Author is required");
-            RuleFor(x => x.Isbn).NotEmpty().WithMessage("Isbn is required");
-            RuleFor(x => x.AddedAt).NotEmpty().WithMessage("Added date is required");
-            RuleFor(x => x.Status).IsInEnum();
-        }
+            RuleFor(x => x.Title).NotEmpty().WithMessage("Tytuł jest wymagany");
+            RuleFor(x => x.Author).NotEmpty().WithMessage("Autor jest wymagany");
+            RuleFor(x => x.Isbn).NotEmpty().WithMessage("ISBN jest wymagany");
+            RuleFor(x => x.AddedAt).NotEmpty().WithMessage("Data dodania jest wymagana");
+            RuleFor(x => x.Status).IsInEnum().WithMessage("Nieprawidłowy status książki");
 
+            RuleFor(x => x.Subject)
+                .MaximumLength(100).WithMessage("Nazwa gatunku nie może przekraczać 100 znaków");
+
+            RuleFor(x => x.Pages)
+                .GreaterThan(0).When(x => x.Pages.HasValue)
+                .WithMessage("Całkowita liczba stron musi być większa od 0");
+
+            RuleFor(x => x.CurrentPage)
+                .GreaterThanOrEqualTo(0).When(x => x.CurrentPage.HasValue)
+                .WithMessage("Aktualna strona nie może być ujemna")
+                .Must((book, currentPage) =>
+                {
+                    if (currentPage.HasValue && book.Pages.HasValue)
+                    {
+                        return currentPage <= book.Pages;
+                    }
+                    return true;
+                })
+                .WithMessage("Aktualna strona nie może być większa niż całkowita liczba stron książki");
+        }
     }
 }

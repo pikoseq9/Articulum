@@ -1,9 +1,7 @@
 ﻿using MediatR;
 using Books.Domain;
 using Books.Infrastructure;
-using System.Net.Http;
 using System.Net.Http.Json;
-using System.Linq;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,10 +18,8 @@ namespace Books.Application.Books
         {
             private readonly DataContext _context;
             private readonly IHttpClientFactory _httpClientFactory;
-            // POPRAWKA: Zmiana z UserAccessor na IUserAccessor
             private readonly IUserAccessor _userAccessor;
 
-            // POPRAWKA: Wstrzykujemy interfejs IUserAccessor
             public Handler(DataContext context, IHttpClientFactory httpClientFactory, IUserAccessor userAccessor)
             {
                 _context = context;
@@ -51,9 +47,7 @@ namespace Books.Application.Books
 
                 var bookData = response[$"ISBN:{request.Isbn}"];
 
-                // Pobieramy użytkownika na podstawie nazwy z tokena
                 var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername(), cancellationToken);
-
                 if (user == null) return Result<UserBook>.Failure("Nie znaleziono zalogowanego użytkownika");
 
                 var book = new UserBook
@@ -61,14 +55,22 @@ namespace Books.Application.Books
                     Id = Guid.NewGuid(),
                     Isbn = request.Isbn,
                     Title = bookData.Title,
-                    AppUser = user, // Przypisujemy obiekt użytkownika
-                    AppUserId = user.Id, // I jego ID dla pewności relacji
+                    AppUser = user,
+                    AppUserId = user.Id,
                     Author = bookData.Authors != null
                         ? string.Join(", ", bookData.Authors.Select(x => x.Name))
                         : "Nieznany autor",
                     Pages = bookData.Number_of_pages,
                     ImageUrl = $"https://covers.openlibrary.org/b/isbn/{request.Isbn}-L.jpg",
                     Description = !string.IsNullOrEmpty(bookData.Notes) ? bookData.Notes : "Brak opisu",
+
+
+                    Subject = bookData.Subjects != null
+                        ? string.Join(", ", bookData.Subjects.Select(x => x.Name).Take(1))
+                        : "Nieokreślony",
+
+                    CurrentPage = 0,
+
                     Status = BookStatus.ToRead,
                     AddedAt = DateTime.UtcNow
                 };
@@ -99,9 +101,16 @@ namespace Books.Application.Books
             public int? Number_of_pages { get; set; }
             public string? Notes { get; set; }
             public List<OpenLibAuthor>? Authors { get; set; }
+            public List<OpenLibSubject>? Subjects { get; set; }
         }
 
         public class OpenLibAuthor
+        {
+            public string Name { get; set; } = string.Empty;
+        }
+
+        // Nowa klasa pomocnicza dla gatunków z API
+        public class OpenLibSubject
         {
             public string Name { get; set; } = string.Empty;
         }
