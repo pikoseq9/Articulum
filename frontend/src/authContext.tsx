@@ -1,12 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import api from "./axios";
+import { UserDto } from "./utils/types";
 
-interface User {
-  isMfaEnabled: boolean;
-  displayName: string;
-  userName: string;
-  token: string;
-}
+type User = UserDto
 
 interface AuthContextType {
   user: User | null;

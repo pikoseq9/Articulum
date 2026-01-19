@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { UserBook } from '../utils/types';
 import './ReadingProgress.css';
+import api from '../axios';
 
 interface Props {
     book: UserBook;
@@ -19,18 +20,22 @@ const ReadingProgress: React.FC<Props> = ({ book, onUpdate }) => {
         setCurrent(book.currentPage || 0);
     }, [book.currentPage]);
 
-    //(MOCK)
     const saveProgress = async () => {
         setIsSaving(true);
-
-        setTimeout(() => {
-            localStorage.setItem(`mock_progress_${book.id}`, current.toString());
+        try {
+            const updatedBook = { 
+                ...book, 
+                currentPage: current 
+            };
+            await api.put(`/api/Books/${book.id}`, updatedBook);
             
-            console.log(`[MOCK] Zapisano postęp lokalnie: ${current}/${total}`);
-            
-            setIsSaving(false);
             onUpdate();
-        }, 600);
+        } catch (err) {
+            console.error("Błąd zapisu postępu:", err);
+            alert("Nie udało się zapisać postępu.");
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     const handleChange = (val: number) => {
@@ -43,7 +48,7 @@ const ReadingProgress: React.FC<Props> = ({ book, onUpdate }) => {
     if (!book.pages || book.pages === 0) {
         return (
             <div className="progress-card error-state">
-                <p>⚠️ Ta książka nie ma podanej liczby stron. Edytuj ją, aby śledzić postęp.</p>
+                <p>Ta książka nie ma podanej liczby stron. Edytuj ją, aby śledzić postęp.</p>
             </div>
         );
     }

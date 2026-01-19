@@ -31,6 +31,8 @@ export const useBooks = () => {
     const [books, setBooks] = useState<UserBook[]>([]);
     const [loading, setLoading] = useState(true);
 
+    const userGoal = user?.myGoal || 10;
+
     const fetchBooks = async () => {
         try {
             const res = await api.get<UserBook[]>('/api/Books');
@@ -48,7 +50,12 @@ export const useBooks = () => {
 
     const moveBook = async (book: UserBook, newStatus: BookStatus) => {
         try {
-            const updatedBook = { ...book, status: newStatus };
+            const updatedBook = { 
+                ...book, 
+                status: newStatus,
+                currentPage: newStatus === BookStatus.Read ? (book.pages || 0) : book.currentPage
+            };
+
             await api.put(`/api/Books/${book.id}`, updatedBook);
             await fetchBooks();
         } catch (err) {
@@ -87,9 +94,10 @@ export const useBooks = () => {
             readingCount: readingBooks.length,
             pagesRead,
             streak: calculateStreak(books),
-            progressPercent: Math.min(100, Math.round((readBooks.length / 52) * 100))
+            progressPercent: Math.min(100, Math.round((readBooks.length / userGoal) * 100)),
+            goal: userGoal
         };
-    }, [books]);
+    }, [books, userGoal]);
 
     const readingList = useMemo(() => 
         books.filter(b => b.status === BookStatus.Reading)

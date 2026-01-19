@@ -13,16 +13,7 @@ export default function Details() {
     const fetchBook = async () => {
         try {
             const res = await api.get<UserBook>(`/api/Books/${id}`);
-            const realBookData = res.data;
-
-            // MOCK
-            const savedProgress = localStorage.getItem(`mock_progress_${id}`);
-            
-            setBook({
-                ...realBookData,
-                currentPage: savedProgress ? parseInt(savedProgress) : 0
-            });
-
+            setBook(res.data);
         } catch (err) {
             console.error(err);
         }

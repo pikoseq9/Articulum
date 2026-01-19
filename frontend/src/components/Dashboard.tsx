@@ -121,7 +121,7 @@ export default function Dashboard() {
                     <UserCard streak={stats.streak} level={stats.readCount > 10 ? "Mol książkowy" : "Startujący"} />
                     <StatCard 
                         readCount={stats.readCount} 
-                        goal={52} 
+                        goal={stats.goal} 
                         percent={stats.progressPercent} 
                         pagesRead={stats.pagesRead} 
                         readingCount={stats.readingCount}

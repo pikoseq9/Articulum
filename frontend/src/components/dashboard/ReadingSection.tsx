@@ -14,8 +14,7 @@ export const ReadingSection: React.FC<Props> = ({ books, onMoveBook, onAddClick,
     const navigate = useNavigate();
 
     const getProgressStats = (book: UserBook) => {
-        const savedPage = localStorage.getItem(`mock_progress_${book.id}`);
-        const current = savedPage ? parseInt(savedPage) : 0;
+        const current = book.currentPage || 0;
         const total = book.pages || 1;
         const percent = Math.min(100, Math.round((current / total) * 100));
         
@@ -32,7 +31,9 @@ export const ReadingSection: React.FC<Props> = ({ books, onMoveBook, onAddClick,
         );
     };
 
-    const singleBookStats = books.length === 1 ? getProgressStats(books[0]) : { current: 0, total: 0, percent: 0 };
+    const singleBook = books.length === 1 ? books[0] : null;
+    const singlePercent = singleBook ? getProgressStats(singleBook).percent : 0;
+    const singleStats = singleBook ? getProgressStats(singleBook) : { current: 0, total: 0 };
 
     return (
         <div className="dash-column center-col">
@@ -49,20 +50,23 @@ export const ReadingSection: React.FC<Props> = ({ books, onMoveBook, onAddClick,
                     </div>
                 ) : books.length === 1 ? (
                     <div className="book-detail-flex">
-                        <img src={books[0].imageUrl || "https://placehold.co/100x150"} alt={books[0].title} className="book-cover" />
+                        <img src={singleBook!.imageUrl || "https://placehold.co/100x150"} alt={singleBook!.title} className="book-cover" />
                         <div className="book-info">
-                            <h2>{books[0].title}</h2>
-                            <p className="author">{books[0].author}</p>
+                            <h2>{singleBook!.title}</h2>
+                            <p className="author">{singleBook!.author}</p>
                             <div className="mini-progress">
-                                <label>Liczba stron: {books[0].pages || "?"}</label>
+                                <label>Liczba stron: {singleBook!.pages || "?"}</label>
                                 <progress 
-                                    value={singleBookStats.percent} 
+                                    value={singlePercent} 
                                     max="100"
                                 ></progress>
                             </div>
                             <div className="actions">
                                 <Link to={`/show/${books[0].id}`}><button className="btn-secondary">Zarządzaj</button></Link>
                                 <button className="btn-primary-small" onClick={() => onMoveBook(books[0], BookStatus.Read)}>Ukończ</button>
+                                <button className="btn-primary-small" onClick={() => onMoveBook(books[0], BookStatus.ToRead)} title="Przenieś do kolejki">
+                                    Odłóż
+                                </button>
                             </div>
                         </div>
                     </div>

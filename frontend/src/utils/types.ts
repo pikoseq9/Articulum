@@ -52,4 +52,5 @@ export interface UserDto {
   isMfaRequired: boolean;
   isMfaEnabled: boolean;
   mfaMethod?: "authenticator" | "email";
+  myGoal: number;
 }
