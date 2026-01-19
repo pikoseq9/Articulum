@@ -13,15 +13,26 @@ interface Props {
 export const ReadingSection: React.FC<Props> = ({ books, onMoveBook, onAddClick, openMenuId, setOpenMenuId }) => {
     const navigate = useNavigate();
 
+    const getProgressStats = (book: UserBook) => {
+        const savedPage = localStorage.getItem(`mock_progress_${book.id}`);
+        const current = savedPage ? parseInt(savedPage) : 0;
+        const total = book.pages || 1;
+        const percent = Math.min(100, Math.round((current / total) * 100));
+        
+        return { current, total, percent };
+    };
+
     const renderMenu = (book: UserBook) => {
         if (openMenuId !== book.id) return null;
         return (
             <div className="action-menu">
-                <button onClick={() => onMoveBook(book, BookStatus.Read)}>✅ Ukończona</button>
-                <button onClick={() => onMoveBook(book, BookStatus.ToRead)}>⏪ Do kolejki</button>
+                <button onClick={() => onMoveBook(book, BookStatus.Read)}>Ukończona</button>
+                <button onClick={() => onMoveBook(book, BookStatus.ToRead)}>Do kolejki</button>
             </div>
         );
     };
+
+    const singleBookStats = books.length === 1 ? getProgressStats(books[0]) : { current: 0, total: 0, percent: 0 };
 
     return (
         <div className="dash-column center-col">
@@ -44,11 +55,14 @@ export const ReadingSection: React.FC<Props> = ({ books, onMoveBook, onAddClick,
                             <p className="author">{books[0].author}</p>
                             <div className="mini-progress">
                                 <label>Liczba stron: {books[0].pages || "?"}</label>
-                                <progress value="50" max="100"></progress> 
+                                <progress 
+                                    value={singleBookStats.percent} 
+                                    max="100"
+                                ></progress>
                             </div>
                             <div className="actions">
                                 <Link to={`/show/${books[0].id}`}><button className="btn-secondary">Zarządzaj</button></Link>
-                                <button className="btn-primary-small" onClick={() => onMoveBook(books[0], BookStatus.Read)}>✅ Ukończ</button>
+                                <button className="btn-primary-small" onClick={() => onMoveBook(books[0], BookStatus.Read)}>Ukończ</button>
                             </div>
                         </div>
                     </div>
