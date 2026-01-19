@@ -126,7 +126,6 @@ body {
 
 .card {
   background: var(--card-bg);
-  /* Usunięcie twardego borderu na rzecz miękkiego cienia */
   border: 1px solid transparent; 
   border-radius: var(--radius);
   padding: 1.5rem;
@@ -135,7 +134,6 @@ body {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Subtelny efekt hover na kartach */
 .card:hover {
     border-color: var(--border-color);
     box-shadow: 0 6px 16px rgba(0,0,0,0.3);
@@ -163,7 +161,7 @@ body {
 }
 
 .badge {
-  background: rgba(212, 180, 106, 0.15); /* Półprzezroczyste złoto */
+  background: rgba(212, 180, 106, 0.15);
   padding: 4px 10px;
   border-radius: 20px;
   font-size: 0.75rem;
@@ -210,19 +208,18 @@ body {
 
 .progress-bar-container {
   width: 100%;
-  height: 12px; /* Trochę grubszy pasek */
+  height: 12px;
   background: var(--progress-bg);
   border-radius: 6px;
   overflow: hidden;
-  padding: 2px; /* Padding dla efektu ramki */
+  padding: 2px;
 }
 
 .progress-bar-fill {
   height: 100%;
   background: var(--accent-green);
   border-radius: 4px;
-  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); /* Sprężysta animacja */
-  /* Miękka, szałwiowa poświata */
+  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
   box-shadow: 0 0 12px rgba(148, 180, 145, 0.5);
 }
 
@@ -312,7 +309,6 @@ body {
   border: none;
 }
 
-/* Stylizowanie elementu <progress> */
 .mini-progress progress::-webkit-progress-bar {
     background-color: var(--progress-bg);
     border-radius: 5px;
@@ -321,13 +317,12 @@ body {
 .mini-progress progress::-webkit-progress-value {
     background-color: var(--primary);
     border-radius: 4px;
-    /* Subtelna koralowa poświata */
     box-shadow: 0 0 8px rgba(217, 143, 123, 0.5);
 }
 
 .btn-secondary {
   margin-top: 1.5rem;
-  background: rgba(217, 143, 123, 0.1); /* Półprzezroczysty primary */
+  background: rgba(217, 143, 123, 0.1);
   border: 1px solid rgba(217, 143, 123, 0.3);
   padding: 10px 20px;
   border-radius: var(--radius);
@@ -377,7 +372,7 @@ body {
 
 .trello-card:hover {
   transform: translateY(-3px);
-  border-color: rgba(217, 143, 123, 0.5); /* Koralowa ramka przy hover */
+  border-color: rgba(217, 143, 123, 0.5);
   box-shadow: 0 8px 16px rgba(0,0,0,0.3);
 }
 
@@ -394,8 +389,7 @@ body {
   text-transform: uppercase;
 }
 
-/* Nowe, pastelowe kolory tagów */
-.tag.sci-fi { background-color: #8ab6d6; /* Zgaszony niebieski */ color: #1e1c1b; }
+.tag.sci-fi { background-color: #8ab6d6; color: #1e1c1b; }
 .tag.rozwój { background-color: var(--accent-green); color: #1e1c1b;}
 .tag.fantasy { background-color: var(--primary); color: #1e1c1b; }
 
@@ -490,4 +484,69 @@ body {
   padding: 5px 10px;
   color: white;
   margin-bottom: 1rem;
+}
+
+.reading-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.reading-grid-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    text-align: center;
+}
+
+.reading-grid-item:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.reading-grid-item img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.reading-grid-item h5 {
+    font-size: 0.9rem;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #fff;
+}
+
+.reading-grid-item p {
+    font-size: 0.75rem;
+    margin: 0;
+    color: #aaa;
+}
+
+.btn-icon-action {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #4cd137;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 12px;
+}
+
+.btn-icon-action:hover {
+    background: #4cd137;
+    color: #fff;
+    border-color: #4cd137;
 }

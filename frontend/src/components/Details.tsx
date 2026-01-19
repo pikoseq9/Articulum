@@ -2,21 +2,33 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { UserBook, BookStatusLabels } from "../utils/types";
 import api from "../axios";
+import ReadingProgress from "../components/ReadingProgress"; 
+import './Details.css';
 
 export default function Details() {
     const navigate = useNavigate();
     const { id } = useParams();
     const [book, setBook] = useState<UserBook | null>(null);
 
+    const fetchBook = async () => {
+        try {
+            const res = await api.get<UserBook>(`/api/Books/${id}`);
+            const realBookData = res.data;
+
+            // MOCK
+            const savedProgress = localStorage.getItem(`mock_progress_${id}`);
+            
+            setBook({
+                ...realBookData,
+                currentPage: savedProgress ? parseInt(savedProgress) : 0
+            });
+
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     useEffect(() => {
-        const fetchBook = async () => {
-            try {
-                const res = await api.get<UserBook>(`/api/Books/${id}`);
-                setBook(res.data);
-            } catch (err) {
-                console.error(err);
-            }
-        };
         fetchBook();
     }, [id]);
 
@@ -49,13 +61,13 @@ export default function Details() {
 
                 <div className="details-grid">
                     <div><strong>Status:</strong> {BookStatusLabels[book.status]}</div>
-                    
                     <div><strong>ISBN:</strong> {book.isbn || "-"}</div>
-                    
                     <div><strong>Dodano:</strong> {new Date(book.addedAt).toLocaleDateString()}</div>
                     
                     <div><strong>Liczba stron:</strong> {book.pages || "-"}</div>
                 </div>
+
+                <ReadingProgress book={book} onUpdate={fetchBook} />
 
                 {book.description && (
                     <div className="notes-section">

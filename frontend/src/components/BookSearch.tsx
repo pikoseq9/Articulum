@@ -1,13 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './BookSearch.css';
-
-export interface Book {
-  id: string;
-  title: string;
-  author: string;
-  year: number;
-  cover: string;
-}
+import { Book } from '../utils/types';
 
 interface OpenLibraryDoc {
   key: string;
@@ -15,6 +8,8 @@ interface OpenLibraryDoc {
   author_name?: string[];
   first_publish_year?: number;
   cover_i?: number;
+  isbn?: string[];
+  number_of_pages_median?: number;
 }
 
 interface OpenLibraryResponse {
@@ -49,23 +44,29 @@ const BookSearch: React.FC<BookSearchProps> = ({ onSelectBook }) => {
       
       try {
         const response = await fetch(
-          `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=5&fields=title,author_name,cover_i,key,first_publish_year`,
+          `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=5&fields=title,author_name,cover_i,key,first_publish_year,isbn,number_of_pages_median`,
           { signal }
         );
         
         if (!response.ok) throw new Error("Błąd sieci");
 
         const data = await response.json() as OpenLibraryResponse;
-        
-        const formattedBooks: Book[] = data.docs.map((doc) => ({
-          id: doc.key,
-          title: doc.title,
-          author: doc.author_name?.[0] || 'Autor nieznany',
-          year: doc.first_publish_year || 0,
-          cover: doc.cover_i 
-            ? `https://covers.openlibrary.org/b/id/${doc.cover_i}-S.jpg` 
-            : 'https://placehold.co/40x60/292624/e3ded9?text=No+Cover'
-        }));
+        console.log(data);
+        const formattedBooks: Book[] = data.docs.map((doc) => {
+            const foundIsbn = doc.isbn && doc.isbn.length > 0 ? doc.isbn[0] : undefined;
+
+            return {
+                id: doc.key,
+                title: doc.title,
+                author: doc.author_name?.[0] || 'Autor nieznany',
+                year: doc.first_publish_year || 0,
+                cover: doc.cover_i 
+                    ? `https://covers.openlibrary.org/b/id/${doc.cover_i}-S.jpg` 
+                    : 'https://placehold.co/40x60/292624/e3ded9?text=No+Cover',
+                isbn: foundIsbn,
+                pages: doc.number_of_pages_median
+            };
+        });
 
         setResults(formattedBooks);
       } catch (error: unknown) {

@@ -1,17 +1,25 @@
-// types.ts
-
+// ✅ To musi być 'enum', żeby działało jako wartość (0, 1, 2) w kodzie
 export enum BookStatus {
   ToRead = 0,
   Reading = 1,
   Read = 2
 }
 
-// Mapowanie statusów na czytelne etykiety (opcjonalne, przydatne w UI)
 export const BookStatusLabels: Record<number, string> = {
   [BookStatus.ToRead]: "Do przeczytania",
   [BookStatus.Reading]: "W trakcie",
   [BookStatus.Read]: "Przeczytane"
 };
+
+export interface Book {
+  id: string;
+  title: string;
+  author: string;
+  year: number;
+  cover: string;
+  isbn?: string; 
+  pages?: number
+}
 
 export interface UserBook {
   id: string;
@@ -23,6 +31,8 @@ export interface UserBook {
   pages?: number;
   status: BookStatus;
   addedAt: string;
+  appUserId?: string;
+  currentPage?: number;
 }
 
 export interface BookCreateUpdate {

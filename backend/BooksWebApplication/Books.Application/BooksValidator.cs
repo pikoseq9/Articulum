@@ -16,8 +16,8 @@ namespace Books.Application
             RuleFor(x => x.Title).NotEmpty().WithMessage("Title is required");
             RuleFor(x => x.Author).NotEmpty().WithMessage("Author is required");
             RuleFor(x => x.Isbn).NotEmpty().WithMessage("Isbn is required");
-            RuleFor(x => x.Status).NotEmpty().WithMessage("Status is required (0,1,2)");
             RuleFor(x => x.AddedAt).NotEmpty().WithMessage("Added date is required");
+            RuleFor(x => x.Status).IsInEnum();
         }
 
     }

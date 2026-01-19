@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace BooksWebApplication.Controllers
 {
@@ -45,6 +46,19 @@ namespace BooksWebApplication.Controllers
         [HttpPost]
         public async Task<IActionResult> AddBook(UserBook book)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // Opcjonalne: Sprawdzenie bezpieczeństwa
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("Nie jesteś zalogowany lub token jest błędny.");
+            }
+
+            book.AppUserId = userId;
+
+            if (book.Id == Guid.Empty) book.Id = Guid.NewGuid();
+            if (book.AddedAt == default) book.AddedAt = DateTime.UtcNow;
+
             var result = await Mediator.Send(new Add.Command { UserBook = book });
             if (result == null)
                 return BadRequest(); // 400 – niepoprawne dane
