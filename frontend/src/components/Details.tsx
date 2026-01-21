@@ -34,6 +34,21 @@ export default function Details() {
         }
     }
 
+    const handleRateBook = () => {
+        if (!book) return;
+        
+        navigate('/community', { 
+            state: { 
+                bookToRate: {
+                    id: book.id,
+                    title: book.title,
+                    author: book.author,
+                    cover: book.imageUrl
+                } 
+            } 
+        });
+    };
+
     if (!book) return <h2>Ładowanie...</h2>;
 
     return (
@@ -54,7 +69,6 @@ export default function Details() {
                     <div><strong>Status:</strong> {BookStatusLabels[book.status]}</div>
                     <div><strong>ISBN:</strong> {book.isbn || "-"}</div>
                     <div><strong>Dodano:</strong> {new Date(book.addedAt).toLocaleDateString()}</div>
-                    
                     <div><strong>Liczba stron:</strong> {book.pages || "-"}</div>
                 </div>
 
@@ -68,6 +82,10 @@ export default function Details() {
                 )}
 
                 <div className="details-actions">
+                    <button className="btn-secondary" onClick={handleRateBook} style={{borderColor: 'var(--accent-orange)', color: 'var(--accent-orange)'}}>
+                        Oceń w społeczności
+                    </button>
+                    
                     <button className="btn-edit" onClick={() => navigate(`/edit/${book.id}`)}>Edytuj</button>
                     <button className="btn-delete" onClick={handleDelete}>Usuń</button>
                 </div>

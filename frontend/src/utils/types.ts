@@ -60,3 +60,35 @@ export interface CommunityUser {
     currentBookTitle?: string;
     currentBookAuthor?: string;
 }
+
+export interface Rating {
+    id: string;
+    bookTitle: string;
+    bookAuthor: string;
+    bookCover?: string;
+    rating: number;
+    comment: string;
+    username: string;
+    userAvatar?: string;
+    createdAt: string;
+}
+
+export interface CommunityRating {
+    id: string;
+    username: string;
+    userAvatarInitials: string;
+    bookTitle: string;
+    bookAuthor: string;
+    bookCover?: string;
+    rating: number;
+    comment: string;
+    createdAt: string;
+    isMine: boolean;
+}
+
+export interface BookOption {
+    id: string;
+    title: string;
+    author: string;
+    cover?: string;
+}
