@@ -1,0 +1,157 @@
+.importer-wrapper {
+    padding: 1.5rem;
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.importer-header h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.4rem;
+    color: var(--text-main);
+}
+
+.importer-header p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.file-drop-area {
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius);
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: var(--bg-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.file-drop-area:hover {
+    border-color: var(--primary);
+    background-color: rgba(217, 143, 123, 0.05);
+}
+
+.file-drop-area.has-file {
+    border-style: solid;
+    border-color: var(--accent-green);
+    background-color: rgba(148, 180, 145, 0.1);
+}
+
+.file-icon {
+    font-size: 2.5rem;
+    color: var(--text-muted);
+}
+
+.file-drop-area.has-file .file-icon {
+    color: var(--accent-green);
+}
+
+.file-info {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+.file-name {
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.file-size {
+    font-size: 0.8rem;
+    margin-top: 4px;
+}
+
+.progress-section {
+    margin-top: 0.5rem;
+}
+
+.progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+    color: var(--text-muted);
+}
+
+.progress-track {
+    width: 100%;
+    height: 8px;
+    background-color: var(--column-bg);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--accent-orange));
+    transition: width 0.3s ease;
+}
+
+.import-logs {
+    background-color: #111;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 12px;
+    max-height: 150px;
+    overflow-y: auto;
+    font-family: monospace;
+    font-size: 0.85rem;
+    color: #ccc;
+}
+
+.log-entry {
+    margin-bottom: 4px;
+    border-bottom: 1px solid #222;
+    padding-bottom: 2px;
+}
+
+.log-entry:last-child {
+    border-bottom: none;
+}
+
+.import-logs::-webkit-scrollbar {
+    width: 6px;
+}
+.import-logs::-webkit-scrollbar-thumb {
+    background-color: #333;
+    border-radius: 3px;
+}
+
+.importer-actions {
+    margin-top: 0.5rem;
+}
+
+.btn-primary-import {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary);
+    color: var(--text-inverse);
+    border: none;
+    border-radius: var(--radius);
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s;
+    box-shadow: 0 4px 12px rgba(217, 143, 123, 0.3);
+}
+
+.btn-primary-import:hover:not(:disabled) {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+.btn-primary-import:disabled {
+    background-color: var(--column-bg);
+    color: var(--text-muted);
+    cursor: not-allowed;
+    box-shadow: none;
+}
