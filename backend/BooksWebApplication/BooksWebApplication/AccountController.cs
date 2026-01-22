@@ -19,11 +19,13 @@ namespace BooksWebApplication
         private readonly UserManager<AppUser> _userManager;
         private readonly TokenService _tokenService;
         private readonly EmailVerificationService _emailVerificationService;
-        public AccountController(UserManager<AppUser> userManager, TokenService tokenService, EmailVerificationService emailVerificationService)
+        private readonly IWebHostEnvironment _env;
+        public AccountController(UserManager<AppUser> userManager, TokenService tokenService, EmailVerificationService emailVerificationService, IWebHostEnvironment env)
         {
             _userManager = userManager;
             _tokenService = tokenService;
             _emailVerificationService = emailVerificationService;
+            _env = env;
 
         }
         [AllowAnonymous]
@@ -111,7 +113,9 @@ namespace BooksWebApplication
                 DisplayName = user.DisplayName,
                 Token = _tokenService.CreateToken(user),
                 UserName = user.UserName,
-                MyGoal = user.MyGoal
+                MyGoal = user.MyGoal,
+                Bio = user.Bio,
+                IsMfaEnabled = user.TwoFactorEnabled
             }; 
         }
 
@@ -172,7 +176,7 @@ namespace BooksWebApplication
                 await _userManager.UpdateAsync(user);
 
                 var tfa = new TwoFactorAuthenticator();
-                var setupInfo = tfa.GenerateSetupCode("CarsApp", user.Email, user.TwoFactorSecret, false, 3);
+                var setupInfo = tfa.GenerateSetupCode("BooksApp", user.Email, user.TwoFactorSecret, false, 3);
 
                 return Ok(new { QrCodeSetupImageUrl = setupInfo.QrCodeSetupImageUrl, ManualEntryKey = setupInfo.ManualEntryKey });
             }
@@ -290,7 +294,9 @@ namespace BooksWebApplication
                 Token = _tokenService.CreateToken(user),
                 MyGoal = user.MyGoal,
                 IsMfaRequired = false,
-                IsMfaEnabled = user.TwoFactorEnabled
+                Bio = user.Bio,
+                IsMfaEnabled = user.TwoFactorEnabled,
+                AvatarUrl = user.AvatarUrl
             };
         }
 
@@ -386,6 +392,82 @@ namespace BooksWebApplication
 
             return BadRequest("Wystąpił błąd podczas aktualizacji celu");
         }
+
+        [Authorize]
+        [HttpPut("update-bio")]
+        public async Task<ActionResult<UserDto>> UpdateBio([FromBody] UpdateBioRequest request)
+        {
+            // 1. Spójne pobieranie użytkownika (po Emailu, tak jak w reszcie kontrolera)
+            var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+
+            if (user == null) return Unauthorized();
+
+            // 2. Obsługa nulla (jeśli frontend wyśle null, traktujemy to jak wyczyszczenie bio)
+            var newBio = request.Bio?.Trim() ?? string.Empty;
+
+            // 3. Walidacja
+            if (newBio.Length > 200)
+                return BadRequest("Bio jest za długie (max 200 znaków).");
+
+            // 4. Aktualizacja
+            user.Bio = newBio;
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded) return BadRequest(result.Errors);
+
+            // 5. Zwracamy zaktualizowany, pełny obiekt użytkownika
+            return CreateUserObject(user);
+        }
+
+
+        [Authorize]
+        [HttpPost("upload-avatar")]
+        public async Task<ActionResult<UserDto>> UploadAvatar(IFormFile file)
+        {
+            try
+            {
+                if (file == null || file.Length == 0)
+                    return BadRequest("Brak pliku.");
+
+                // Walidacja rozszerzenia
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+                var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+                if (!allowedExtensions.Contains(extension))
+                    return BadRequest("Nieprawidłowy format pliku.");
+
+                // Walidacja rozmiaru (np. max 5MB)
+                if (file.Length > 5 * 1024 * 1024)
+                    return BadRequest("Plik jest za duży (max 5MB).");
+
+                var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+                if (user == null) return NotFound();
+
+                var uploadsFolder = Path.Combine(_env.WebRootPath, "avatars");
+                if (!Directory.Exists(uploadsFolder))
+                    Directory.CreateDirectory(uploadsFolder);
+                Console.WriteLine($"WebRootPath: {_env.WebRootPath}");
+
+                var uniqueFileName = $"{Guid.NewGuid()}{extension}";
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                user.AvatarUrl = $"/avatars/{uniqueFileName}";
+                await _userManager.UpdateAsync(user);
+
+                return CreateUserObject(user);
+            }
+            catch (Exception ex)
+            {
+                // Loguj szczegóły błędu
+                Console.WriteLine($"Upload error: {ex.Message}");
+                return StatusCode(500, $"Błąd serwera: {ex.Message}");
+            }
+        }
+
 
     }
 }

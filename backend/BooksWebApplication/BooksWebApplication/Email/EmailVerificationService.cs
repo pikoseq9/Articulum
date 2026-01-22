@@ -31,7 +31,7 @@ public class EmailVerificationService
 
         await _email.SendAsync(
             user.Email,
-            "Cars – kod weryfikacyjny",
+            "Oto twój kod weryfikacyjny do aplikacji BooksApp",
             $"<h2>Twój kod:</h2><h1>{code}</h1><p>Ważny 10 minut.</p>"
         );
     }

@@ -52,6 +52,8 @@ export interface UserDto {
   isMfaEnabled: boolean;
   mfaMethod?: "authenticator" | "email";
   myGoal: number;
+  bio?: string;
+  avatarUrl?: string;
 }
 
 export interface CommunityUser {
