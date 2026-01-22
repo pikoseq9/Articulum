@@ -115,7 +115,8 @@ namespace BooksWebApplication
                 UserName = user.UserName,
                 MyGoal = user.MyGoal,
                 Bio = user.Bio,
-                IsMfaEnabled = user.TwoFactorEnabled
+                IsMfaEnabled = user.TwoFactorEnabled,
+                AvatarUrl = user.AvatarUrl
             }; 
         }
 
@@ -387,7 +388,7 @@ namespace BooksWebApplication
 
             if (result.Succeeded)
             {
-                return Ok(new { message = "Cel został zaktualizowany", goal = user.MyGoal });
+                return Ok(CreateUserObject(user));
             }
 
             return BadRequest("Wystąpił błąd podczas aktualizacji celu");

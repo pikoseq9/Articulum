@@ -15,6 +15,7 @@ namespace Books.Infrastructure
         public DbSet<UserBook> Books { get; set; }
 
         public DbSet<EmailVerificationCode> EmailVerificationCodes { get; set; }
+        public DbSet<CommunityRating> Ratings { get; set; }
 
     }
 }

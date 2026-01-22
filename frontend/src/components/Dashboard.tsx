@@ -118,7 +118,7 @@ export default function Dashboard() {
 
             <div className="dash-grid">
                 <div className="dash-column left-col">
-                    <UserCard streak={stats.streak} level={stats.readCount > 10 ? "Mol książkowy" : "Startujący"} />
+                    <UserCard streak={stats.streak} level={stats.readCount > 10 ? "Mol książkowy" : "Startujący"} onDataUpdate={() => window.location.reload()}/>
                     <StatCard 
                         readCount={stats.readCount} 
                         goal={stats.goal} 

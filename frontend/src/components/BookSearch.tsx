@@ -51,7 +51,6 @@ const BookSearch: React.FC<BookSearchProps> = ({ onSelectBook }) => {
         if (!response.ok) throw new Error("Błąd sieci");
 
         const data = await response.json() as OpenLibraryResponse;
-        console.log(data);
         const formattedBooks: Book[] = data.docs.map((doc) => {
             const foundIsbn = doc.isbn && doc.isbn.length > 0 ? doc.isbn[0] : undefined;
 
@@ -61,8 +60,8 @@ const BookSearch: React.FC<BookSearchProps> = ({ onSelectBook }) => {
                 author: doc.author_name?.[0] || 'Autor nieznany',
                 year: doc.first_publish_year || 0,
                 cover: doc.cover_i 
-                    ? `https://covers.openlibrary.org/b/id/${doc.cover_i}-S.jpg` 
-                    : 'https://placehold.co/40x60/292624/e3ded9?text=No+Cover',
+                    ? `https://covers.openlibrary.org/b/id/${doc.cover_i}-M.jpg` 
+                    : 'https://placehold.co/80x120/292624/e3ded9?text=No+Cover',
                 isbn: foundIsbn,
                 pages: doc.number_of_pages_median
             };

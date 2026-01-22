@@ -9,7 +9,8 @@ import NotFound from './components/NotFound';
 import LoginModal from './components/loginModal';
 
 import { useAuth } from './authContext';
-import { CommunitySidebar } from './components/CommunitySidebar';
+import { CommunitySidebar } from './components/community/CommunitySidebar';
+import CommunityView from './components/community/CommunityView';
 
 function App() {
   const { user, login, logout, appLoading } = useAuth(); 
@@ -35,13 +36,15 @@ function App() {
         <div className='content'>
           {user && (
             <nav className='nav-btns'>
-              <button 
-                className="btn-profile" 
-                onClick={() => setIsSidebarOpen(true)}
-                style={{ borderColor: 'var(--primary)', color: 'var(--primary)' }}
-              >
-                  👥 Społeczność
-              </button>
+              <Link to="/community">
+                <button 
+                  className="btn-profile"
+                  style={{ borderColor: 'var(--primary)', color: 'var(--primary)' }}
+                >
+                    👥 Społeczność
+                </button>
+              </Link>
+              
               <Link to="/profile">
                 <button className="btn-profile">Mój Profil</button>
               </Link>
@@ -63,11 +66,13 @@ function App() {
             <Route path="/add" element={<BookForm />} />
             <Route path="/edit/:id" element={<BookForm />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/community" element={<CommunityView />} />
             <Route path='/*' element={<NotFound />} />
           </Routes>
         </div>
         {user && (
             <CommunitySidebar 
+                variant="drawer"
                 isOpen={isSidebarOpen} 
                 onClose={() => setIsSidebarOpen(false)} 
             />

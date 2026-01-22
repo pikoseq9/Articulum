@@ -139,58 +139,117 @@ body {
     box-shadow: 0 6px 16px rgba(0,0,0,0.3);
 }
 
+.user-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%; /* Jeśli w gridzie, rozciągnij na wysokość */
+}
+
 .user-card .user-info {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  gap: 1.2rem;
+  margin-bottom: 1.2rem;
 }
 
 .avatar {
-  width: 50px;
-  height: 50px;
-  background: var(--primary);
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-hover));
   color: var(--text-inverse);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
-  font-size: 1.2rem;
-  box-shadow: 0 2px 8px rgba(217, 143, 123, 0.4);
+  font-weight: 800;
+  font-size: 1.4rem;
+  box-shadow: 0 4px 12px rgba(217, 143, 123, 0.4);
+  flex-shrink: 0; /* Zapobiega zgniataniu avatara */
+  border: 2px solid var(--column-bg); /* Odsunięcie wizualne */
 }
 
-.badge {
-  background: rgba(212, 180, 106, 0.15);
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--accent-orange);
-  border: 1px solid rgba(212, 180, 106, 0.3);
-}
-
-.streak-info {
-  margin: 1rem 0;
-  font-size: 0.95rem;
+.user-info h3 {
+  margin: 0 0 0.3rem 0;
+  font-size: 1.1rem;
   color: var(--text-main);
 }
 
-.streak-info strong {
+.badge {
+  background: rgba(212, 180, 106, 0.1);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
   color: var(--accent-orange);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(212, 180, 106, 0.2);
+}
+
+.streak-info {
+  margin: 0.5rem 0 1.5rem 0;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  background: var(--column-bg);
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.streak-info strong {
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+/* Link na dole karty */
+.user-card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto; /* Dopycha do dołu */
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
 }
 
 .link-text {
-  color: var(--primary);
+  color: var(--text-muted);
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  transition: color 0.2s;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .link-text:hover {
-  color: var(--primary-hover);
-  text-decoration: underline;
+  color: var(--primary);
+  transform: translateX(3px); /* Delikatne przesunięcie w prawo */
+}
+
+/* Przycisk importu (mały) */
+.btn-import-small {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-import-small:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+  border-color: var(--text-muted);
 }
 
 .progress-stats {

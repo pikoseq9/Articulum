@@ -24,11 +24,16 @@ const ProfilePage: React.FC = () => {
   const [description, setDescription] = useState(user?.bio || "");
   const [isSavingDesc, setIsSavingDesc] = useState(false);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [goal, setGoal] = useState<number>(user?.myGoal ?? 0);
+const [isSavingGoal, setIsSavingGoal] = useState(false);
 
   // 1. Synchronizacja opisu z bio użytkownika
   useEffect(() => {
     setDescription(user?.bio || "");
   }, [user?.bio]);
+  useEffect(() => {
+  setGoal(user?.myGoal ?? 0);
+}, [user?.myGoal]);
 
   // 2. KLUCZOWA POPRAWKA: Jeśli user.isMfaEnabled zmieni się na true (np. po login(refreshedUser)),
   // czyścimy stany konfiguracji, żeby formularz wyboru zniknął.
@@ -41,6 +46,32 @@ const ProfilePage: React.FC = () => {
     }
   }, [user?.isMfaEnabled]);
 
+
+  useEffect(() => {
+  if (statusMessage) {
+    const timer = setTimeout(() => {
+      setStatusMessage(null);
+    }, 3000); // 3000ms = 3 sekundy
+
+    return () => clearTimeout(timer); // Czyścimy timer, jeśli wiadomość zmieni się szybciej
+  }
+}, [statusMessage]);
+
+  const handleSaveGoal = async () => {
+  try {
+    setIsSavingGoal(true);
+    
+    // Zapisujemy odpowiedź z POST do zmiennej res
+    const res = await api.post("/api/account/update-goal", { newGoal: goal });
+    login(res.data);
+
+    setStatusMessage({ type: "success", text: "Cel roczny zapisany 🎯" });
+  } catch {
+    setStatusMessage({ type: "error", text: "Nie udało się zapisać celu" });
+  } finally {
+    setIsSavingGoal(false);
+  }
+};
  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   if (e.target.files && e.target.files[0]) {
     console.log("Wybrany plik:", e.target.files[0]);
@@ -122,15 +153,14 @@ console.log(formData);
     }
   };
 
-  const handleSaveBio = async () => {
+ const handleSaveBio = async () => {
     try {
       setIsSavingDesc(true);
-      await api.put("/api/account/update-bio", { bio: description });
-      const refreshedUser = await api.get("/api/account");
       
-      // Wywołanie login aktualizuje obiekt user, co dzięki useEffect powyżej
-      // zablokuje ponowne pojawienie się przycisków MFA, jeśli są aktywne.
-      login(refreshedUser.data);
+      // POPRAWKA: Pobierz odpowiedź bezpośrednio z PUT (backend zwraca UserDto)
+      const res = await api.put("/api/account/update-bio", { bio: description });
+
+      login(res.data); 
       
       setStatusMessage({ type: "success", text: "Opis zapisany" });
     } catch {
@@ -154,7 +184,9 @@ console.log(formData);
         <section className="profile-card profile-main-info">
           <div className="avatar-placeholder">
   {user.avatarUrl ? (
-    <img  src={`http://localhost:5269${user.avatarUrl}?t=${Date.now()}`} alt="Avatar" className="avatar-image" />
+    <img  src={user.avatarUrl?.startsWith('http') 
+    ? user.avatarUrl 
+    : `http://localhost:5269${user.avatarUrl}`} alt="Avatar" className="avatar-image" />
   ) : (
     <span>{user.userName[0].toUpperCase()}</span>
   )}
@@ -179,6 +211,7 @@ console.log(formData);
               <h3>O mnie</h3>
               <p>Twój publiczny opis widoczny dla innych.</p>
             </div>
+            
             <textarea
               value={description}
               onChange={e => setDescription(e.target.value)}
@@ -192,6 +225,31 @@ console.log(formData);
               </button>
             </div>
           </section>
+          <section className="profile-card">
+  <div className="card-header">
+    <h3>Cel roczny</h3>
+    <p>Ile książek chcesz przeczytać w tym roku?</p>
+  </div>
+
+  <input
+    type="number"
+    min={1}
+    max={1000}
+    value={goal}
+    onChange={(e) => setGoal(Number(e.target.value))}
+    className="goal-input"
+  />
+
+  <div className="card-footer">
+    <button
+      className="btn-primary"
+      disabled={isSavingGoal}
+      onClick={handleSaveGoal}
+    >
+      {isSavingGoal ? "Zapisywanie..." : "Zapisz cel"}
+    </button>
+  </div>
+</section>
 
           <section className="profile-card">
             <div className="card-header">
@@ -211,7 +269,7 @@ console.log(formData);
                     <input value={disableCode} onChange={e => setDisableCode(e.target.value)} placeholder="Kod z maila" maxLength={6} />
                     <div className="action-buttons">
                       <button onClick={disableMfa} className="btn-danger">Wyłącz</button>
-                      <button className="btn-text" onClick={() => setShowDisableMfa(false)}>Anuluj</button>
+                      <button className="btn-primaryt" onClick={() => setShowDisableMfa(false)}>Anuluj</button>
                     </div>
                   </div>
                 )}
@@ -243,7 +301,7 @@ console.log(formData);
                       <input type="text" maxLength={6} placeholder="Kod" value={code} onChange={e => setCode(e.target.value)} required />
                       <button type="submit" className="btn-primary">Zweryfikuj</button>
                     </form>
-                    <button className="btn-text" onClick={() => { setMethod(null); setMfaData(null); }}>Anuluj</button>
+                    <button className="btn-primary" onClick={() => { setMethod(null); setMfaData(null); }}>Anuluj</button>
                   </div>
                 )}
               </div>

@@ -1,0 +1,66 @@
+.wall-title {
+    margin-bottom: 1.5rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.rating-card {
+    padding: 1.2rem;
+    animation: slideUp 0.3s ease-out;
+}
+
+.rating-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.user-avatar-medium {
+    width: 45px;
+    height: 45px;
+    background-color: var(--primary);
+    color: var(--text-inverse);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 1rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.rating-meta {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.username { font-weight: 700; color: var(--text-main); }
+.action-muted { color: var(--text-muted); font-size: 0.9rem; }
+.book-highlight { color: var(--accent-green); font-weight: 600; }
+.rating-date { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+
+.rating-stars-display {
+    color: var(--accent-orange);
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+}
+.stars-empty { color: var(--border-color); }
+
+.rating-body {
+    background-color: var(--column-bg);
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 3px solid var(--primary);
+    margin-bottom: 1rem;
+}
+
+.rating-body p { margin: 0; font-style: italic; color: var(--text-main); line-height: 1.5; }
+
+.rating-footer { display: flex; justify-content: flex-end; }
+.author-tag { font-size: 0.8rem; color: var(--text-muted); background: var(--bg-color); padding: 4px 10px; border-radius: 12px; }
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

@@ -69,6 +69,28 @@
   object-position: center;
 }
 
+.goal-input {
+  width: 100%;
+  max-width: 150px;
+  background: var(--column-bg);
+  border: 1px solid var(--border-color);
+  color: var(--primary);
+  border-radius: 8px;
+  padding: 0.8rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1rem;
+  transition: all 0.2s;
+}
+
+.goal-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: var(--card-bg);
+  box-shadow: 0 0 0 3px rgba(217, 143, 123, 0.15);
+}
+
 .info-text h1 { margin: 0; font-size: 1.8rem; }
 .username { color: var(--primary); margin: 0.2rem 0; font-family: monospace; }
 .bio-preview { color: var(--text-muted); font-style: italic; margin-top: 0.5rem; }
@@ -86,16 +108,18 @@
 
 /* Form Elements */
 textarea {
-  width: 100%;
+  
+  width: 95%;
   min-height: 100px;
   background: var(--column-bg);
   border: 1px solid var(--border-color);
   color: var(--text-main);
   border-radius: 8px;
-  padding: 1rem;
+  padding: 10px;
   resize: none;
   font-family: inherit;
   margin-bottom: 0.5rem;
+  
 }
 
 .card-footer {
@@ -166,6 +190,7 @@ textarea {
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
+  margin-top: 5px;
 }
 
 .btn-danger-outline {
@@ -192,7 +217,7 @@ textarea {
   right: 2rem;
   padding: 1rem 1.5rem;
   border-radius: 8px;
-  animation: slideIn 0.3s ease-out;
+  animation: slideIn 0.3s ease-out, slideOut 0.3s ease-in 2.7s forwards;
   box-shadow: var(--shadow-sm);
   z-index: 100;
 }
