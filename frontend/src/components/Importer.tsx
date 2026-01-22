@@ -45,20 +45,12 @@ export const Importer: React.FC<Props> = ({ onSuccess }) => {
         }
     };
 
-    /**
-     * Executes the import process.
-     * 1. Parses the CSV file using `goodreadsService`.
-     * 2. Iterates through parsed items and attempts to fetch/create books via API.
-     * 3. Updates existing book status/date to match the import data.
-     * 4. Updates logs and progress bar.
-     */
     const handleImport = async () => {
         if (!file) return;
         setIsProcessing(true);
         setLog([]);
         
         try {
-            // Step 1: Parse local CSV
             const items = await goodreadsService.parseCsvFile(file);
             const total = items.length;
             
@@ -66,13 +58,11 @@ export const Importer: React.FC<Props> = ({ onSuccess }) => {
 
             let successCount = 0;
             
-            // Step 2: Process each item
             for (let i = 0; i < total; i++) {
                 const item = items[i];
                 let createdBook = null;
                 let usedIsbn = "";
 
-                // Strategy A: Try fetching by ISBN-13
                 if (item.isbn13) {
                     try {
                         const res = await api.post(`/api/Books/fetch/${item.isbn13}`);
@@ -80,10 +70,9 @@ export const Importer: React.FC<Props> = ({ onSuccess }) => {
                             createdBook = res.data;
                             usedIsbn = item.isbn13;
                         }
-                    } catch (e) { /* Ignore error, proceed to fallback */ }
+                    } catch (e) {  }
                 }
 
-                // Strategy B: Fallback to ISBN-10 if Strategy A failed
                 if (!createdBook && item.isbn10) {
                     try {
                         const res = await api.post(`/api/Books/fetch/${item.isbn10}`);
@@ -91,14 +80,12 @@ export const Importer: React.FC<Props> = ({ onSuccess }) => {
                             createdBook = res.data;
                             usedIsbn = item.isbn10;
                         }
-                    } catch (e) { /* Ignore error */ }
+                    } catch (e) {}
                 }
 
-                // Step 3: Handle result
                 if (createdBook) {
                     try {
-                        // The 'fetch' endpoint sets default status (ToRead) and date (Now).
-                        // We must update it to match the historical data from the CSV.
+                        console.log(item);
                         await api.put(`/api/Books/${createdBook.id}`, {
                             ...createdBook,
                             status: item.status,
@@ -113,7 +100,6 @@ export const Importer: React.FC<Props> = ({ onSuccess }) => {
                     setLog(prev => [...prev, `Not found in database: "${item.titleHint}" (${isbnDisplay})`]);
                 }
 
-                // Update progress
                 setProgress(Math.round(((i + 1) / total) * 100));
             }
 
@@ -138,7 +124,6 @@ export const Importer: React.FC<Props> = ({ onSuccess }) => {
                 <p>Wgraj plik CSV. Pobieranie danych z OpenLibrary.</p>
             </div>
             
-            {/* File Drop Area */}
             <div 
                 className={`file-drop-area ${file ? 'has-file' : ''}`}
                 onClick={() => !isProcessing && fileInputRef.current?.click()}
@@ -161,7 +146,6 @@ export const Importer: React.FC<Props> = ({ onSuccess }) => {
                 </div>
             </div>
 
-            {/* Progress Bar */}
             {(isProcessing || progress > 0) && (
                 <div className="progress-section">
                     <div className="progress-labels">
@@ -174,7 +158,6 @@ export const Importer: React.FC<Props> = ({ onSuccess }) => {
                 </div>
             )}
 
-            {/* Logs Console */}
             {log.length > 0 && (
                 <div className="import-logs">
                     {log.map((l, i) => <div key={i} className="log-entry">{l}</div>)}

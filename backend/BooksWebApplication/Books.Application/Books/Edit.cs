@@ -43,6 +43,11 @@ namespace Books.Application.Books
                 book.Pages = request.UserBook.Pages ?? book.Pages;
                 book.Status = request.UserBook.Status;
 
+                if (request.UserBook.AddedAt != default(DateTime))
+                {
+                    book.AddedAt = request.UserBook.AddedAt;
+                }
+
                 // NOWE POLA:
                 book.Subject = request.UserBook.Subject ?? book.Subject;
                 book.CurrentPage = request.UserBook.CurrentPage ?? book.CurrentPage;
