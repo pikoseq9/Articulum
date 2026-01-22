@@ -11,5 +11,6 @@ namespace Books.Domain
         public string? TwoFactorSecret { get; set; }
         // "email" albo "authenticator"
         public string? TwoFactorMethod { get; set; }
+        public string? AvatarUrl { get; set; }
     }
 }

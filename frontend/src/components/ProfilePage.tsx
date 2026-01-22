@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../axios";
 import { useAuth } from "../authContext";
@@ -21,12 +21,91 @@ const ProfilePage: React.FC = () => {
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error' | 'info', text: string } | null>(null);
   const [disableCode, setDisableCode] = useState("");
   const [showDisableMfa, setShowDisableMfa] = useState(false);
+  const [description, setDescription] = useState(user?.bio || "");
+  const [isSavingDesc, setIsSavingDesc] = useState(false);
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [goal, setGoal] = useState<number>(user?.myGoal ?? 0);
+const [isSavingGoal, setIsSavingGoal] = useState(false);
+
+  // 1. Synchronizacja opisu z bio użytkownika
+  useEffect(() => {
+    setDescription(user?.bio || "");
+  }, [user?.bio]);
+  useEffect(() => {
+  setGoal(user?.myGoal ?? 0);
+}, [user?.myGoal]);
+
+  // 2. KLUCZOWA POPRAWKA: Jeśli user.isMfaEnabled zmieni się na true (np. po login(refreshedUser)),
+  // czyścimy stany konfiguracji, żeby formularz wyboru zniknął.
+  useEffect(() => {
+    if (user?.isMfaEnabled) {
+      setMethod(null);
+      setMfaData(null);
+      setCode("");
+      setShowDisableMfa(false); // Resetujemy też widok wyłączania
+    }
+  }, [user?.isMfaEnabled]);
+
+
+  useEffect(() => {
+  if (statusMessage) {
+    const timer = setTimeout(() => {
+      setStatusMessage(null);
+    }, 3000); // 3000ms = 3 sekundy
+
+    return () => clearTimeout(timer); // Czyścimy timer, jeśli wiadomość zmieni się szybciej
+  }
+}, [statusMessage]);
+
+  const handleSaveGoal = async () => {
+  try {
+    setIsSavingGoal(true);
+    
+    // Zapisujemy odpowiedź z POST do zmiennej res
+    const res = await api.post("/api/account/update-goal", { newGoal: goal });
+    login(res.data);
+
+    setStatusMessage({ type: "success", text: "Cel roczny zapisany 🎯" });
+  } catch {
+    setStatusMessage({ type: "error", text: "Nie udało się zapisać celu" });
+  } finally {
+    setIsSavingGoal(false);
+  }
+};
+ const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  if (e.target.files && e.target.files[0]) {
+    console.log("Wybrany plik:", e.target.files[0]);
+    setAvatarFile(e.target.files[0]);
+  } else {
+    console.log("Brak wybranego pliku");
+  }
+};
+const handleUploadAvatar = async () => {
+  if (!avatarFile) return;
+
+  const formData = new FormData();
+  formData.append("file", avatarFile);
+  console.log("Plik:", avatarFile.name, avatarFile.type, avatarFile.size);
+console.log(formData);
+  try {
+    const res = await api.post("/api/account/upload-avatar", formData);
+    
+    // aktualizujemy globalny user (np. login z AuthContext)
+    login(res.data); 
+    
+    setStatusMessage({ type: "success", text: "Zdjęcie profilowe zaktualizowane!" });
+    setAvatarFile(null); // reset input
+    console.log(res.data)
+  } catch {
+    setStatusMessage({ type: "error", text: "Nie udało się zaktualizować zdjęcia." });
+  }
+};
 
   const handleEnableMfa = async (selectedMethod: MfaMethod) => {
     try {
       setStatusMessage(null);
       setMethod(selectedMethod);
-      const res = await api.post<MfaSetupResponse>(`/account/enable-mfa?method=${selectedMethod}`);
+      const res = await api.post<MfaSetupResponse>(`/api/account/enable-mfa?method=${selectedMethod}`);
       if (selectedMethod === "authenticator") {
         setMfaData(res.data);
       } else {
@@ -43,7 +122,7 @@ const ProfilePage: React.FC = () => {
     setDisableCode("");
     setStatusMessage(null);
     try {
-      await api.post("/account/send-disable-code");
+      await api.post("/api/account/send-disable-code");
     } catch {
       setStatusMessage({ type: "error", text: "Nie udało się wysłać kodu" });
     }
@@ -51,10 +130,9 @@ const ProfilePage: React.FC = () => {
 
   const disableMfa = async () => {
     try {
-      await api.post("/account/disable-mfa", { code: disableCode });
-      const res = await api.get("/account");
+      await api.post("/api/account/disable-mfa", { code: disableCode });
+      const res = await api.get("/api/account");
       login(res.data);
-      setShowDisableMfa(false);
       setStatusMessage({ type: "success", text: "MFA zostało wyłączone" });
     } catch {
       setStatusMessage({ type: "error", text: "Nieprawidłowy kod" });
@@ -64,86 +142,176 @@ const ProfilePage: React.FC = () => {
   const handleVerifyMfa = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await api.post("/account/confirm-mfa-enable", JSON.stringify(code), {
+      const res = await api.post("/api/account/confirm-mfa-enable", JSON.stringify(code), {
         headers: { "Content-Type": "application/json" }
       });
-      setMethod(null);
-      setMfaData(null);
-      setCode("");
-      if (user) login(res.data);
+      // Aktualizujemy globalny stan (user.isMfaEnabled stanie się true)
+      login(res.data);
+      setStatusMessage({ type: "success", text: "MFA aktywowane pomyślnie!" });
     } catch {
       setStatusMessage({ type: 'error', text: "Nieprawidłowy kod. Spróbuj ponownie." });
+    }
+  };
+
+ const handleSaveBio = async () => {
+    try {
+      setIsSavingDesc(true);
+      
+      // POPRAWKA: Pobierz odpowiedź bezpośrednio z PUT (backend zwraca UserDto)
+      const res = await api.put("/api/account/update-bio", { bio: description });
+
+      login(res.data); 
+      
+      setStatusMessage({ type: "success", text: "Opis zapisany" });
+    } catch {
+      setStatusMessage({ type: "error", text: "Nie udało się zapisać opisu" });
+    } finally {
+      setIsSavingDesc(false);
     }
   };
 
   if (!user) return <div className="content"><p>Musisz być zalogowany.</p></div>;
 
   return (
-    <div className="content profile-container">
-      <button className="back-btn" onClick={() => navigate(-1)} style={{ marginBottom: '1rem' }}>Powrót</button>
-      
-      <div className="profile-header">
-        <h1>Twój Profil</h1>
-        <div className="user-info">
-          <p><strong>Użytkownik:</strong> {user.displayName} (<strong>{user.userName}</strong>)</p>
-        </div>
-      </div>
+    <div className="profile-wrapper">
+      <div className="profile-container">
+        <header className="profile-nav">
+          <button className="back-btn" onClick={() => navigate(-1)}>
+            <span>←</span> Wróć do panelu
+          </button>
+        </header>
 
-      <hr className="divider" />
+        <section className="profile-card profile-main-info">
+          <div className="avatar-placeholder">
+  {user.avatarUrl ? (
+    <img  src={user.avatarUrl?.startsWith('http') 
+    ? user.avatarUrl 
+    : `http://localhost:5269${user.avatarUrl}`} alt="Avatar" className="avatar-image" />
+  ) : (
+    <span>{user.userName[0].toUpperCase()}</span>
+  )}
+</div>
 
-      <div className="mfa-section">
-        <h2>Bezpieczeństwo</h2>
+<input type="file" accept="image/*" onChange={handleAvatarChange} />
+{avatarFile && (
+  <button className="btn-primary" onClick={handleUploadAvatar}>
+    Zaktualizuj zdjęcie
+  </button>
+)}
+          <div className="info-text">
+            <h1>{user.displayName}</h1>
+            <p className="username">@{user.userName}</p>
+            {user.bio ? <p className="bio-preview">"{user.bio}"</p> : <p className="bio-empty">Brak opisu profilu</p>}
+          </div>
+        </section>
 
-        {user.isMfaEnabled ? (
-          <>
-            <div className="status-msg success" style={{ textAlign: 'center' }}>
-              Weryfikacja dwuetapowa jest <strong>WŁĄCZONA</strong>.
+        <div className="profile-grid">
+          <section className="profile-card">
+            <div className="card-header">
+              <h3>O mnie</h3>
+              <p>Twój publiczny opis widoczny dla innych.</p>
             </div>
-            <div style={{ marginTop: 20 }}>
-              {!showDisableMfa ? (
-                <button className="btn-danger" onClick={openDisableMfa}>Wyłącz MFA</button>
-              ) : (
-                <div className="mfa-disable-box">
-                  <h4>Wyłącz MFA</h4>
-                  <input value={disableCode} onChange={e => setDisableCode(e.target.value)} placeholder="123456" maxLength={6} />
-                  <div style={{ marginTop: 10 }}>
-                    <button onClick={disableMfa} className="btn-danger">Potwierdź</button>
-                    <button className="btn-text" onClick={() => setShowDisableMfa(false)} style={{ marginLeft: 10 }}>Anuluj</button>
-                  </div>
+            
+            <textarea
+              value={description}
+              onChange={e => setDescription(e.target.value)}
+              placeholder="Napisz coś o sobie..."
+              maxLength={200}
+            />
+            <div className="card-footer">
+              <span className="char-count">{description.length}/200</span>
+              <button className="btn-primary" disabled={isSavingDesc} onClick={handleSaveBio}>
+                {isSavingDesc ? "Zapisywanie..." : "Zapisz zmiany"}
+              </button>
+            </div>
+          </section>
+          <section className="profile-card">
+  <div className="card-header">
+    <h3>Cel roczny</h3>
+    <p>Ile książek chcesz przeczytać w tym roku?</p>
+  </div>
+
+  <input
+    type="number"
+    min={1}
+    max={1000}
+    value={goal}
+    onChange={(e) => setGoal(Number(e.target.value))}
+    className="goal-input"
+  />
+
+  <div className="card-footer">
+    <button
+      className="btn-primary"
+      disabled={isSavingGoal}
+      onClick={handleSaveGoal}
+    >
+      {isSavingGoal ? "Zapisywanie..." : "Zapisz cel"}
+    </button>
+  </div>
+</section>
+
+          <section className="profile-card">
+            <div className="card-header">
+              <h3>Bezpieczeństwo</h3>
+              <p>Weryfikacja dwuetapowa chroni Twoje konto.</p>
+            </div>
+
+            {user.isMfaEnabled ? (
+              <div className="mfa-active-status">
+                <div className="status-badge">
+                  <span className="dot pulse"></span> MFA Aktywne
                 </div>
-              )}
-            </div>
-          </>
-        ) : (
-          <>
-            <p className="mfa-desc">Zwiększ bezpieczeństwo konta wybierając metodę MFA:</p>
-            {!method && (
-              <div className="mfa-actions" style={{ display: 'flex', gap: '10px' }}>
-                <button className="btn-primary" onClick={() => handleEnableMfa("authenticator")}>Authenticator</button>
-                <button className="btn-secondary" onClick={() => handleEnableMfa("email")}>E-mail</button>
+                {!showDisableMfa ? (
+                  <button className="btn-danger-outline" onClick={openDisableMfa}>Wyłącz zabezpieczenia</button>
+                ) : (
+                  <div className="inline-action-box">
+                    <input value={disableCode} onChange={e => setDisableCode(e.target.value)} placeholder="Kod z maila" maxLength={6} />
+                    <div className="action-buttons">
+                      <button onClick={disableMfa} className="btn-danger">Wyłącz</button>
+                      <button className="btn-primaryt" onClick={() => setShowDisableMfa(false)}>Anuluj</button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="mfa-setup-options">
+                {!method ? (
+                  <div className="mfa-actions-grid">
+                    <button className="method-card" onClick={() => handleEnableMfa("authenticator")}>
+                      <span className="icon">📱</span>
+                      <strong>Authenticator</strong>
+                      <small>Aplikacja mobilna</small>
+                    </button>
+                    <button className="method-card" onClick={() => handleEnableMfa("email")}>
+                      <span className="icon">📧</span>
+                      <strong>E-mail</strong>
+                      <small>Kod na pocztę</small>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="setup-workflow">
+                    {method === "authenticator" && mfaData && (
+                      <div className="qr-container">
+                        <img src={mfaData.qrCodeSetupImageUrl} alt="QR" className="qr-image" />
+                        <p className="manual-key">Klucz: <code>{mfaData.manualEntryKey}</code></p>
+                      </div>
+                    )}
+                    <form onSubmit={handleVerifyMfa} className="verify-inline">
+                      <input type="text" maxLength={6} placeholder="Kod" value={code} onChange={e => setCode(e.target.value)} required />
+                      <button type="submit" className="btn-primary">Zweryfikuj</button>
+                    </form>
+                    <button className="btn-primary" onClick={() => { setMethod(null); setMfaData(null); }}>Anuluj</button>
+                  </div>
+                )}
               </div>
             )}
-          </>
-        )}
+          </section>
+        </div>
 
-        {statusMessage && <div className={`status-msg ${statusMessage.type}`}>{statusMessage.text}</div>}
-
-        {method && !user.isMfaEnabled && (
-          <div className="mfa-setup-box" style={{ marginTop: 20 }}>
-            {method === "authenticator" && mfaData && (
-              <>
-                <h3>Konfiguracja Authenticatora</h3>
-                <img src={mfaData.qrCodeSetupImageUrl} alt="QR" className="qr-image" />
-                <div className="manual-key-box"><p>Klucz: <code>{mfaData.manualEntryKey}</code></p></div>
-              </>
-            )}
-            {method === "email" && <h3>Weryfikacja E-mail</h3>}
-            
-            <form onSubmit={handleVerifyMfa} className="mfa-verify-form">
-              <input type="text" maxLength={6} placeholder="123456" value={code} onChange={e => setCode(e.target.value)} required />
-              <button type="submit" className="btn-primary">Potwierdź</button>
-            </form>
-            <button className="btn-text" onClick={() => { setMethod(null); setMfaData(null); }}>Anuluj</button>
+        {statusMessage && (
+          <div className={`toast-message ${statusMessage.type}`}>
+            {statusMessage.text}
           </div>
         )}
       </div>

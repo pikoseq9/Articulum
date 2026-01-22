@@ -37,7 +37,7 @@ const MfaSetup: React.FC<MfaSetupProps> = ({ onClose }) => {
             await api.post("/api/account/confirm-mfa-enable", JSON.stringify(code), {
                 headers: { 'Content-Type': 'application/json' }
             });
-            setMessage("MFA zostało włączone pomyślnie! ✅");
+            setMessage("MFA zostało włączone pomyślnie! ");
             setQrCodeUrl(null);
             if(onClose) setTimeout(onClose, 2000);
         } catch (e) {
@@ -51,8 +51,8 @@ const MfaSetup: React.FC<MfaSetupProps> = ({ onClose }) => {
             
             {!method && (
               <div className="mfa-choices">
-                <button onClick={() => startSetup("authenticator")}>📲 Aplikacja Authenticator</button>
-                <button onClick={() => startSetup("email")}>📧 Email</button>
+                <button onClick={() => startSetup("authenticator")}> Aplikacja Authenticator</button>
+                <button onClick={() => startSetup("email")}> Email</button>
               </div>
             )}
 
