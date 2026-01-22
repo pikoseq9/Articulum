@@ -47,6 +47,7 @@ const COL_IDX = {
     ISBN: 5,
     ISBN13: 6,
     DATE_ADDED: 15,
+    DATE_READ: 14,
     SHELF: 18
 };
 
@@ -96,7 +97,10 @@ export class GoodreadsImportService {
             let rawIsbn13 = row["ISBN13"] || row["isbn13"];
             let rawIsbn10 = row["ISBN"] || row["isbn"];
             let rawShelf = row["Exclusive Shelf"] || row["exclusive shelf"];
-            let rawDate = row["Date Added"] || row["date added"];
+            let rawDate = row["Date Read"] || row["date read"];
+            if (rawDate === null) {
+                rawDate = row["Date added"] || row["date added"]
+            }
             let rawTitle = row["Title"] || row["title"];
 
             // --- FALLBACK RECOVERY MECHANISM ---
@@ -112,7 +116,11 @@ export class GoodreadsImportService {
                         rawIsbn10 = fields[COL_IDX.ISBN];
                         rawIsbn13 = fields[COL_IDX.ISBN13];
                         rawShelf = fields[COL_IDX.SHELF];
-                        rawDate = fields[COL_IDX.DATE_ADDED];
+                        if (COL_IDX.DATE_READ !== null) {
+                            rawDate = fields[COL_IDX.DATE_READ];
+                        } else {
+                            rawDate = fields[COL_IDX.DATE_ADDED];
+                        }
                         rawTitle = fields[COL_IDX.TITLE];
                     }
                 } catch (e) {
