@@ -1,5 +1,7 @@
 import React from 'react';
 import { CommunityRating } from '../../utils/types';
+import { usePagination } from '../../hooks/usePagination';
+import { Pagination } from '../Pagination';
 import './RatingWall.css';
 
 /**
@@ -21,6 +23,8 @@ interface Props {
  * @param props - Component properties.
  */
 export const RatingWall: React.FC<Props> = ({ ratings }) => {
+
+    const { currentItems, currentPage, totalPages, goToPage } = usePagination(ratings, 5);
     
     if (ratings.length === 0) {
         return (
@@ -35,7 +39,7 @@ export const RatingWall: React.FC<Props> = ({ ratings }) => {
             <h3 className="wall-title">Ostatnie aktywności</h3>
             
             <div className="dash-column">
-                {ratings.map(rating => (
+                {currentItems.map(rating => (
                     <div key={rating.id} className="card rating-card">
                         <div className="rating-header">
                             <div className="user-avatar-medium">{rating.userAvatarInitials}</div>
@@ -53,7 +57,6 @@ export const RatingWall: React.FC<Props> = ({ ratings }) => {
                             </div>
                         </div>
 
-                        {/* Display comment only if it exists and is not empty */}
                         {rating.comment && rating.comment.trim() !== "" && (
                             <div className="rating-body">
                                 <p>„{rating.comment}”</p>
@@ -65,6 +68,11 @@ export const RatingWall: React.FC<Props> = ({ ratings }) => {
                         </div>
                     </div>
                 ))}
+                <Pagination 
+                    currentPage={currentPage} 
+                    totalPages={totalPages} 
+                    onPageChange={goToPage} 
+                />
             </div>
         </div>
     );
