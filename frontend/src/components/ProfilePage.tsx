@@ -225,35 +225,35 @@ console.log(formData);
               </button>
             </div>
           </section>
-          <section className="profile-card">
-  <div className="card-header">
-    <h3>Cel roczny</h3>
-    <p>Ile książek chcesz przeczytać w tym roku?</p>
-  </div>
 
-  <input
-    type="number"
-    min={1}
-    max={1000}
-    value={goal}
-    onChange={(e) => setGoal(Number(e.target.value))}
-    className="goal-input"
-  />
+  {/* Sekcja: CEL I HISTORIA */}
+  <section className="profile-card">
+    <div className="card-header">
+      <h3>Postępy i Historia</h3>
+      <p>Twój cel roczny oraz archiwum lektur.</p>
+    </div>
 
-  <div className="card-footer">
-    <button
-      className="btn-primary"
-      disabled={isSavingGoal}
-      onClick={handleSaveGoal}
-    >
-      {isSavingGoal ? "Zapisywanie..." : "Zapisz cel"}
-    </button>
+    <div className="goal-section-content">
+      <input
+        type="number"
+        min={1}
+        max={1000}
+        value={goal}
+        onChange={(e) => setGoal(Number(e.target.value))}
+        className="goal-input"
+      />
+      <button className="btn-primary" disabled={isSavingGoal} onClick={handleSaveGoal}>
+        {isSavingGoal ? "Zapisywanie..." : "Zaktualizuj cel"}
+      </button>
+    </div>
+
+    <hr style={{ margin: '1.5rem 0', opacity: 0.1 }} />
 
     <button className="btn-primary" onClick={() => navigate('/profile/history')}>
-    Zobacz pełną historię przeczytanych
-</button>
-  </div>
-</section>
+      
+      <span>Pełna historia przeczytanych</span>
+    </button>
+  </section>
 
           <section className="profile-card">
             <div className="card-header">

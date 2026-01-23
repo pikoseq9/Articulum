@@ -191,6 +191,7 @@ textarea {
   font-weight: 600;
   cursor: pointer;
   margin-top: 5px;
+  margin-left: 5px;
 }
 
 .btn-danger-outline {
