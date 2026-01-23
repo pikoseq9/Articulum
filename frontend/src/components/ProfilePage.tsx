@@ -248,6 +248,10 @@ console.log(formData);
     >
       {isSavingGoal ? "Zapisywanie..." : "Zapisz cel"}
     </button>
+
+    <button className="btn-primary" onClick={() => navigate('/profile/history')}>
+    Zobacz pełną historię przeczytanych
+</button>
   </div>
 </section>
 

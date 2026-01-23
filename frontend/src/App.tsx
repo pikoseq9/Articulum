@@ -7,7 +7,7 @@ import BookForm from './components/BookForm';
 import ProfilePage from './components/ProfilePage';
 import NotFound from './components/NotFound';
 import LoginModal from './components/loginModal';
-
+import AllRead from './components/dashboard/AllRead';
 import { useAuth } from './authContext';
 import { CommunitySidebar } from './components/community/CommunitySidebar';
 import CommunityView from './components/community/CommunityView';
@@ -67,6 +67,7 @@ function App() {
             <Route path="/edit/:id" element={<BookForm />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/community" element={<CommunityView />} />
+            <Route path="/profile/history" element={<AllRead />} />
             <Route path='/*' element={<NotFound />} />
           </Routes>
         </div>

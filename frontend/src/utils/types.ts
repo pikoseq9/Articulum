@@ -32,6 +32,7 @@ export interface UserBook {
   addedAt: string;
   appUserId?: string;
   currentPage?: number;
+  completedDate?: string;
 }
 
 export interface BookCreateUpdate {
