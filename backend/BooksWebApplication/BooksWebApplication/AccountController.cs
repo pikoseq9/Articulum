@@ -468,6 +468,54 @@ namespace BooksWebApplication
                 return StatusCode(500, $"Błąd serwera: {ex.Message}");
             }
         }
+        [Authorize]
+        [HttpPut("update-displayname")]
+        public async Task<ActionResult<UserDto>> UpdateDisplayName([FromBody] string newDisplayName)
+        {
+            var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+            if (user == null) return Unauthorized();
+
+            if (string.IsNullOrWhiteSpace(newDisplayName) || newDisplayName.Length < 3)
+                return BadRequest("Nazwa wyświetlana musi mieć co najmniej 3 znaki.");
+
+            user.DisplayName = newDisplayName;
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded) return BadRequest("Nie udało się zaktualizować nazwy.");
+
+            return CreateUserObject(user);
+        }
+        [Authorize]
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordDto changePasswordDto)
+        {
+            // 1. Pobierz użytkownika z bazy na podstawie tokena
+            var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+            if (user == null) return Unauthorized();
+
+            // 2. Wykorzystaj wbudowaną metodę Identity do zmiany hasła
+            // Metoda ta sama sprawdzi, czy CurrentPassword jest poprawne
+            var result = await _userManager.ChangePasswordAsync(
+                user,
+                changePasswordDto.CurrentPassword,
+                changePasswordDto.NewPassword
+            );
+
+            if (!result.Succeeded)
+            {
+                // Jeśli błąd (np. złe stare hasło lub nowe hasło za słabe), zwróć listę błędów
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(error.Code, error.Description);
+                }
+                return BadRequest(ModelState);
+            }
+
+            // 3. Opcjonalnie: Jeśli używasz mechanizmu SecurityStamp, zmiana hasła wyloguje inne sesje
+            await _userManager.UpdateSecurityStampAsync(user);
+
+            return Ok(new { Message = "Hasło zostało pomyślnie zmienione." });
+        }
 
 
     }

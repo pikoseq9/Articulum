@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import api from "../axios";
 import { useAuth } from "../authContext";
 import './ProfilePage.css';
+import DisplayNameForm from "./DisplayNameForm";
+import ChangePasswordForm from "./ChangePasswordForm"; // Zaimportuj nowy komponent
 
 interface MfaSetupResponse {
   qrCodeSetupImageUrl?: string;
@@ -15,6 +17,8 @@ const ProfilePage: React.FC = () => {
   const { user, login } = useAuth();
   const navigate = useNavigate();
 
+  // --- HOOKI STANU (MUSZĄ BYĆ TUTAJ) ---
+  const [activeSetting, setActiveSetting] = useState<'menu' | 'name' | 'password'>('menu');
   const [method, setMethod] = useState<MfaMethod | null>(null);
   const [mfaData, setMfaData] = useState<MfaSetupResponse | null>(null);
   const [code, setCode] = useState("");
@@ -25,92 +29,67 @@ const ProfilePage: React.FC = () => {
   const [isSavingDesc, setIsSavingDesc] = useState(false);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [goal, setGoal] = useState<number>(user?.myGoal ?? 0);
-const [isSavingGoal, setIsSavingGoal] = useState(false);
+  const [isSavingGoal, setIsSavingGoal] = useState(false);
 
-  // 1. Synchronizacja opisu z bio użytkownika
-  useEffect(() => {
-    setDescription(user?.bio || "");
-  }, [user?.bio]);
-  useEffect(() => {
-  setGoal(user?.myGoal ?? 0);
-}, [user?.myGoal]);
+  // --- LOGIKA (useEffecty i handlery) ---
+  useEffect(() => { setDescription(user?.bio || ""); }, [user?.bio]);
+  useEffect(() => { setGoal(user?.myGoal ?? 0); }, [user?.myGoal]);
 
-  // 2. KLUCZOWA POPRAWKA: Jeśli user.isMfaEnabled zmieni się na true (np. po login(refreshedUser)),
-  // czyścimy stany konfiguracji, żeby formularz wyboru zniknął.
   useEffect(() => {
     if (user?.isMfaEnabled) {
       setMethod(null);
       setMfaData(null);
       setCode("");
-      setShowDisableMfa(false); // Resetujemy też widok wyłączania
+      setShowDisableMfa(false);
     }
   }, [user?.isMfaEnabled]);
 
-
   useEffect(() => {
-  if (statusMessage) {
-    const timer = setTimeout(() => {
-      setStatusMessage(null);
-    }, 3000); // 3000ms = 3 sekundy
+    if (statusMessage) {
+      const timer = setTimeout(() => setStatusMessage(null), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [statusMessage]);
 
-    return () => clearTimeout(timer); // Czyścimy timer, jeśli wiadomość zmieni się szybciej
-  }
-}, [statusMessage]);
-
+  // ... (Twoje istniejące funkcje: handleSaveGoal, handleUploadAvatar, handleEnableMfa, itd.)
   const handleSaveGoal = async () => {
-  try {
-    setIsSavingGoal(true);
-    
-    // Zapisujemy odpowiedź z POST do zmiennej res
-    const res = await api.post("/api/account/update-goal", { newGoal: goal });
-    login(res.data);
+    try {
+      setIsSavingGoal(true);
+      const res = await api.post("/api/account/update-goal", { newGoal: goal });
+      login(res.data);
+      setStatusMessage({ type: "success", text: "Cel roczny zapisany 🎯" });
+    } catch {
+      setStatusMessage({ type: "error", text: "Nie udało się zapisać celu" });
+    } finally {
+      setIsSavingGoal(false);
+    }
+  };
 
-    setStatusMessage({ type: "success", text: "Cel roczny zapisany 🎯" });
-  } catch {
-    setStatusMessage({ type: "error", text: "Nie udało się zapisać celu" });
-  } finally {
-    setIsSavingGoal(false);
-  }
-};
- const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  if (e.target.files && e.target.files[0]) {
-    console.log("Wybrany plik:", e.target.files[0]);
-    setAvatarFile(e.target.files[0]);
-  } else {
-    console.log("Brak wybranego pliku");
-  }
-};
-const handleUploadAvatar = async () => {
-  if (!avatarFile) return;
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) setAvatarFile(e.target.files[0]);
+  };
 
-  const formData = new FormData();
-  formData.append("file", avatarFile);
-  console.log("Plik:", avatarFile.name, avatarFile.type, avatarFile.size);
-console.log(formData);
-  try {
-    const res = await api.post("/api/account/upload-avatar", formData);
-    
-    // aktualizujemy globalny user (np. login z AuthContext)
-    login(res.data); 
-    
-    setStatusMessage({ type: "success", text: "Zdjęcie profilowe zaktualizowane!" });
-    setAvatarFile(null); // reset input
-    console.log(res.data)
-  } catch {
-    setStatusMessage({ type: "error", text: "Nie udało się zaktualizować zdjęcia." });
-  }
-};
+  const handleUploadAvatar = async () => {
+    if (!avatarFile) return;
+    const formData = new FormData();
+    formData.append("file", avatarFile);
+    try {
+      const res = await api.post("/api/account/upload-avatar", formData);
+      login(res.data); 
+      setStatusMessage({ type: "success", text: "Zdjęcie profilowe zaktualizowane!" });
+      setAvatarFile(null);
+    } catch {
+      setStatusMessage({ type: "error", text: "Nie udało się zaktualizować zdjęcia." });
+    }
+  };
 
   const handleEnableMfa = async (selectedMethod: MfaMethod) => {
     try {
       setStatusMessage(null);
       setMethod(selectedMethod);
       const res = await api.post<MfaSetupResponse>(`/api/account/enable-mfa?method=${selectedMethod}`);
-      if (selectedMethod === "authenticator") {
-        setMfaData(res.data);
-      } else {
-        setStatusMessage({ type: 'info', text: "Kod weryfikacyjny został wysłany na Twój e-mail." });
-      }
+      if (selectedMethod === "authenticator") setMfaData(res.data);
+      else setStatusMessage({ type: 'info', text: "Kod weryfikacyjny został wysłany na Twój e-mail." });
     } catch {
       setMethod(null);
       setStatusMessage({ type: 'error', text: "Nie udało się rozpocząć konfiguracji MFA." });
@@ -121,11 +100,8 @@ console.log(formData);
     setShowDisableMfa(true);
     setDisableCode("");
     setStatusMessage(null);
-    try {
-      await api.post("/api/account/send-disable-code");
-    } catch {
-      setStatusMessage({ type: "error", text: "Nie udało się wysłać kodu" });
-    }
+    try { await api.post("/api/account/send-disable-code"); }
+    catch { setStatusMessage({ type: "error", text: "Nie udało się wysłać kodu" }); }
   };
 
   const disableMfa = async () => {
@@ -134,9 +110,7 @@ console.log(formData);
       const res = await api.get("/api/account");
       login(res.data);
       setStatusMessage({ type: "success", text: "MFA zostało wyłączone" });
-    } catch {
-      setStatusMessage({ type: "error", text: "Nieprawidłowy kod" });
-    }
+    } catch { setStatusMessage({ type: "error", text: "Nieprawidłowy kod" }); }
   };
 
   const handleVerifyMfa = async (e: React.FormEvent) => {
@@ -145,29 +119,19 @@ console.log(formData);
       const res = await api.post("/api/account/confirm-mfa-enable", JSON.stringify(code), {
         headers: { "Content-Type": "application/json" }
       });
-      // Aktualizujemy globalny stan (user.isMfaEnabled stanie się true)
       login(res.data);
       setStatusMessage({ type: "success", text: "MFA aktywowane pomyślnie!" });
-    } catch {
-      setStatusMessage({ type: 'error', text: "Nieprawidłowy kod. Spróbuj ponownie." });
-    }
+    } catch { setStatusMessage({ type: 'error', text: "Nieprawidłowy kod. Spróbuj ponownie." }); }
   };
 
- const handleSaveBio = async () => {
+  const handleSaveBio = async () => {
     try {
       setIsSavingDesc(true);
-      
-      // POPRAWKA: Pobierz odpowiedź bezpośrednio z PUT (backend zwraca UserDto)
       const res = await api.put("/api/account/update-bio", { bio: description });
-
       login(res.data); 
-      
       setStatusMessage({ type: "success", text: "Opis zapisany" });
-    } catch {
-      setStatusMessage({ type: "error", text: "Nie udało się zapisać opisu" });
-    } finally {
-      setIsSavingDesc(false);
-    }
+    } catch { setStatusMessage({ type: "error", text: "Nie udało się zapisać opisu" }); }
+    finally { setIsSavingDesc(false); }
   };
 
   if (!user) return <div className="content"><p>Musisz być zalogowany.</p></div>;
@@ -183,21 +147,14 @@ console.log(formData);
 
         <section className="profile-card profile-main-info">
           <div className="avatar-placeholder">
-  {user.avatarUrl ? (
-    <img  src={user.avatarUrl?.startsWith('http') 
-    ? user.avatarUrl 
-    : `http://localhost:5269${user.avatarUrl}`} alt="Avatar" className="avatar-image" />
-  ) : (
-    <span>{user.userName[0].toUpperCase()}</span>
-  )}
-</div>
-
-<input type="file" accept="image/*" onChange={handleAvatarChange} />
-{avatarFile && (
-  <button className="btn-primary" onClick={handleUploadAvatar}>
-    Zaktualizuj zdjęcie
-  </button>
-)}
+            {user.avatarUrl ? (
+              <img src={user.avatarUrl?.startsWith('http') ? user.avatarUrl : `http://localhost:5269${user.avatarUrl}`} alt="Avatar" className="avatar-image" />
+            ) : (
+              <span>{user.userName[0].toUpperCase()}</span>
+            )}
+          </div>
+          <input type="file" accept="image/*" onChange={handleAvatarChange} />
+          {avatarFile && <button className="btn-primary" onClick={handleUploadAvatar}>Zaktualizuj zdjęcie</button>}
           <div className="info-text">
             <h1>{user.displayName}</h1>
             <p className="username">@{user.userName}</p>
@@ -206,71 +163,104 @@ console.log(formData);
         </section>
 
         <div className="profile-grid">
+          {/* SEKCCJA: O MNIE */}
           <section className="profile-card">
             <div className="card-header">
               <h3>O mnie</h3>
               <p>Twój publiczny opis widoczny dla innych.</p>
             </div>
-            
-            <textarea
-              value={description}
-              onChange={e => setDescription(e.target.value)}
-              placeholder="Napisz coś o sobie..."
-              maxLength={200}
-            />
+            <textarea value={description} onChange={e => setDescription(e.target.value)} placeholder="Napisz coś o sobie..." maxLength={200} />
             <div className="card-footer">
               <span className="char-count">{description.length}/200</span>
-              <button className="btn-primary" disabled={isSavingDesc} onClick={handleSaveBio}>
-                {isSavingDesc ? "Zapisywanie..." : "Zapisz zmiany"}
-              </button>
+              <button className="btn-primary" disabled={isSavingDesc} onClick={handleSaveBio}>{isSavingDesc ? "Zapisywanie..." : "Zapisz zmiany"}</button>
             </div>
           </section>
 
-  {/* Sekcja: CEL I HISTORIA */}
-  <section className="profile-card">
-    <div className="card-header">
-      <h3>Postępy i Historia</h3>
-      <p>Twój cel roczny oraz archiwum lektur.</p>
-    </div>
+          {/* SEKCJA: CEL I HISTORIA */}
+          <section className="profile-card">
+            <div className="card-header">
+              <h3>Postępy i Historia</h3>
+              <p>Twój cel roczny oraz archiwum lektur.</p>
+            </div>
+            <div className="goal-section-content">
+              <input type="number" min={1} max={1000} value={goal} onChange={(e) => setGoal(Number(e.target.value))} className="goal-input" />
+              <button className="btn-primary" disabled={isSavingGoal} onClick={handleSaveGoal}>{isSavingGoal ? "Zapisywanie..." : "Zaktualizuj cel"}</button>
+            </div>
+            <hr style={{ margin: '1.5rem 0', opacity: 0.1 }} />
+            <button className="btn-primary" onClick={() => navigate('/profile/history')}><span>Pełna historia przeczytanych</span></button>
+          </section>
 
-    <div className="goal-section-content">
-      <input
-        type="number"
-        min={1}
-        max={1000}
-        value={goal}
-        onChange={(e) => setGoal(Number(e.target.value))}
-        className="goal-input"
-      />
-      <button className="btn-primary" disabled={isSavingGoal} onClick={handleSaveGoal}>
-        {isSavingGoal ? "Zapisywanie..." : "Zaktualizuj cel"}
-      </button>
-    </div>
+          {/* SEKCJA: USTAWIENIA KONTA (TWOJA NOWA SEKCJA) */}
+          <section className="profile-card">
+            <div className="card-header">
+              <h3>Ustawienia konta</h3>
+              <p>Zarządzaj swoimi danymi i bezpieczeństwem.</p>
+            </div>
 
-    <hr style={{ margin: '1.5rem 0', opacity: 0.1 }} />
+            {activeSetting === 'menu' && (
+              <div className="settings-menu-list">
+                <button className="settings-item-btn" onClick={() => setActiveSetting('name')}>
+                  <div className="settings-item-info">
+                    <span className="icon">👤</span>
+                    <div>
+                      <strong>Zmień nazwę wyświetlaną</strong>
+                      <p>Obecnie: {user.displayName}</p>
+                    </div>
+                  </div>
+                  <span className="arrow">→</span>
+                </button>
 
-    <button className="btn-primary" onClick={() => navigate('/profile/history')}>
-      
-      <span>Pełna historia przeczytanych</span>
-    </button>
-  </section>
+                <button className="settings-item-btn" onClick={() => setActiveSetting('password')}>
+                  <div className="settings-item-info">
+                    <span className="icon">🔒</span>
+                    <div>
+                      <strong>Zmień hasło</strong>
+                      <p>Zadbaj o bezpieczeństwo konta</p>
+                    </div>
+                  </div>
+                  <span className="arrow">→</span>
+                </button>
+              </div>
+            )}
 
+            {activeSetting === 'name' && (
+              <div className="settings-form-wrapper">
+                <button className="back-link" onClick={() => setActiveSetting('menu')}>← Wróć do menu</button>
+                <h4>Zmiana nazwy</h4>
+                <DisplayNameForm 
+                  initialName={user.displayName} 
+                  onSuccess={(msg) => { setStatusMessage({ type: 'success', text: msg }); setActiveSetting('menu'); }}
+                  onError={(msg) => setStatusMessage({ type: 'error', text: msg })}
+                />
+              </div>
+            )}
+
+            {activeSetting === 'password' && (
+              <div className="settings-form-wrapper">
+                <button className="back-link" onClick={() => setActiveSetting('menu')}>← Wróć do menu</button>
+                <h4>Zmiana hasła</h4>
+                <ChangePasswordForm 
+                  onSuccess={(msg) => { setStatusMessage({ type: 'success', text: msg }); setActiveSetting('menu'); }}
+                  onError={(msg) => setStatusMessage({ type: 'error', text: msg })}
+                />
+              </div>
+            )}
+          </section>
+
+          {/* SEKCJA: BEZPIECZEŃSTWO (MFA) */}
           <section className="profile-card">
             <div className="card-header">
               <h3>Bezpieczeństwo</h3>
               <p>Weryfikacja dwuetapowa chroni Twoje konto.</p>
             </div>
-
             {user.isMfaEnabled ? (
               <div className="mfa-active-status">
-                <div className="status-badge">
-                  <span className="dot pulse"></span> MFA Aktywne
-                </div>
+                <div className="status-badge"><span className="dot pulse"></span> MFA Aktywne</div>
                 {!showDisableMfa ? (
                   <button className="btn-danger-outline" onClick={openDisableMfa}>Wyłącz zabezpieczenia</button>
                 ) : (
                   <div className="inline-action-box">
-                    <input value={disableCode} onChange={e => setDisableCode(e.target.value)} placeholder="Kod z maila" maxLength={6} />
+                    <input value={disableCode} onChange={e => setDisableCode(e.target.value)} placeholder="Kod" maxLength={6} />
                     <div className="action-buttons">
                       <button onClick={disableMfa} className="btn-danger">Wyłącz</button>
                       <button className="btn-primaryt" onClick={() => setShowDisableMfa(false)}>Anuluj</button>
@@ -282,16 +272,8 @@ console.log(formData);
               <div className="mfa-setup-options">
                 {!method ? (
                   <div className="mfa-actions-grid">
-                    <button className="method-card" onClick={() => handleEnableMfa("authenticator")}>
-                      <span className="icon">📱</span>
-                      <strong>Authenticator</strong>
-                      <small>Aplikacja mobilna</small>
-                    </button>
-                    <button className="method-card" onClick={() => handleEnableMfa("email")}>
-                      <span className="icon">📧</span>
-                      <strong>E-mail</strong>
-                      <small>Kod na pocztę</small>
-                    </button>
+                    <button className="method-card" onClick={() => handleEnableMfa("authenticator")}><span className="icon">📱</span><strong>Authenticator</strong></button>
+                    <button className="method-card" onClick={() => handleEnableMfa("email")}><span className="icon">📧</span><strong>E-mail</strong></button>
                   </div>
                 ) : (
                   <div className="setup-workflow">
@@ -313,11 +295,7 @@ console.log(formData);
           </section>
         </div>
 
-        {statusMessage && (
-          <div className={`toast-message ${statusMessage.type}`}>
-            {statusMessage.text}
-          </div>
-        )}
+        {statusMessage && <div className={`toast-message ${statusMessage.type}`}>{statusMessage.text}</div>}
       </div>
     </div>
   );

@@ -1,0 +1,33 @@
+.display-name-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.display-name-form .input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.display-name-form input {
+  padding: 0.8rem 1rem;
+  background: var(--card-bg, #1a1a1a);
+  border: 1px solid var(--border-color, #333);
+  border-radius: var(--radius, 8px);
+  color: var(--text-main, #fff);
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+
+.display-name-form input:focus {
+  outline: none;
+  border-color: var(--primary, #d98f7b);
+}
+
+.display-name-form .btn-primary {
+  width: 100%;
+  padding: 0.8rem;
+  justify-content: center;
+}

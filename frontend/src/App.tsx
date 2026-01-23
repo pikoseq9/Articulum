@@ -7,7 +7,7 @@ import BookForm from './components/BookForm';
 import ProfilePage from './components/ProfilePage';
 import NotFound from './components/NotFound';
 import LoginModal from './components/loginModal';
-import AllRead from './components/dashboard/AllRead';
+import AllRead from './components/AllRead';
 import { useAuth } from './authContext';
 import { CommunitySidebar } from './components/community/CommunitySidebar';
 import CommunityView from './components/community/CommunityView';
