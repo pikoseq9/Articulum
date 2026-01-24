@@ -47,19 +47,17 @@
 .community-sidebar.static {
     position: relative;
     height: auto;
-    /* USUŃ min-height: 500px */
-    /* min-height: 500px;  <-- TO POWODOWAŁO PUSTE MIEJSCE */
     
     border: 1px solid var(--border-color);
     border-radius: var(--radius);
     box-shadow: none;
     transform: none;
     z-index: 1;
-    padding: 1rem; /* Mniejszy padding */
+    padding: 1rem;
 }
 
 .community-header {
-    margin-bottom: 1rem; /* Mniejszy margines */
+    margin-bottom: 1rem;
     padding-bottom: 0.8rem;
     border-bottom: 1px solid var(--border-color);
     display: flex;
@@ -69,9 +67,9 @@
 
 .community-header h3 {
     margin: 0;
-    font-size: 1rem; /* Mniejszy font */
+    font-size: 1rem;
     font-weight: 700;
-    color: var(--text-muted); /* Subtelniejszy kolor */
+    color: var(--text-muted);
     letter-spacing: 0.5px;
     text-transform: uppercase;
 }

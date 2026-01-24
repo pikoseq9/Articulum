@@ -651,13 +651,11 @@ body {
     border-color: #4cd137;
 }
 
-/* Kontener dla przycisku i menu (żeby menu było pozycjonowane względem przycisku) */
 .menu-wrapper {
     position: relative;
     display: inline-block;
 }
 
-/* Przycisk trzykropka */
 .btn-dots, .btn-icon-action {
     background: transparent;
     border: none;
@@ -678,7 +676,6 @@ body {
     color: var(--text-main);
 }
 
-/* SAMO MENU ROZWIJANE */
 .action-menu {
     position: absolute;
     top: 100%;
@@ -712,7 +709,6 @@ body {
     color: var(--primary);
 }
 
-/* Mały przycisk "Ukończ" w widoku pojedynczym */
 .btn-primary-small {
     background-color: var(--accent-green);
     color: #1e1c1b;
@@ -752,12 +748,11 @@ body {
     opacity: 1;
 }
 
-/* MODAL HISTORII */
 .read-history-modal {
     width: 500px;
     max-width: 90vw;
     background-color: var(--card-bg);
-    padding: 0 !important; /* Reset paddingu, ustawimy go wewnątrz */
+    padding: 0 !important;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -790,10 +785,9 @@ body {
     color: var(--accent-red);
 }
 
-/* Lista wewnątrz modala */
 .read-list-container {
     padding: 1rem;
-    overflow-y: auto; /* Scrollowanie */
+    overflow-y: auto;
 }
 
 .read-list-item {
@@ -837,7 +831,6 @@ body {
     color: var(--text-muted);
 }
 
-/* Przyciski akcji w liście */
 .read-item-actions {
     display: flex;
     gap: 10px;

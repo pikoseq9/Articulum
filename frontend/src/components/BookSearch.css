@@ -1,21 +1,18 @@
-/* Kontener główny */
 .search-wrapper {
   position: relative;
   width: 100%;
-  max-width: 600px; /* Opcjonalnie: ograniczenie szerokości na dużych ekranach */
+  max-width: 600px;
 }
 
-/* Grupa inputa */
 .input-group {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-/* Stylizacja pola tekstowego */
 .search-input {
   width: 100%;
-  padding: 12px 45px 12px 16px; /* Więcej miejsca z prawej na spinner */
+  padding: 12px 45px 12px 16px;
   background-color: var(--column-bg);
   border: 1px solid var(--border-color);
   border-radius: var(--radius);
@@ -26,21 +23,18 @@
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Placeholder */
 .search-input::placeholder {
   color: var(--text-muted);
   opacity: 0.7;
 }
 
-/* Stan aktywny inputa */
 .search-input:focus {
   outline: none;
   border-color: var(--primary);
-  background-color: var(--bg-color); /* Nieco jaśniejszy/inny odcień przy pisaniu */
-  box-shadow: 0 0 0 3px rgba(217, 143, 123, 0.15); /* --primary z opacity */
+  background-color: var(--bg-color);
+  box-shadow: 0 0 0 3px rgba(217, 143, 123, 0.15);
 }
 
-/* Spinner ładowania */
 .spinner {
   position: absolute;
   right: 14px;
@@ -51,17 +45,16 @@
   border-right-color: var(--primary);
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
-  pointer-events: none; /* Kliknięcia przechodzą przez spinner */
+  pointer-events: none;
 }
 
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 
-/* Lista wyników (Dropdown) */
 .results-list {
   position: absolute;
-  top: calc(100% + 8px); /* Lekki odstęp od inputa */
+  top: calc(100% + 8px);
   left: 0;
   right: 0;
   background: var(--card-bg);
@@ -70,11 +63,10 @@
   padding: 4px 0;
   list-style: none;
   z-index: 1000;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Mocniejszy cień dla efektu "floating" */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   max-height: 320px;
   overflow-y: auto;
   
-  /* Animacja pojawiania się */
   animation: slideIn 0.2s ease-out;
 }
 
@@ -83,7 +75,6 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Stylizacja Scrollbara (Chrome, Edge, Safari) */
 .results-list::-webkit-scrollbar {
   width: 8px;
 }
@@ -95,19 +86,18 @@
 .results-list::-webkit-scrollbar-thumb {
   background-color: var(--border-color);
   border-radius: 4px;
-  border: 2px solid var(--card-bg); /* Margines dla scrollbara */
+  border: 2px solid var(--card-bg);
 }
 
 .results-list::-webkit-scrollbar-thumb:hover {
   background-color: var(--text-muted);
 }
 
-/* Pojedynczy wynik */
 .result-item {
   display: flex;
   gap: 1rem;
   padding: 10px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03); /* Bardzo subtelna linia */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
   cursor: pointer;
   transition: background-color 0.2s ease;
   align-items: center;
@@ -117,12 +107,10 @@
   border-bottom: none;
 }
 
-/* Hover na wynik */
 .result-item:hover {
-  background-color: rgba(217, 143, 123, 0.1); /* --primary z bardzo małym opacity */
+  background-color: rgba(217, 143, 123, 0.1);
 }
 
-/* Okładka w wynikach */
 .result-cover {
   width: 45px;
   height: 68px;
@@ -130,18 +118,16 @@
   border-radius: 4px;
   background: var(--column-bg);
   box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-  flex-shrink: 0; /* Zapobiega zgniataniu obrazka */
+  flex-shrink: 0;
 }
 
-/* Kontener tekstu */
 .result-info {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  overflow: hidden; /* Dla ucinania tekstu */
+  overflow: hidden;
 }
 
-/* Tytuł książki */
 .result-title {
   color: var(--text-main);
   font-weight: 600;
@@ -149,13 +135,11 @@
   line-height: 1.3;
   margin-bottom: 4px;
   
-  /* Opcjonalnie: ucinanie zbyt długich tytułów */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* Autor */
 .result-author {
   color: var(--text-muted);
   font-size: 0.85rem;
@@ -164,7 +148,6 @@
   gap: 6px;
 }
 
-/* Brak wyników */
 .no-results {
   position: absolute;
   top: calc(100% + 8px);

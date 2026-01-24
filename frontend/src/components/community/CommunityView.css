@@ -1,13 +1,10 @@
-/* CommunityView.css */
-
 .community-view-container {
     padding: 1.5rem;
-    max-width: 1600px; /* Szerszy kontener, żeby pomieścić 3 kolumny */
+    max-width: 1600px;
     margin: 0 auto;
     min-height: 100vh;
 }
 
-/* --- NAGŁÓWEK --- */
 .community-header-compact {
     display: flex;
     align-items: center;
@@ -17,7 +14,6 @@
     border-bottom: 1px solid var(--border-color);
 }
 
-/* Stylizacja przycisku powrotu */
 .back-btn-circle {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
@@ -54,16 +50,13 @@
     font-size: 0.9rem;
 }
 
-/* --- UKŁAD 3-KOLUMNOWY --- */
 .community-grid {
     display: grid;
-    /* Lewa (Formularz) | Środek (Wall) | Prawa (Userzy) */
     grid-template-columns: 320px 1fr 300px; 
     gap: 2rem;
     align-items: start;
 }
 
-/* Lewy Sidebar (Formularz) */
 .community-left-col {
     position: sticky;
     top: 1.5rem;
@@ -72,12 +65,10 @@
     gap: 1rem;
 }
 
-/* Środkowa kolumna (Wall) */
 .community-main-col {
-    min-width: 0; /* Zapobiega rozpychaniu grida przez długie teksty */
+    min-width: 0;
 }
 
-/* Prawy Sidebar (Userzy) */
 .community-right-col {
     position: sticky;
     top: 1.5rem;
@@ -87,25 +78,16 @@
     scrollbar-width: thin;
 }
 
-/* --- RESPONSYWNOŚĆ --- */
-
-/* Laptop / Mniejszy Desktop (poniżej 1300px) */
-/* Ukrywamy prawy sidebar (userów) lub przenosimy go na dół, 
-   bo 3 kolumny będą za ciasne */
 @media (max-width: 1300px) {
     .community-grid {
-        /* Lewa (300px) | Prawa (Reszta) */
         grid-template-columns: 300px 1fr; 
     }
 
     .community-right-col {
-        display: none; /* Opcjonalnie: ukryj listę userów na średnich ekranach */
-        /* Lub przenieś na dół: grid-column: 1 / -1; position: static; */
+        display: none;
     }
 }
 
-/* Tablet / Mobile (poniżej 900px) */
-/* Wszystko w jednej kolumnie */
 @media (max-width: 900px) {
     .community-grid {
         grid-template-columns: 1fr;
@@ -118,10 +100,9 @@
     }
 
     .community-right-col {
-        display: block; /* Pokaż z powrotem userów na samym dole */
+        display: block;
     }
     
-    /* Na mobile formularz może być nad feedem */
     .community-left-col {
         order: 1;
     }

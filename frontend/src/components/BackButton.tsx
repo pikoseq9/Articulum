@@ -3,29 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import './BackButton.css';
 
 interface Props {
-    /**
-     * Opcjonalna ścieżka przekierowania. Jeśli brak, używa navigate(-1).
-     */
     to?: string;
-    
-    /**
-     * Opcjonalna funkcja kliknięcia (nadpisuje domyślne zachowanie).
-     */
     onClick?: () => void;
-
-    /**
-     * Styl przycisku:
-     * - 'circle': Okrągły przycisk ze strzałką (idealny do nagłówków)
-     * - 'text': Tekstowy przycisk "← Wróć" (klasyczny)
-     * Domyślnie: 'circle'
-     */
     variant?: 'circle' | 'text';
-
-    /**
-     * Własny tekst (tylko dla wariantu 'text'). Domyślnie "Wróć".
-     */
     label?: string;
-
     className?: string;
 }
 

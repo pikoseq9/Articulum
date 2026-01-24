@@ -62,7 +62,6 @@ export const RatingForm: React.FC<Props> = ({ onRatingAdded, initialBook }) => {
             setSelectedBook(initialBook);
             setBookTitle(initialBook.title);
             setBookAuthor(initialBook.author);
-            // Opcjonalnie: czyścimy historię przeglądarki ze stanu, żeby po odświeżeniu nie wracało
             window.history.replaceState({}, document.title);
         }
     }, [initialBook]);

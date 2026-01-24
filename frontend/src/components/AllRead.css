@@ -18,7 +18,6 @@
     margin: 0.5rem 0;
 }
 
-/* Filtry lat - Nowoczesny styl pigułek */
 .year-filters {
     display: flex;
     gap: 8px;
@@ -48,7 +47,6 @@
     border-color: var(--primary);
 }
 
-/* Lista i Kafelki */
 .books-history-list {
     display: flex;
     flex-direction: column;
@@ -111,7 +109,6 @@
     font-weight: 700;
 }
 
-/* Dropdown Menu */
 .menu-wrapper {
     margin-left: 15px;
 }

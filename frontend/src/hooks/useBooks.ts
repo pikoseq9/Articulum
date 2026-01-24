@@ -79,19 +79,14 @@ export const useBooks = () => {
             if (newStatus === BookStatus.Read && book.status !== BookStatus.Read) {
                 newDate = new Date().toISOString();
             }
-
-            // Logika stron:
-            // Read -> Max stron
-            // ToRead -> 0 stron (Reset)
-            // Reading -> Bez zmian (lub zachowaj obecny)
             let newPage = book.currentPage;
             if (newStatus === BookStatus.Read) newPage = book.pages || 0;
-            if (newStatus === BookStatus.ToRead) newPage = 0; // <--- DODAJ TO, jeśli chcesz resetować
+            if (newStatus === BookStatus.ToRead) newPage = 0;
 
             const updatedBook = { 
                 ...book, 
                 status: newStatus,
-                currentPage: newPage, // Użyj nowej zmiennej
+                currentPage: newPage,
                 addedAt: newDate
             };
 

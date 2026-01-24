@@ -20,7 +20,6 @@ interface BookSearchProps {
   onSelectBook?: (book: Book) => void;
 }
 
-// 1. Zmieniamy definicję komponentu używając forwardRef
 const BookSearch = forwardRef<HTMLInputElement, BookSearchProps>(({ onSelectBook }, ref) => {
   const [query, setQuery] = useState<string>('');
   const [results, setResults] = useState<Book[]>([]);
@@ -29,7 +28,6 @@ const BookSearch = forwardRef<HTMLInputElement, BookSearchProps>(({ onSelectBook
   
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  // ... (useEffect dla query i timeout - BEZ ZMIAN) ...
   useEffect(() => {
     if (query.length < 3) {
       setResults([]);
@@ -105,7 +103,6 @@ const BookSearch = forwardRef<HTMLInputElement, BookSearchProps>(({ onSelectBook
     <div className="search-wrapper" ref={wrapperRef}>
       <div className="input-group">
         <input
-          // 2. Przypisujemy ref z forwardRef do inputa
           ref={ref} 
           type="text"
           className="search-input"
@@ -138,5 +135,4 @@ const BookSearch = forwardRef<HTMLInputElement, BookSearchProps>(({ onSelectBook
   );
 });
 
-// Ważne: export musi być po forwardRef
 export default BookSearch;
