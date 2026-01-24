@@ -62,6 +62,7 @@ export interface CommunityUser {
     displayName: string;
     currentBookTitle?: string;
     currentBookAuthor?: string;
+    avatarUrl?: string;
 }
 
 export interface Rating {
@@ -80,6 +81,7 @@ export interface CommunityRating {
     id: string;
     username: string;
     userAvatarInitials: string;
+    userAvatarUrl?: string;
     bookTitle: string;
     bookAuthor: string;
     bookCover?: string;

@@ -45,6 +45,16 @@ export const CommunitySidebar: React.FC<Props> = ({
     const [loading, setLoading] = useState(true);
 
     /**
+     * Resolves the full URL for the user's avatar.
+     * Handles both absolute URLs and relative paths stored in the backend.
+     */
+    const getAvatarSrc = (url: string) => {
+        if (url.startsWith('http')) return url;
+        // Adjust base URL if necessary (e.g., from environment variables)
+        return `http://localhost:5269${url}`;
+    };
+
+    /**
      * Fetches the list of community users from the API on component mount.
      */
     useEffect(() => {
@@ -61,7 +71,6 @@ export const CommunitySidebar: React.FC<Props> = ({
         fetchCommunity();
     }, []);
 
-    // Determine CSS classes based on the display variant
     const sidebarClass = variant === 'drawer' 
         ? `community-sidebar drawer ${isOpen ? 'open' : ''}`
         : 'community-sidebar static';
@@ -94,7 +103,23 @@ export const CommunitySidebar: React.FC<Props> = ({
                         users.map((u) => (
                             <div key={u.username} className="user-item">
                                 <div className="user-avatar-small">
-                                    {u.displayName.substring(0, 2).toUpperCase()}
+                                    {u.avatarUrl ? (
+                                        <img 
+                                            src={getAvatarSrc(u.avatarUrl)} 
+                                            alt={u.displayName}
+                                            style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                objectFit: 'cover',
+                                                borderRadius: '50%',
+                                                display: 'block'
+                                            }} 
+                                        />
+                                    ) : (
+                                        <span>
+                                            {u.displayName.substring(0, 2).toUpperCase()}
+                                        </span>
+                                    )}
                                 </div>
                                 <div className="user-details">
                                     <span className="user-name">{u.displayName}</span>

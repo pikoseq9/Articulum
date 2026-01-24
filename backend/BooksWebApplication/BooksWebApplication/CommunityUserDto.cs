@@ -6,5 +6,6 @@
         public string DisplayName { get; set; }
         public string? CurrentBookTitle { get; set; }
         public string? CurrentBookAuthor { get; set; }
+        public string? AvatarUrl { get; set; }
     }
 }

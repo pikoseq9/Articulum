@@ -23,7 +23,6 @@ namespace BooksWebApplication.Controllers
             _context = context;
         }
 
-        // --- ISTNIEJĄCY ENDPOINT (SIDEBAR) ---
         [HttpGet("users")]
         public async Task<ActionResult<List<CommunityUserDto>>> GetAllUsers()
         {
@@ -42,17 +41,14 @@ namespace BooksWebApplication.Controllers
                     Username = user.UserName,
                     DisplayName = user.DisplayName,
                     CurrentBookTitle = currentBook?.Title,
-                    CurrentBookAuthor = currentBook?.Author
+                    CurrentBookAuthor = currentBook?.Author,
+                    AvatarUrl = user.AvatarUrl
                 });
             }
 
             return Ok(result);
         }
 
-        // --- NOWE ENDPOINTY (RATING WALL) ---
-
-        // GET: api/community/ratings
-        // Pobiera wszystkie oceny do wyświetlenia na ścianie
         [HttpGet("ratings")]
         public async Task<ActionResult<List<RatingDto>>> GetRatings()
         {
@@ -68,6 +64,7 @@ namespace BooksWebApplication.Controllers
                 Id = r.Id,
                 Username = r.AppUser.DisplayName ?? r.AppUser.UserName,
                 UserAvatarInitials = (r.AppUser.DisplayName ?? "X").Substring(0, 2).ToUpper(),
+                UserAvatarUrl = r.AppUser.AvatarUrl,
                 BookTitle = r.BookTitle,
                 BookAuthor = r.BookAuthor,
                 BookCover = r.BookCover,
@@ -111,6 +108,7 @@ namespace BooksWebApplication.Controllers
                     Id = rating.Id,
                     Username = user.DisplayName,
                     UserAvatarInitials = user.DisplayName.Substring(0, 2).ToUpper(),
+                    UserAvatarUrl = user.AvatarUrl,
                     BookTitle = rating.BookTitle,
                     BookAuthor = rating.BookAuthor,
                     BookCover = rating.BookCover,

@@ -16,6 +16,7 @@
         public Guid Id { get; set; }
         public string Username { get; set; }
         public string UserAvatarInitials { get; set; } // np. "JK"
+        public string? UserAvatarUrl { get; set; }
 
         public string BookTitle { get; set; }
         public string BookAuthor { get; set; }
