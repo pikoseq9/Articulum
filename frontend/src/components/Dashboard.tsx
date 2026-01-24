@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../authContext';
 import { useBooks } from '../hooks/useBooks';
@@ -62,6 +62,7 @@ export default function Dashboard() {
         loading, stats, readingList, readList, getToReadList, moveBook, addBook 
     } = useBooks();
 
+    const searchInputRef = useRef<HTMLInputElement>(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedFromSearch, setSelectedFromSearch] = useState<Book | null>(null);
     const [isAdding, setIsAdding] = useState(false);
@@ -80,6 +81,13 @@ export default function Dashboard() {
         await addBook(selectedFromSearch, status);
         setIsAdding(false);
         setSelectedFromSearch(null);
+    };
+
+    const handleFocusSearch = () => {
+        if (searchInputRef.current) {
+            searchInputRef.current.focus();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
     };
 
     if (loading) return <div className="dashboard-container"><h2>Ładowanie...</h2></div>;
@@ -109,10 +117,10 @@ export default function Dashboard() {
                     <p>Twoja biblioteka.</p>
                 </div>
                 <div className="header-search">
-                    <BookSearch onSelectBook={setSelectedFromSearch} />
-                </div>
-                <div className="header-actions">
-                    <button className="btn-add-book" onClick={() => navigate('/add')}>+ Ręcznie</button>
+                    <BookSearch 
+                        ref={searchInputRef} 
+                        onSelectBook={setSelectedFromSearch} 
+                    />
                 </div>
             </header>
 
@@ -142,7 +150,7 @@ export default function Dashboard() {
                     searchTerm={searchTerm} 
                     setSearchTerm={setSearchTerm} 
                     onMoveBook={moveBook} 
-                    onAddClick={() => navigate('/add')}
+                    onAddClick={handleFocusSearch}
                     openMenuId={openMenuId}
                     setOpenMenuId={setOpenMenuId}
                 />

@@ -25,10 +25,6 @@ export const UserCard: React.FC<Props> = ({ streak, level, onDataUpdate }) => {
                         <span className="badge">Poziom: {level}</span>
                     </div>
                 </div>
-                
-                <div className="streak-info">
-                    Aktywność: <strong>{streak} dni z rzędu 🔥</strong>
-                </div>
 
                 <div className="user-card-actions">
                     <Link to="/profile" className="link-text">Twój profil &rarr;</Link>

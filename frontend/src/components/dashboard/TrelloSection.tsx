@@ -17,7 +17,7 @@ interface Props {
 export const TrelloSection: React.FC<Props> = ({ books, searchTerm, setSearchTerm, onMoveBook, onAddClick, openMenuId, setOpenMenuId }) => {
     const navigate = useNavigate();
 
-    const { currentItems, currentPage, totalPages, goToPage } = usePagination(books, 4);
+    const { currentItems, currentPage, totalPages, goToPage } = usePagination(books, 3);
 
     const renderMenu = (book: UserBook) => {
         if (openMenuId !== book.id) return null;

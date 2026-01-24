@@ -1,106 +1,183 @@
+/* Kontener główny */
 .search-wrapper {
   position: relative;
   width: 100%;
+  max-width: 600px; /* Opcjonalnie: ograniczenie szerokości na dużych ekranach */
 }
 
+/* Grupa inputa */
 .input-group {
   position: relative;
   display: flex;
   align-items: center;
 }
 
+/* Stylizacja pola tekstowego */
 .search-input {
   width: 100%;
-  padding-right: 40px;
+  padding: 12px 45px 12px 16px; /* Więcej miejsca z prawej na spinner */
+  background-color: var(--column-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  color: var(--text-main);
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: all 0.2s ease-in-out;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+/* Placeholder */
+.search-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+/* Stan aktywny inputa */
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background-color: var(--bg-color); /* Nieco jaśniejszy/inny odcień przy pisaniu */
+  box-shadow: 0 0 0 3px rgba(217, 143, 123, 0.15); /* --primary z opacity */
+}
+
+/* Spinner ładowania */
 .spinner {
   position: absolute;
-  right: 12px;
-  width: 16px;
-  height: 16px;
-  border: 2px solid var(--border-color);
+  right: 14px;
+  width: 18px;
+  height: 18px;
+  border: 2px solid transparent;
   border-top-color: var(--primary);
+  border-right-color: var(--primary);
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
+  pointer-events: none; /* Kliknięcia przechodzą przez spinner */
 }
 
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 
+/* Lista wyników (Dropdown) */
 .results-list {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 8px); /* Lekki odstęp od inputa */
   left: 0;
   right: 0;
   background: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: var(--radius);
-  margin: 0.5rem 0 0 0;
-  padding: 0;
+  padding: 4px 0;
   list-style: none;
   z-index: 1000;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-  max-height: 300px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Mocniejszy cień dla efektu "floating" */
+  max-height: 320px;
   overflow-y: auto;
+  
+  /* Animacja pojawiania się */
+  animation: slideIn 0.2s ease-out;
 }
 
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Stylizacja Scrollbara (Chrome, Edge, Safari) */
+.results-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.results-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.results-list::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 4px;
+  border: 2px solid var(--card-bg); /* Margines dla scrollbara */
+}
+
+.results-list::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-muted);
+}
+
+/* Pojedynczy wynik */
 .result-item {
   display: flex;
   gap: 1rem;
-  padding: 0.8rem;
-  border-bottom: 1px solid var(--border-color);
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03); /* Bardzo subtelna linia */
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background-color 0.2s ease;
+  align-items: center;
 }
 
 .result-item:last-child {
   border-bottom: none;
 }
 
+/* Hover na wynik */
 .result-item:hover {
-  background-color: var(--column-bg);
+  background-color: rgba(217, 143, 123, 0.1); /* --primary z bardzo małym opacity */
 }
 
+/* Okładka w wynikach */
 .result-cover {
-  width: 40px;
-  height: 60px;
+  width: 45px;
+  height: 68px;
   object-fit: cover;
   border-radius: 4px;
-  background: var(--bg-color);
+  background: var(--column-bg);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  flex-shrink: 0; /* Zapobiega zgniataniu obrazka */
 }
 
+/* Kontener tekstu */
 .result-info {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  overflow: hidden; /* Dla ucinania tekstu */
 }
 
+/* Tytuł książki */
 .result-title {
   color: var(--text-main);
   font-weight: 600;
   font-size: 0.95rem;
+  line-height: 1.3;
+  margin-bottom: 4px;
+  
+  /* Opcjonalnie: ucinanie zbyt długich tytułów */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
+/* Autor */
 .result-author {
   color: var(--text-muted);
-  font-size: 0.8rem;
-  margin-top: 4px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
+/* Brak wyników */
 .no-results {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 8px);
   left: 0;
   right: 0;
   background: var(--card-bg);
-  padding: 1rem;
+  padding: 1.5rem;
   border-radius: var(--radius);
   color: var(--text-muted);
   text-align: center;
-  margin-top: 0.5rem;
   border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
   z-index: 1000;
+  font-style: italic;
+  animation: slideIn 0.2s ease-out;
 }
