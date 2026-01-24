@@ -47,17 +47,20 @@
 .community-sidebar.static {
     position: relative;
     height: auto;
-    min-height: 500px;
+    /* USUŃ min-height: 500px */
+    /* min-height: 500px;  <-- TO POWODOWAŁO PUSTE MIEJSCE */
+    
     border: 1px solid var(--border-color);
     border-radius: var(--radius);
     box-shadow: none;
     transform: none;
     z-index: 1;
+    padding: 1rem; /* Mniejszy padding */
 }
 
 .community-header {
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
+    margin-bottom: 1rem; /* Mniejszy margines */
+    padding-bottom: 0.8rem;
     border-bottom: 1px solid var(--border-color);
     display: flex;
     justify-content: space-between;
@@ -66,32 +69,17 @@
 
 .community-header h3 {
     margin: 0;
-    font-size: 1.2rem;
+    font-size: 1rem; /* Mniejszy font */
     font-weight: 700;
-    color: var(--primary);
+    color: var(--text-muted); /* Subtelniejszy kolor */
     letter-spacing: 0.5px;
     text-transform: uppercase;
-}
-
-.close-sidebar-btn {
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    font-size: 2rem;
-    line-height: 1;
-    cursor: pointer;
-    padding: 0;
-    transition: color 0.2s;
-}
-
-.close-sidebar-btn:hover {
-    color: var(--text-main);
 }
 
 .users-list {
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
+    gap: 0.8rem;
 }
 
 .user-item {

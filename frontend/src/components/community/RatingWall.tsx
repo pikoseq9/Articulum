@@ -24,7 +24,7 @@ interface Props {
  */
 export const RatingWall: React.FC<Props> = ({ ratings }) => {
 
-    const { currentItems, currentPage, totalPages, goToPage } = usePagination(ratings, 5);
+    const { currentItems, currentPage, totalPages, goToPage } = usePagination(ratings, 4);
     
     if (ratings.length === 0) {
         return (
