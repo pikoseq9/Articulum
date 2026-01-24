@@ -17,7 +17,6 @@ const ChangePasswordForm: React.FC<Props> = ({ onSuccess, onError }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Prosta walidacja zgodności haseł po stronie frontu
     if (formData.newPassword !== formData.confirmPassword) {
       onError("Nowe hasła nie są identyczne");
       return;
@@ -26,7 +25,6 @@ const ChangePasswordForm: React.FC<Props> = ({ onSuccess, onError }) => {
     try {
       setIsSaving(true);
       
-      // Wysyłamy DTO zgodne z backendem (CurrentPassword, NewPassword)
       await api.post("/api/account/change-password", {
         currentPassword: formData.currentPassword,
         newPassword: formData.newPassword
@@ -35,7 +33,6 @@ const ChangePasswordForm: React.FC<Props> = ({ onSuccess, onError }) => {
       onSuccess("Hasło zostało pomyślnie zmienione");
       setFormData({ currentPassword: "", newPassword: "", confirmPassword: "" });
     } catch (err: any) {
-      // Obsługa błędów z Identity (np. IncorrectPassword)
       const errorMsg = err.response?.data?.Message || "Nie udało się zmienić hasła. Sprawdź poprawność danych.";
       onError(errorMsg);
     } finally {
