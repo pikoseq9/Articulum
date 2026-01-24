@@ -5,6 +5,7 @@ import { useAuth } from "../authContext";
 import './ProfilePage.css';
 import DisplayNameForm from "./DisplayNameForm";
 import ChangePasswordForm from "./ChangePasswordForm"; // Zaimportuj nowy komponent
+import { BackButton } from "./BackButton";
 
 interface MfaSetupResponse {
   qrCodeSetupImageUrl?: string;
@@ -140,9 +141,7 @@ const ProfilePage: React.FC = () => {
     <div className="profile-wrapper">
       <div className="profile-container">
         <header className="profile-nav">
-          <button className="back-btn" onClick={() => navigate(-1)}>
-            <span>←</span> Wróć do panelu
-          </button>
+          <BackButton variant="text" label="Wróć do panelu" />
         </header>
 
         <section className="profile-card profile-main-info">
@@ -225,7 +224,7 @@ const ProfilePage: React.FC = () => {
 
             {activeSetting === 'name' && (
               <div className="settings-form-wrapper">
-                <button className="back-link" onClick={() => setActiveSetting('menu')}>← Wróć do menu</button>
+                <BackButton variant="text" label="Wróć do menu" />
                 <h4>Zmiana nazwy</h4>
                 <DisplayNameForm 
                   initialName={user.displayName} 
@@ -237,7 +236,7 @@ const ProfilePage: React.FC = () => {
 
             {activeSetting === 'password' && (
               <div className="settings-form-wrapper">
-                <button className="back-link" onClick={() => setActiveSetting('menu')}>← Wróć do menu</button>
+                <BackButton variant="text" label="Wróć do menu" />
                 <h4>Zmiana hasła</h4>
                 <ChangePasswordForm 
                   onSuccess={(msg) => { setStatusMessage({ type: 'success', text: msg }); setActiveSetting('menu'); }}
