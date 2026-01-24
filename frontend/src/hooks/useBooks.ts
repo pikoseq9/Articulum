@@ -76,16 +76,22 @@ export const useBooks = () => {
     const moveBook = async (book: UserBook, newStatus: BookStatus) => {
         try {
             let newDate = book.addedAt;
-
-            // Update date to NOW only if finishing the book (status change to Read)
             if (newStatus === BookStatus.Read && book.status !== BookStatus.Read) {
                 newDate = new Date().toISOString();
             }
 
+            // Logika stron:
+            // Read -> Max stron
+            // ToRead -> 0 stron (Reset)
+            // Reading -> Bez zmian (lub zachowaj obecny)
+            let newPage = book.currentPage;
+            if (newStatus === BookStatus.Read) newPage = book.pages || 0;
+            if (newStatus === BookStatus.ToRead) newPage = 0; // <--- DODAJ TO, jeśli chcesz resetować
+
             const updatedBook = { 
                 ...book, 
                 status: newStatus,
-                currentPage: newStatus === BookStatus.Read ? (book.pages || 0) : book.currentPage,
+                currentPage: newPage, // Użyj nowej zmiennej
                 addedAt: newDate
             };
 
