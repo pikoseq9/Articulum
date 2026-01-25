@@ -39,7 +39,6 @@ a {
   color: inherit;
 }
 
-/* --- NAV STYLES --- */
 .nav-btns {
   display: flex;
   justify-content: flex-end;
@@ -67,9 +66,8 @@ a {
   background-color: rgba(217, 143, 123, 0.05);
 }
 
-/* --- FOOTER STYLES (NOWE) --- */
 .app-footer {
-  margin-top: auto; /* To wypycha stopkę na sam dół strony */
+  margin-top: auto;
   background-color: var(--column-bg);
   border-top: 1px solid var(--border-color);
   padding: 1.5rem 2rem;
