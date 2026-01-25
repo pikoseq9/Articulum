@@ -86,7 +86,7 @@ export default function Details() {
                         Oceń w społeczności
                     </button>
                     
-                    <button className="btn-edit" onClick={() => navigate(`/edit/${book.id}`)}>Edytuj</button>
+                    
                     <button className="btn-delete" onClick={handleDelete}>Usuń</button>
                 </div>
             </div>

@@ -34,7 +34,7 @@ const DisplayNameForm: React.FC<Props> = ({ initialName, onSuccess, onError }) =
 
   return (
     <form onSubmit={handleSubmit} className="display-name-form">
-      <div className="input-group">
+      <div className="verify-inline">
         <input
           type="text"
           value={newName}

@@ -29,7 +29,7 @@ export const AccountSettingsSection: React.FC<AccountSettingsSectionProps> = ({
         <div className="settings-menu-list">
           <button className="settings-item-btn" onClick={() => setActiveSetting('name')}>
             <div className="settings-item-info">
-              <span className="icon">👤</span>
+              
               <div>
                 <strong>Zmień nazwę wyświetlaną</strong>
                 <p>Obecnie: {user.displayName}</p>

@@ -45,7 +45,7 @@ const ChangePasswordForm: React.FC<Props> = ({ onSuccess, onError }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="display-name-form">
+    <form onSubmit={handleSubmit} className="verify-inline">
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
         <input
           name="currentPassword"
