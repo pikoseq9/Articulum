@@ -39,6 +39,7 @@ a {
   color: inherit;
 }
 
+/* --- NAV STYLES --- */
 .nav-btns {
   display: flex;
   justify-content: flex-end;
@@ -66,6 +67,54 @@ a {
   background-color: rgba(217, 143, 123, 0.05);
 }
 
+/* --- FOOTER STYLES (NOWE) --- */
+.app-footer {
+  margin-top: auto; /* To wypycha stopkę na sam dół strony */
+  background-color: var(--column-bg);
+  border-top: 1px solid var(--border-color);
+  padding: 1.5rem 2rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.footer-link {
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.separator {
+  color: var(--border-color);
+}
+
+@media (max-width: 600px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* --- MODAL STYLES --- */
 .modal-overlay {
   position: fixed;
   top: 0;

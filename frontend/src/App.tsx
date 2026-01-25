@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import './App.css';
-import Dashboard from './components/Dashboard';
+import Dashboard from './components/dashboard/Dashboard';
 import Details from './components/Details';
 import BookForm from './components/BookForm';
 import ProfilePage from './components/ProfilePage';
@@ -70,7 +70,23 @@ function App() {
             <Route path="/profile/history" element={<AllRead />} />
             <Route path='/*' element={<NotFound />} />
           </Routes>
+
+          {user && (
+            <footer className="app-footer">
+              <div className="footer-content">
+                <div className="footer-left">
+                  <p>&copy; {new Date().getFullYear()} BookAPP. Wszystkie prawa zastrzeżone.</p>
+                </div>
+                <div className="footer-right">
+                  <a href="/docs/index.html" target="_blank" rel="noopener noreferrer" className="footer-link">
+                    Dokumentacja
+                  </a>
+                </div>
+              </div>
+            </footer>
+          )}
         </div>
+
         {user && (
             <CommunitySidebar 
                 variant="drawer"
