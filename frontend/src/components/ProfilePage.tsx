@@ -45,6 +45,11 @@ const ProfilePage: React.FC = () => {
     }
   }, [statusMessage]);
 
+  useEffect(() => {
+  setCode("");
+}, [method]);
+
+
   // --- LOGIKA API ---
   const handleSaveBio = async () => {
     try {
@@ -79,28 +84,44 @@ const ProfilePage: React.FC = () => {
   };
 
   const handleEnableMfa = async (selectedMethod: "authenticator" | "email") => {
-    try {
-      setStatusMessage(null);
-      setMethod(selectedMethod);
-      const res = await api.post(`/api/account/enable-mfa?method=${selectedMethod}`);
-      if (selectedMethod === "authenticator") setMfaData(res.data);
-      else showStatus('info', "Kod weryfikacyjny został wysłany na Twój e-mail.");
-    } catch {
-      setMethod(null);
-      showStatus('error', "Nie udało się rozpocząć konfiguracji MFA.");
-    }
-  };
+  try {
+    setStatusMessage(null);
+    setCode("");          
+    setMfaData(null);     
+    setMethod(selectedMethod);
 
-  const handleVerifyMfa = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const res = await api.post("/api/account/confirm-mfa-enable", JSON.stringify(code), {
-        headers: { "Content-Type": "application/json" }
-      });
-      login(res.data);
-      showStatus("success", "MFA aktywowane pomyślnie!");
-    } catch { showStatus('error', "Nieprawidłowy kod. Spróbuj ponownie."); }
-  };
+    const res = await api.post(`/api/account/enable-mfa?method=${selectedMethod}`);
+    if (selectedMethod === "authenticator") {
+      setMfaData(res.data);
+    } else {
+      showStatus('info', "Kod weryfikacyjny został wysłany na Twój e-mail.");
+    }
+  } catch {
+    setMethod(null);
+    setCode("");
+    showStatus('error', "Nie udało się rozpocząć konfiguracji MFA.");
+  }
+};
+
+
+ const handleVerifyMfa = async (e: React.FormEvent) => {
+  e.preventDefault();
+  try {
+    const res = await api.post(
+      "/api/account/confirm-mfa-enable",
+      JSON.stringify(code),
+      { headers: { "Content-Type": "application/json" } }
+    );
+
+    login(res.data);
+    setCode("");          
+    setMethod(null);      
+    setMfaData(null);
+    showStatus("success", "MFA aktywowane pomyślnie!");
+  } catch {
+    showStatus('error', "Nieprawidłowy kod. Spróbuj ponownie.");
+  }
+};
 
   const handleOpenDisableMfa = async () => {
     setShowDisableMfa(true);
