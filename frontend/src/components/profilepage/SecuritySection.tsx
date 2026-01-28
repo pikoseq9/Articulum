@@ -40,8 +40,8 @@ export const SecuritySection: React.FC<SecuritySectionProps> = (props) => {
             <div className="inline-action-box">
               <input value={disableCode} onChange={e => setDisableCode(e.target.value)} placeholder="Kod" maxLength={6} />
               <div className="action-buttons">
-                <button onClick={onDisableMfa} className="btn-danger">Wyłącz</button>
-                <button className="btn-primaryt" onClick={() => setShowDisableMfa(false)}>Anuluj</button>
+                <button onClick={onDisableMfa} className="btn-primary">Wyłącz</button>
+                <button className="btn-primary" onClick={() => setShowDisableMfa(false)}>Anuluj</button>
               </div>
             </div>
           )}

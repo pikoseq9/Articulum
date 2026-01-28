@@ -47,8 +47,14 @@ const ProfilePage: React.FC = () => {
 
   useEffect(() => {
   setCode("");
-}, [method]);
-
+  }, [method]);
+  
+  useEffect(() => {
+    if (user?.isMfaEnabled) {
+      setShowDisableMfa(false);
+      setDisableCode("");
+    }
+  }, [user?.isMfaEnabled]);
 
   // --- LOGIKA API ---
   const handleSaveBio = async () => {
@@ -117,6 +123,7 @@ const ProfilePage: React.FC = () => {
     setCode("");          
     setMethod(null);      
     setMfaData(null);
+    setShowDisableMfa(false);
     showStatus("success", "MFA aktywowane pomyślnie!");
   } catch {
     showStatus('error', "Nieprawidłowy kod. Spróbuj ponownie.");
