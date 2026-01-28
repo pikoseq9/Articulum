@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import api from '../axios';
 import { UserBook, BookStatus } from '../utils/types';
 import './AllRead.css';
+import { Pagination } from './Pagination';
+
 
 const AllRead: React.FC = () => {
     const navigate = useNavigate();
@@ -10,6 +12,8 @@ const AllRead: React.FC = () => {
     const [filter, setFilter] = useState<'all' | number>('all');
     const [loading, setLoading] = useState(true);
     const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+    const ITEMS_PER_PAGE = 10;
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
         const fetchBooks = async () => {
@@ -25,6 +29,10 @@ const AllRead: React.FC = () => {
         };
         fetchBooks();
     }, []);
+
+    useEffect(() => {
+    setCurrentPage(1);
+    }, [filter]);
 
     const handleMove = async (book: UserBook, status: BookStatus) => {
         try {
@@ -46,6 +54,14 @@ const AllRead: React.FC = () => {
         const bookYear = dateStr ? new Date(dateStr).getFullYear() : null;
         return filter === 'all' || bookYear === filter;
     });
+
+    const totalPages = Math.ceil(filteredBooks.length / ITEMS_PER_PAGE);
+
+    const paginatedBooks = filteredBooks.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE
+    );
+
 
     if (loading) return <div className="loader">Wczytywanie...</div>;
 
@@ -78,7 +94,7 @@ const AllRead: React.FC = () => {
             </nav>
 
             <div className="books-history-list">
-                {filteredBooks.map(book => (
+                {paginatedBooks.map(book => (
                     <div key={book.id} className="history-horizontal-card" onClick={() => navigate(`/show/${book.id}`)}>
                         <img src={book.imageUrl || "https://placehold.co/60x90"} alt={book.title} />
                         
@@ -104,10 +120,17 @@ const AllRead: React.FC = () => {
                             </div>
                         </div>
                     </div>
+                    
                 ))}
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                />
             </div>
         </div>
     </div>
+
 );
 };
 
