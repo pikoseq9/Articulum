@@ -41,12 +41,32 @@ a {
 
 .nav-btns {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
+  justify-content: space-between;
   padding: 1rem 2rem;
   background-color: var(--column-bg);
   border-bottom: 1px solid var(--border-color);
   gap: 1rem;
+}
+
+.nav-left,
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  margin-right: 12px;
+  text-decoration: none;
+}
+
+.logo-img {
+  height: 50px;
+  width: auto;
+  cursor: pointer;
 }
 
 .login-btn button, .btn-profile {
@@ -226,4 +246,10 @@ a {
     padding: 0.5rem;
     border-radius: 6px;
     font-size: 0.9rem;
+}
+
+@media (max-width: 500px) {
+  .nav-right a {
+    display: none;
+  }
 }

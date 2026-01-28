@@ -35,21 +35,34 @@ function App() {
     <BrowserRouter>
         <div className='content'>
           {user && (
-            <nav className='nav-btns'>
-              <Link to="/community">
-                <button 
-                  className="btn-profile"
-                  style={{ borderColor: 'var(--primary)', color: 'var(--primary)' }}
-                >
+            <nav className="nav-btns">
+              <div className="nav-left">
+                <Link to="/" className="nav-logo">
+                  <img 
+                    src="/logo.svg" 
+                    alt="Bookapp logo"
+                    className="logo-img"
+                  />
+                </Link>
+              </div>
+
+              <div className="nav-right">
+                <Link to="/community">
+                  <button 
+                    className="btn-profile"
+                    style={{ borderColor: 'var(--primary)', color: 'var(--primary)' }}
+                  >
                     👥 Społeczność
-                </button>
-              </Link>
-              
-              <Link to="/profile">
-                <button className="btn-profile">Mój Profil</button>
-              </Link>
-              <div className='login-btn'>
-                <button onClick={logout}>Wyloguj</button>
+                  </button>
+                </Link>
+
+                <Link to="/profile">
+                  <button className="btn-profile">Mój Profil</button>
+                </Link>
+
+                <div className="login-btn">
+                  <button onClick={logout}>Wyloguj</button>
+                </div>
               </div>
             </nav>
           )}
