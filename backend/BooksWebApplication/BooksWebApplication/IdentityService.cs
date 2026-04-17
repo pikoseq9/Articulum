@@ -1,22 +1,21 @@
-﻿using Books.Domain;
-using Books.Infrastructure;
+﻿using Articulum.Domain;
+using Articulum.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace BooksWebApplication
+namespace Articulum.WebApplication
 {
     public static class IdentityService
     {
-        private static readonly IConfiguration _config;
-        public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration _config)
+        public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration config)
         {
             services.AddIdentityCore<AppUser>(opt =>
             {
                 opt.Password.RequireNonAlphanumeric = false;
             }).AddEntityFrameworkStores<DataContext>();
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["TokenKey"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
             {

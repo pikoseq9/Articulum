@@ -1,7 +1,7 @@
-﻿using Books.Application;
-using Books.Application.Books;
-using Books.Domain;
-using Books.Infrastructure;
+﻿using Articulum.Application;
+using Articulum.Application.Articles;
+using Articulum.Domain;
+using Articulum.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Security.Claims;
 
-namespace BooksWebApplication.Controllers
+namespace Articulum.WebApplication.Controllers
 {
     public class BooksController : BaseApiController
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BooksWebApplication
+namespace Articulum.WebApplication
 {
     public class RegisterDto
     {

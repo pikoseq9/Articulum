@@ -1,15 +1,15 @@
-﻿using Books.Domain;
-using Books.Infrastructure;
-using BooksWebApplication.Controllers;
+﻿using Articulum.Domain;
+using Articulum.Infrastructure;
+using Articulum.WebApplication.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using BooksWebApplication;
+using Articulum.WebApplication;
 using System.Security.Claims;
 using Google.Authenticator;
 
-namespace BooksWebApplication
+namespace Articulum.WebApplication
 {
     [Route("api/[controller]")]
     [ApiController]

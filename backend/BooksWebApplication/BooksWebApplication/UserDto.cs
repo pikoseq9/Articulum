@@ -1,4 +1,4 @@
-﻿namespace BooksWebApplication
+﻿namespace Articulum.WebApplication
 {
     public class UserDto
     {

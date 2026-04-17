@@ -1,5 +1,5 @@
-﻿using Books.Domain;
-using Books.Infrastructure;
+﻿using Articulum.Domain;
+using Articulum.Infrastructure;
 
 
 public class EmailVerificationService

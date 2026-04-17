@@ -1,4 +1,7 @@
-﻿public class SendEmailCodeDto
+﻿namespace Articulum.WebApplication
 {
-    public string Email { get; set; }
+    public class SendEmailCodeDto
+    {
+        public string Email { get; set; }
+    }
 }

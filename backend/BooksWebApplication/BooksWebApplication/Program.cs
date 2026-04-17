@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
-using Books.Infrastructure;
-using Books.Application;
-using Books.Application.Books;
+using Articulum.Infrastructure;
+using Articulum.Application;
+using Articulum.Application.Articles;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Http.HttpResults;
-using BooksWebApplication;
-using Books.Domain;
+using Articulum.WebApplication;
+using Articulum.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;

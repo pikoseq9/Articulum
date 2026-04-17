@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Books.Application\Books.Application.csproj" />
-    <ProjectReference Include="..\Books.Infrastructure\Books.Infrastructure.csproj" />
+    <ProjectReference Include="..\Articulum.Application\Articulum.Application.csproj" />
+    <ProjectReference Include="..\Articulum.Infrastructure\Articulum.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

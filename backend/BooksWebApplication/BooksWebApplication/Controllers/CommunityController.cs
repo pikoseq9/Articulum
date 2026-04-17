@@ -1,13 +1,13 @@
-﻿using Books.Application.DTOs;
-using Books.Domain;
-using Books.Infrastructure;
+﻿using Articulum.Application.DTOs;
+using Articulum.Domain;
+using Articulum.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
-namespace BooksWebApplication.Controllers
+namespace Articulum.WebApplication.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -1,5 +1,8 @@
-﻿public class VerifyEmailDto
+﻿namespace Articulum.WebApplication
 {
-    public string Email { get; set; }
-    public string Code { get; set; }
+    public class VerifyEmailDto
+    {
+        public string Email { get; set; }
+        public string Code { get; set; }
+    }
 }
