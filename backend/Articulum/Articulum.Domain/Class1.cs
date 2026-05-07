@@ -2,26 +2,30 @@
 
 namespace Articulum.Domain
 {
-    public enum BookStatus
+    public enum ArticleCategory
     {
-        ToRead = 0,
-        Reading = 1,
-        Finished = 2
+        Mathematics = 1,
+        ComputerScience = 2,
+        Didactics = 3,
+        PopularScience = 4
     }
 
-    public class UserBook
+    public class Article
     {
         public Guid Id { get; set; }
-        public string Title { get; set; } = string.Empty;
-        public string Author { get; set; } = string.Empty;
-        public string Isbn { get; set; } = string.Empty;
-        public string ImageUrl { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-        public BookStatus Status { get; set; }
-        public DateTime AddedAt { get; set; }
-        public int? Pages { get; set; }
-        public int? CurrentPage { get; set; }
-        public string? Subject { get; set; }
+
+        public string Title { get; set; }
+        public string Authors { get; set; }
+        public string PageRange { get; set; }
+
+        public DateTime PublicationDate { get; set; }
+
+        public ArticleCategory Category { get; set; }
+
+        public string PdfFileName { get; set; }
+        public string? AdditionalFileName { get; set; }
+
+        public int OpenCount { get; set; }
 
         // Relations
         public string? AppUserId { get; set; }

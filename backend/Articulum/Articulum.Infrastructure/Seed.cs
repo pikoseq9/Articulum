@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using Articulum.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,24 +29,23 @@ namespace Articulum.Infrastructure
             }
 
 
-            if (context.Books.Any()) return;
+            if (context.Articles.Any()) return;
 
-            var books = new List<UserBook>
+            var articles = new List<Article>
             {
-                new UserBook
+                new Article
                 {
-                    Title = "Harry PoTter",
-                    Author = "J.K. Rowling",
-                    Isbn = "9788869183157",
-                    ImageUrl = "",
-                    Description = "Description",
-                    Pages = 211,
-                    Status = BookStatus.Reading,
-                    AddedAt = DateTime.Now
+                    Title = "Test",
+                    Authors = "Janek",
+                    PageRange = "300",
+                    PublicationDate = DateTime.Now,
+                    Category = ArticleCategory.Mathematics,
+                    PdfFileName = "Unknown",
+                    OpenCount = 0
 
                 }
             };
-            await context.Books.AddRangeAsync(books);
+            await context.Articles.AddRangeAsync(articles);
             await context.SaveChangesAsync();
         }
     }

@@ -12,7 +12,7 @@ namespace Articulum.Infrastructure
     public class DataContext : IdentityDbContext<AppUser>
     {
         public DataContext(DbContextOptions options) : base(options) { }
-        public DbSet<UserBook> Books { get; set; }
+        public DbSet<Article> Articles { get; set; }
 
         public DbSet<EmailVerificationCode> EmailVerificationCodes { get; set; }
         public DbSet<CommunityRating> Ratings { get; set; }

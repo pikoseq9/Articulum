@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Articulum.Infrastructure;
 using Articulum.Application;
-using Articulum.Application.Articles;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Articulum.Application.Articles;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Articulum.WebApplication;
 using Articulum.Domain;

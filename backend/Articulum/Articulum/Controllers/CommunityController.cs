@@ -31,9 +31,9 @@ namespace Articulum.WebApplication.Controllers
 
             foreach (var user in users)
             {
-                var currentBook = await _context.Books
-                    .Where(b => b.AppUserId == user.Id && b.Status == BookStatus.Reading)
-                    .OrderByDescending(b => b.AddedAt)
+                var currentBook = await _context.Articles
+                    .Where(b => b.AppUserId == user.Id)
+                    .OrderByDescending(b => b.PublicationDate)
                     .FirstOrDefaultAsync();
 
                 result.Add(new CommunityUserDto
@@ -41,7 +41,7 @@ namespace Articulum.WebApplication.Controllers
                     Username = user.UserName,
                     DisplayName = user.DisplayName,
                     CurrentBookTitle = currentBook?.Title,
-                    CurrentBookAuthor = currentBook?.Author,
+                    CurrentBookAuthor = currentBook?.Authors,
                     AvatarUrl = user.AvatarUrl
                 });
             }

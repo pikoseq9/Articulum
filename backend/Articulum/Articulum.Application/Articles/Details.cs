@@ -7,36 +7,30 @@ namespace Articulum.Application.Articles
 {
     public class Details
     {
-        public class Query : IRequest<Result<UserBook>>
+        public class Query : IRequest<Result<Article>>
         {
             public Guid Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Result<UserBook>>
+        public class Handler : IRequestHandler<Query, Result<Article>>
         {
             private readonly DataContext _context;
-            private readonly IUserAccessor _userAccessor; // 1. Dodajemy pole prywatne
 
-            // 2. Wstrzykujemy IUserAccessor w konstruktorze
-            public Handler(DataContext context, IUserAccessor userAccessor)
+            public Handler(DataContext context)
             {
                 _context = context;
-                _userAccessor = userAccessor;
             }
 
-            // 3. Metoda Handle musi mieć TYLKO 2 parametry
-            public async Task<Result<UserBook>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<Article>> Handle(Query request, CancellationToken cancellationToken)
             {
-                // Szukamy książki, sprawdzając czy ID się zgadza ORAZ czy należy do zalogowanego użytkownika
-                var book = await _context.Books
-                    .FirstOrDefaultAsync(x => x.Id == request.Id &&
-                                              x.AppUser.UserName == _userAccessor.GetUsername(),
-                                         cancellationToken);
+                var article = await _context.Articles
+                    .Include(x => x.AppUser)
+                    .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-                if (book == null)
-                    return Result<UserBook>.Failure("Nie znaleziono książki lub nie masz do niej uprawnień");
+                if (article == null)
+                    return Result<Article>.Failure("Nie znaleziono artykułu");
 
-                return Result<UserBook>.Success(book);
+                return Result<Article>.Success(article);
             }
         }
     }

@@ -7,12 +7,12 @@ namespace Articulum.Application.Articles
 {
     public class Add
     {
-        public class Command : IRequest<Result<UserBook>>
+        public class Command : IRequest<Result<Article>>
         {
-            public required UserBook UserBook { get; set; }
+            public required Article Article { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Result<UserBook>>
+        public class Handler : IRequestHandler<Command, Result<Article>>
         {
             private readonly DataContext _context;
 
@@ -21,29 +21,33 @@ namespace Articulum.Application.Articles
                 _context = context;
             }
 
-            public async Task<Result<UserBook>> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Article>> Handle(Command request, CancellationToken cancellationToken)
             {
-                if (request.UserBook.Id == Guid.Empty) request.UserBook.Id = Guid.NewGuid();
-                if (request.UserBook.AddedAt == default) request.UserBook.AddedAt = DateTime.UtcNow;
+                if (request.Article.Id == Guid.Empty)
+                    request.Article.Id = Guid.NewGuid();
 
-                _context.Books.Add(request.UserBook);
+                // Ustawiamy datę publikacji na teraz, jeśli nie podano innej
+                if (request.Article.PublicationDate == default)
+                    request.Article.PublicationDate = DateTime.UtcNow;
+
+                _context.Articles.Add(request.Article);
 
                 var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 
                 if (!success)
-                {
-                    return Result<UserBook>.Failure("Nie udało się zapisać książki do bazy danych");
-                }
+                    return Result<Article>.Failure("Błąd podczas zapisywania artykułu");
 
-                return Result<UserBook>.Success(request.UserBook);
+                return Result<Article>.Success(request.Article);
             }
+        }
 
-            public class CommandValidator : AbstractValidator<Command>
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
             {
-                public CommandValidator()
-                {
-                    RuleFor(x => x.UserBook).SetValidator(new BooksValidator());
-                }
+                RuleFor(x => x.Article.Title).NotEmpty();
+                RuleFor(x => x.Article.Authors).NotEmpty();
+                RuleFor(x => x.Article.PdfFileName).NotEmpty().WithMessage("Nazwa pliku PDF jest wymagana");
             }
         }
     }

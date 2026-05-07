@@ -7,9 +7,9 @@ namespace Articulum.Application.Articles
 {
     public class List
     {
-        public class Query : IRequest<Result<List<UserBook>>> { }
+        public class Query : IRequest<Result<List<Article>>> { }
 
-        public class Handler : IRequestHandler<Query, Result<List<UserBook>>>
+        public class Handler : IRequestHandler<Query, Result<List<Article>>>
         {
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
@@ -20,14 +20,14 @@ namespace Articulum.Application.Articles
                 _userAccessor = userAccessor;
             }
 
-            public async Task<Result<List<UserBook>>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<List<Article>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                // Filtrujemy po UserName zalogowanego użytkownika
-                var result = await _context.Books
-                    .Where(x => x.AppUser.UserName == _userAccessor.GetUsername())
-                    .ToListAsync();
+                // Pobieramy wszystkie artykuły bez filtrowania po użytkowniku
+                var result = await _context.Articles
+                    .Include(x => x.AppUser)
+                    .ToListAsync(cancellationToken);
 
-                return Result<List<UserBook>>.Success(result);
+                return Result<List<Article>>.Success(result);
             }
         }
 
