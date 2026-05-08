@@ -22,7 +22,7 @@ namespace Articulum.Domain
 
         public ArticleCategory Category { get; set; }
 
-        public string PdfFileName { get; set; }
+        public string? PdfFileName { get; set; }
         public string? AdditionalFileName { get; set; }
 
         public int OpenCount { get; set; }

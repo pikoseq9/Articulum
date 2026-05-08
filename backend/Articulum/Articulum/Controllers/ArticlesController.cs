@@ -47,32 +47,21 @@ namespace Articulum.WebApplication.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddArticle(Article article)
+        public async Task<IActionResult> AddArticle([FromForm] Article article, IFormFile file)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized("Nie jesteœ zalogowany.");
-            }
+            if (string.IsNullOrEmpty(userId)) return Unauthorized();
 
             article.AppUserId = userId;
 
-            if (article.Id == Guid.Empty) article.Id = Guid.NewGuid();
-            if (article.PublicationDate == default) article.PublicationDate = DateTime.UtcNow;
+            // Przekazujemy zarówno model jak i plik do MediatR
+            var result = await Mediator.Send(new Add.Command { Article = article, File = file });
 
-            // Upewnij siê, ¿e masz klasê Add w Application/Articles
-            var result = await Mediator.Send(new Add.Command { Article = article });
-
-            if (result == null) return BadRequest();
             if (result.IsSuccess && result.Value != null)
             {
-                return CreatedAtAction(
-                    nameof(GetArticle),
-                    new { id = result.Value.Id },
-                    result.Value
-                );
+                return CreatedAtAction(nameof(GetArticle), new { id = result.Value.Id }, result.Value);
             }
+
             return BadRequest(result.Error);
         }
 
@@ -91,6 +80,40 @@ namespace Articulum.WebApplication.Controllers
         public async Task<IActionResult> DeleteArticle(Guid id)
         {
             return HandleResult(await Mediator.Send(new Delete.Command { Id = id }));
+        }
+
+
+
+        [AllowAnonymous]
+        [HttpGet("{id}/view")]
+        public async Task<IActionResult> ViewPdf(Guid id)
+        {
+            var article = await _context.Articles.FindAsync(id);
+
+            if (article == null || string.IsNullOrEmpty(article.PdfFileName))
+                return NotFound();
+
+            var safeFileName = article.PdfFileName
+                .Replace("\r", "")
+                .Replace("\n", "")
+                .Trim();
+
+            var filePath = Path.Combine(
+                Directory.GetCurrentDirectory(),
+                "wwwroot",
+                "pdfs",
+                safeFileName
+            );
+
+            if (!System.IO.File.Exists(filePath))
+                return NotFound();
+
+            article.OpenCount++;
+            await _context.SaveChangesAsync();
+
+            var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+
+            return File(stream, "application/pdf");
         }
     }
 }

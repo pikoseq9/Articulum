@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Articulum.Domain;
+using Microsoft.AspNetCore.Http;
 using Articulum.Infrastructure;
 using FluentValidation;
 
@@ -10,6 +11,7 @@ namespace Articulum.Application.Articles
         public class Command : IRequest<Result<Article>>
         {
             public required Article Article { get; set; }
+            public IFormFile? File { get; set; } // Dodajemy to pole
         }
 
         public class Handler : IRequestHandler<Command, Result<Article>>
@@ -23,30 +25,32 @@ namespace Articulum.Application.Articles
 
             public async Task<Result<Article>> Handle(Command request, CancellationToken cancellationToken)
             {
+                // 1. Logika zapisu pliku na dysk
+                if (request.File != null)
+                {
+                    var fileName = $"{Guid.NewGuid()}_{request.File.FileName}";
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/pdfs", fileName);
+
+                    // Upewnij się, że folder istnieje
+                    Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+
+                    using var stream = new FileStream(path, FileMode.Create);
+                    await request.File.CopyToAsync(stream, cancellationToken);
+
+                    // Przypisujemy nazwę pliku do modelu
+                    request.Article.PdfFileName = fileName;
+                }
+
                 if (request.Article.Id == Guid.Empty)
                     request.Article.Id = Guid.NewGuid();
-
-                if (request.Article.PublicationDate == default)
-                    request.Article.PublicationDate = DateTime.UtcNow;
 
                 _context.Articles.Add(request.Article);
 
                 var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 
-                if (!success)
-                    return Result<Article>.Failure("Błąd podczas zapisywania artykułu");
-
-                return Result<Article>.Success(request.Article);
-            }
-        }
-
-        public class CommandValidator : AbstractValidator<Command>
-        {
-            public CommandValidator()
-            {
-                RuleFor(x => x.Article.Title).NotEmpty();
-                RuleFor(x => x.Article.Authors).NotEmpty();
-                RuleFor(x => x.Article.PdfFileName).NotEmpty().WithMessage("Nazwa pliku PDF jest wymagana");
+                return success
+                    ? Result<Article>.Success(request.Article)
+                    : Result<Article>.Failure("Błąd podczas zapisywania w bazie");
             }
         }
     }
