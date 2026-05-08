@@ -28,18 +28,37 @@ namespace Articulum.Application.Articles
             {
                 var article = await _context.Articles
                     .FirstOrDefaultAsync(x => x.Id == request.Id &&
-                                              x.AppUser.UserName == _userAccessor.GetUsername(),
-                                         cancellationToken);
+                                                x.AppUser.UserName == _userAccessor.GetUsername(),
+                                            cancellationToken);
 
                 if (article == null)
                     return Result<Unit>.Failure("Nie znaleziono artykułu lub brak uprawnień do usunięcia");
 
-                _context.Remove(article);
+                var fileNameToDelete = article.PdfFileName;
 
+                _context.Remove(article);
                 var result = await _context.SaveChangesAsync(cancellationToken) > 0;
 
                 if (!result)
                     return Result<Unit>.Failure("Nie udało się usunąć artykułu z bazy danych");
+
+                //baza została wyczyszczona pomyślnie, usuwamy fizyczny plik
+                if (!string.IsNullOrEmpty(fileNameToDelete))
+                {
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/pdfs", fileNameToDelete);
+
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        try
+                        {
+                            System.IO.File.Delete(filePath);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Błąd podczas usuwania pliku: {ex.Message}");
+                        }
+                    }
+                }
 
                 return Result<Unit>.Success(Unit.Value);
             }
