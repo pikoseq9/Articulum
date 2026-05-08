@@ -26,7 +26,6 @@ namespace Articulum.Application.Articles
                 if (request.Article.Id == Guid.Empty)
                     request.Article.Id = Guid.NewGuid();
 
-                // Ustawiamy datę publikacji na teraz, jeśli nie podano innej
                 if (request.Article.PublicationDate == default)
                     request.Article.PublicationDate = DateTime.UtcNow;
 

@@ -10,7 +10,7 @@ using System.Security.Claims;
 
 namespace Articulum.WebApplication.Controllers
 {
-    [Authorize] // Wymaga zalogowania dla wszystkich akcji
+    [Authorize]
     public class ArticlesController : BaseApiController
     {
         private readonly DataContext _context;
@@ -90,13 +90,7 @@ namespace Articulum.WebApplication.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArticle(Guid id)
         {
-            var article = await _context.Articles.FindAsync(id);
-            if (article == null) return NotFound();
-
-            _context.Articles.Remove(article);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return HandleResult(await Mediator.Send(new Delete.Command { Id = id }));
         }
     }
 }
