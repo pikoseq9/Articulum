@@ -3,6 +3,7 @@ using Articulum.Infrastructure;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http; // Potrzebne do IFormFile
 
 namespace Articulum.Application.Articles
 {
@@ -11,6 +12,7 @@ namespace Articulum.Application.Articles
         public class Command : IRequest<Result<Unit>>
         {
             public required Article Article { get; set; }
+            public IFormFile? File { get; set; } // Opcjonalny nowy plik
         }
 
         public class Handler : IRequestHandler<Command, Result<Unit>>
@@ -30,15 +32,32 @@ namespace Articulum.Application.Articles
                 if (article == null)
                     return Result<Unit>.Failure("Nie znaleziono artykułu do edycji");
 
-                // Aktualizacja pól zgodnie z Twoim modelem Domain.Article
+                // --- LOGIKA OBSŁUGI PLIKU ---
+                if (request.File != null)
+                {
+                    // Usuń stary plik z dysku, jeśli istnieje
+                    if (!string.IsNullOrEmpty(article.PdfFileName))
+                    {
+                        var oldPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/pdfs", article.PdfFileName);
+                        if (System.IO.File.Exists(oldPath))
+                            System.IO.File.Delete(oldPath);
+                    }
+
+                    var fileName = $"{Guid.NewGuid()}_{request.File.FileName}";
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/pdfs", fileName);
+
+                    using var stream = new FileStream(path, FileMode.Create);
+                    await request.File.CopyToAsync(stream, cancellationToken);
+
+                    article.PdfFileName = fileName;
+                }
+
                 article.Title = request.Article.Title ?? article.Title;
                 article.Authors = request.Article.Authors ?? article.Authors;
                 article.PageRange = request.Article.PageRange ?? article.PageRange;
                 article.Category = request.Article.Category;
-                article.PdfFileName = request.Article.PdfFileName ?? article.PdfFileName;
                 article.AdditionalFileName = request.Article.AdditionalFileName ?? article.AdditionalFileName;
 
-                // Jeśli data publikacji została przesłana (różna od domyślnej), aktualizujemy
                 if (request.Article.PublicationDate != default)
                     article.PublicationDate = request.Article.PublicationDate;
 

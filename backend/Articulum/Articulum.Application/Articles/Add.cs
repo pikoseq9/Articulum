@@ -11,7 +11,7 @@ namespace Articulum.Application.Articles
         public class Command : IRequest<Result<Article>>
         {
             public required Article Article { get; set; }
-            public IFormFile? File { get; set; } // Dodajemy to pole
+            public IFormFile? File { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Result<Article>>
@@ -25,7 +25,7 @@ namespace Articulum.Application.Articles
 
             public async Task<Result<Article>> Handle(Command request, CancellationToken cancellationToken)
             {
-                // 1. Logika zapisu pliku na dysk
+                //Logika zapisu pliku na dysk
                 if (request.File != null)
                 {
                     var fileName = $"{Guid.NewGuid()}_{request.File.FileName}";

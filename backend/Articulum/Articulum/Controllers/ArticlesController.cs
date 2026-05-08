@@ -24,7 +24,6 @@ namespace Articulum.WebApplication.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Article>>> GetArticles()
         {
-            // Wywo³uje Twój Handler z Application/Articles/List.cs
             var result = await Mediator.Send(new List.Query());
 
             if (result == null || result.Value == null) return NotFound();
@@ -37,7 +36,6 @@ namespace Articulum.WebApplication.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetArticle(Guid id)
         {
-            // Upewnij siê, ¿e masz klasê Details w Application/Articles
             var result = await Mediator.Send(new Details.Query { Id = id });
 
             if (result == null || result.Value == null) return NotFound();
@@ -54,7 +52,6 @@ namespace Articulum.WebApplication.Controllers
 
             article.AppUserId = userId;
 
-            // Przekazujemy zarówno model jak i plik do MediatR
             var result = await Mediator.Send(new Add.Command { Article = article, File = file });
 
             if (result.IsSuccess && result.Value != null)
@@ -66,13 +63,14 @@ namespace Articulum.WebApplication.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditArticle(Guid id, Article article)
+        public async Task<IActionResult> EditArticle(Guid id, [FromForm] Article article, IFormFile? file)
         {
             article.Id = id;
-            // Upewnij siê, ¿e masz klasê Edit w Application/Articles
-            var result = await Mediator.Send(new Edit.Command { Article = article });
+
+            var result = await Mediator.Send(new Edit.Command { Article = article, File = file });
 
             if (result.IsSuccess) return Ok();
+
             return BadRequest(result.Error);
         }
 

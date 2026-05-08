@@ -26,7 +26,6 @@ namespace Articulum.Application.Articles
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                // Szukamy artykułu, sprawdzając ID oraz czy należy do zalogowanego użytkownika
                 var article = await _context.Articles
                     .FirstOrDefaultAsync(x => x.Id == request.Id &&
                                               x.AppUser.UserName == _userAccessor.GetUsername(),
