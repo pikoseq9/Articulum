@@ -44,6 +44,34 @@ namespace Articulum.WebApplication.Controllers
             return BadRequest(result.Error);
         }
 
+        [AllowAnonymous]
+        [HttpGet("latest")]
+        public async Task<ActionResult<List<Article>>> GetLatestArticles()
+        {
+            // Endpoint dla zakładki "Najnowsze artykuły" - wymaga stworzenia ListLatest.Query w Application
+            var result = await Mediator.Send(new ListLatest.Query());
+            return HandleResult(result);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("archive")]
+        public async Task<ActionResult<List<Article>>> GetArchiveArticles()
+        {
+            // Endpoint dla zakładki "Roczniki" - wymaga stworzenia ListArchive.Query w Application
+            var result = await Mediator.Send(new ListArchive.Query());
+            return HandleResult(result);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("search")]
+        public async Task<ActionResult<List<Article>>> SearchArticles([FromQuery] string searchTerm)
+        {
+            // Endpoint dla wyszukiwarki - wymaga stworzenia Search.Query w Application
+            var result = await Mediator.Send(new Search.Query { SearchTerm = searchTerm });
+            return HandleResult(result);
+        }
+
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<IActionResult> AddArticle([FromForm] Article article, IFormFile file)
         {
@@ -62,6 +90,7 @@ namespace Articulum.WebApplication.Controllers
             return BadRequest(result.Error);
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpPut("{id}")]
         public async Task<IActionResult> EditArticle(Guid id, [FromForm] Article article, IFormFile? file)
         {
@@ -74,6 +103,7 @@ namespace Articulum.WebApplication.Controllers
             return BadRequest(result.Error);
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArticle(Guid id)
         {
@@ -112,6 +142,25 @@ namespace Articulum.WebApplication.Controllers
             var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
 
             return File(stream, "application/pdf");
+        }
+
+        [AllowAnonymous]
+        [HttpGet("{id}/download-additional")]
+        public async Task<IActionResult> DownloadAdditional(Guid id)
+        {
+            var article = await _context.Articles.FindAsync(id);
+
+            if (article == null || string.IsNullOrEmpty(article.AdditionalFileName))
+                return NotFound();
+
+            var safeFileName = article.AdditionalFileName.Replace("\r", "").Replace("\n", "").Trim();
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "additional", safeFileName);
+
+            if (!System.IO.File.Exists(filePath))
+                return NotFound();
+
+            var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            return File(stream, "application/octet-stream", safeFileName);
         }
     }
 }

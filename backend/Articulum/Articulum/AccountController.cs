@@ -1,13 +1,14 @@
 ﻿using Articulum.Domain;
 using Articulum.Infrastructure;
+using Articulum.WebApplication;
 using Articulum.WebApplication.Controllers;
+using Google.Authenticator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Articulum.WebApplication;
+using System.Data;
 using System.Security.Claims;
-using Google.Authenticator;
 
 namespace Articulum.WebApplication
 {
@@ -59,7 +60,7 @@ namespace Articulum.WebApplication
             }
             // LOGIKA MFA KONIEC
 
-            return CreateUserObject(user);
+            return await CreateUserObject(user);
         }
 
 
@@ -84,6 +85,8 @@ namespace Articulum.WebApplication
                 UserName = registerDto.UserName,
             };
 
+            var roles = await _userManager.GetRolesAsync(user);
+
             var result = await _userManager.CreateAsync(user, registerDto.Password);
 
             if (!result.Succeeded)
@@ -94,7 +97,7 @@ namespace Articulum.WebApplication
             return new UserDto
             {
                 DisplayName = user.DisplayName,
-                Token = _tokenService.CreateToken(user),
+                Token = _tokenService.CreateToken(user, roles),
                 UserName = user.UserName
             };
         }
@@ -104,6 +107,8 @@ namespace Articulum.WebApplication
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
             var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+            var roles = await _userManager.GetRolesAsync(user);
+
             if (user == null)
             {
                 return NotFound();
@@ -111,7 +116,7 @@ namespace Articulum.WebApplication
             return new UserDto
             {
                 DisplayName = user.DisplayName,
-                Token = _tokenService.CreateToken(user),
+                Token = _tokenService.CreateToken(user, roles),
                 UserName = user.UserName,
                 MyGoal = user.MyGoal,
                 Bio = user.Bio,
@@ -153,7 +158,7 @@ namespace Articulum.WebApplication
 
             if (!isCorrect) return Unauthorized("Invalid MFA Code");
 
-            return CreateUserObject(user);
+            return await CreateUserObject(user);
         }
 
         [Authorize]
@@ -284,15 +289,16 @@ namespace Articulum.WebApplication
             await _userManager.UpdateAsync(user);
             await context.SaveChangesAsync();
 
-            return CreateUserObject(user);
+            return await CreateUserObject(user);
         }
-        private UserDto CreateUserObject(AppUser user)
+        private async Task<UserDto> CreateUserObject(AppUser user)
         {
+            var roles = await _userManager.GetRolesAsync(user);
             return new UserDto
             {
                 DisplayName = user.DisplayName,
                 UserName = user.UserName,
-                Token = _tokenService.CreateToken(user),
+                Token = _tokenService.CreateToken(user, roles),
                 MyGoal = user.MyGoal,
                 IsMfaRequired = false,
                 Bio = user.Bio,
@@ -417,7 +423,7 @@ namespace Articulum.WebApplication
             if (!result.Succeeded) return BadRequest(result.Errors);
 
             // 5. Zwracamy zaktualizowany, pełny obiekt użytkownika
-            return CreateUserObject(user);
+            return await CreateUserObject(user);
         }
 
 
@@ -459,7 +465,7 @@ namespace Articulum.WebApplication
                 user.AvatarUrl = $"/avatars/{uniqueFileName}";
                 await _userManager.UpdateAsync(user);
 
-                return CreateUserObject(user);
+                return await CreateUserObject(user);
             }
             catch (Exception ex)
             {
@@ -483,7 +489,7 @@ namespace Articulum.WebApplication
 
             if (!result.Succeeded) return BadRequest("Nie udało się zaktualizować nazwy.");
 
-            return CreateUserObject(user);
+            return await CreateUserObject(user);
         }
         [Authorize]
         [HttpPost("change-password")]

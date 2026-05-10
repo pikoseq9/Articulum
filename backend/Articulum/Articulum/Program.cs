@@ -10,10 +10,9 @@ using Articulum.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 
 builder.Services.AddControllers(opt =>
 {
@@ -39,12 +38,39 @@ builder.Services.AddCors(opt =>
 );
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Articulum API", Version = "v1" });
+
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "Autoryzacja JWT. Wpisz s³owo 'Bearer', spacjê, a nastêpnie swój token.\r\n\r\nPrzyk³ad: \"Bearer eyJhbGciOiJIUzI1Ni...\"",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                },
+                Scheme = "oauth2",
+                Name = "Bearer",
+                In = ParameterLocation.Header,
+            },
+            new List<string>()
+        }
+    });
+});
 builder.Services.AddHttpClient();
-
-
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IUserAccessor, UserAccessor>();
@@ -87,6 +113,19 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.Use(async (context, next) =>
+{
+    var path = context.Request.Path.Value;
+    if (path != null && (path.StartsWith("/pdfs", StringComparison.OrdinalIgnoreCase) ||
+                         path.StartsWith("/additional", StringComparison.OrdinalIgnoreCase)))
+    {
+        context.Response.StatusCode = 403;
+        await context.Response.WriteAsync("Brak autoryzacji. Uzyj dedykowanego endpointu API do pobrania pliku.");
+        return;
+    }
+    await next();
+});
+
 app.UseStaticFiles();
 
 app.UseCors("CorsPolicy");
@@ -104,8 +143,10 @@ try
 {
     var context = services.GetRequiredService<DataContext>();
     var userManager = services.GetRequiredService<UserManager<AppUser>>();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
     await context.Database.MigrateAsync();
-    await Seed.SeedData(context, userManager);
+    await Seed.SeedData(context, userManager, roleManager);
 }
 catch (Exception ex)
 {
