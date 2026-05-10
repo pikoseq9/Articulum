@@ -4,30 +4,31 @@ using System;
 using System.Collections.Generic;
 using Articulum.Infrastructure;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Articulum.Infrastructure
 {
     public class Seed
     {
-        public static async Task SeedData(DataContext context, UserManager<AppUser> userManager)
+        public static async Task SeedData(DataContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
+            if (!roleManager.Roles.Any())
+            {
+                await roleManager.CreateAsync(new IdentityRole("Administrator"));
+                await roleManager.CreateAsync(new IdentityRole("User"));
+            }
 
             if (!userManager.Users.Any())
             {
-                var users = new List<AppUser>
-                {
-                    new AppUser{DisplayName = "admin", UserName = "admin", Email = "admin@wp.pl"},
-                    new AppUser{DisplayName = "user", UserName = "user", Email = "user@wp.pl"}
-                };
+                var adminUser = new AppUser { DisplayName = "admin", UserName = "admin", Email = "admin@wp.pl" };
+                var standardUser = new AppUser { DisplayName = "user", UserName = "user", Email = "user@wp.pl" };
 
-                foreach (var user in users)
-                {
-                    await userManager.CreateAsync(user, "Zaq12wsx");
-                }
+                await userManager.CreateAsync(adminUser, "Zaq12wsx");
+                await userManager.AddToRoleAsync(adminUser, "Administrator");
+
+                await userManager.CreateAsync(standardUser, "Zaq12wsx");
+                await userManager.AddToRoleAsync(standardUser, "User");
             }
-
 
             if (context.Articles.Any()) return;
 
@@ -42,9 +43,18 @@ namespace Articulum.Infrastructure
                     Category = ArticleCategory.Mathematics,
                     PdfFileName = "Unknown",
                     OpenCount = 0
-
                 }
             };
+
+            var existingAdmin = await userManager.FindByEmailAsync("admin@wp.pl");
+            if (existingAdmin != null)
+            {
+                if (!await userManager.IsInRoleAsync(existingAdmin, "Administrator"))
+                {
+                    await userManager.AddToRoleAsync(existingAdmin, "Administrator");
+                }
+            }
+
             await context.Articles.AddRangeAsync(articles);
             await context.SaveChangesAsync();
         }

@@ -17,6 +17,7 @@ namespace Articulum.Domain
         public string Title { get; set; }
         public string Authors { get; set; }
         public string PageRange { get; set; }
+        public string Keywords { get; set; } = string.Empty;
 
         public DateTime PublicationDate { get; set; }
 

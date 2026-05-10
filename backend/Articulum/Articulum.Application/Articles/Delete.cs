@@ -42,7 +42,6 @@ namespace Articulum.Application.Articles
                 if (!result)
                     return Result<Unit>.Failure("Nie udało się usunąć artykułu z bazy danych");
 
-                //baza została wyczyszczona pomyślnie, usuwamy fizyczny plik
                 if (!string.IsNullOrEmpty(fileNameToDelete))
                 {
                     var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/pdfs", fileNameToDelete);
