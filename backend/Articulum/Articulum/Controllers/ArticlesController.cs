@@ -119,27 +119,30 @@ namespace Articulum.WebApplication.Controllers
             var article = await _context.Articles.FindAsync(id);
 
             if (article == null || string.IsNullOrEmpty(article.PdfFileName))
-                return NotFound();
+                return NotFound("Artykuł nie posiada przypisanego pliku PDF.");
 
-            var safeFileName = article.PdfFileName
-                .Replace("\r", "")
-                .Replace("\n", "")
-                .Trim();
+            var fileNameOnly = Path.GetFileName(article.PdfFileName).Trim();
 
             var filePath = Path.Combine(
                 Directory.GetCurrentDirectory(),
                 "wwwroot",
                 "pdfs",
-                safeFileName
+                fileNameOnly
             );
 
             if (!System.IO.File.Exists(filePath))
-                return NotFound();
+                return NotFound($"Nie znaleziono pliku fizycznego na serwerze: {fileNameOnly}");
 
             article.OpenCount++;
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+            }
 
-            var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
 
             return File(stream, "application/pdf");
         }
