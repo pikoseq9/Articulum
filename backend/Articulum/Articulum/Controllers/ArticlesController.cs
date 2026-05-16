@@ -128,6 +128,10 @@ namespace Articulum.WebApplication.Controllers
                 Path.GetFileName(article.PdfFileName)
             );
 
+            article.OpenCount++;
+            // zwiększanie liczby otworzeń 
+            await _context.SaveChangesAsync();
+
             if (!System.IO.File.Exists(filePath))
                 return NotFound();
 

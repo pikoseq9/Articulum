@@ -119,8 +119,6 @@ namespace Articulum.Controllers
                 DisplayName = user.DisplayName,
                 Token = _tokenService.CreateToken(user, roles),
                 UserName = user.UserName,
-                MyGoal = user.MyGoal,
-                Bio = user.Bio,
                 IsMfaEnabled = user.TwoFactorEnabled,
                 AvatarUrl = user.AvatarUrl
             }; 
@@ -300,9 +298,7 @@ namespace Articulum.Controllers
                 DisplayName = user.DisplayName,
                 UserName = user.UserName,
                 Token = _tokenService.CreateToken(user, roles),
-                MyGoal = user.MyGoal,
                 IsMfaRequired = false,
-                Bio = user.Bio,
                 IsMfaEnabled = user.TwoFactorEnabled,
                 AvatarUrl = user.AvatarUrl
             };
@@ -380,53 +376,6 @@ namespace Articulum.Controllers
 
             return Ok(new { Message = $"Użytkownik {email} został usunięty" });
         }
-
-        [Authorize]
-        [HttpPost("update-goal")]
-        public async Task<ActionResult> UpdateGoal(UpdateGoalDto goalDto)
-        {
-            var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
-
-            if (user == null) return Unauthorized();
-
-            user.MyGoal = goalDto.NewGoal;
-
-            var result = await _userManager.UpdateAsync(user);
-
-            if (result.Succeeded)
-            {
-                return Ok(CreateUserObject(user));
-            }
-
-            return BadRequest("Wystąpił błąd podczas aktualizacji celu");
-        }
-
-        [Authorize]
-        [HttpPut("update-bio")]
-        public async Task<ActionResult<UserDto>> UpdateBio([FromBody] UpdateBioRequestDto request)
-        {
-            // 1. Spójne pobieranie użytkownika (po Emailu, tak jak w reszcie kontrolera)
-            var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
-
-            if (user == null) return Unauthorized();
-
-            // 2. Obsługa nulla (jeśli frontend wyśle null, traktujemy to jak wyczyszczenie bio)
-            var newBio = request.Bio?.Trim() ?? string.Empty;
-
-            // 3. Walidacja
-            if (newBio.Length > 200)
-                return BadRequest("Bio jest za długie (max 200 znaków).");
-
-            // 4. Aktualizacja
-            user.Bio = newBio;
-            var result = await _userManager.UpdateAsync(user);
-
-            if (!result.Succeeded) return BadRequest(result.Errors);
-
-            // 5. Zwracamy zaktualizowany, pełny obiekt użytkownika
-            return await CreateUserObject(user);
-        }
-
 
         [Authorize]
         [HttpPost("upload-avatar")]
