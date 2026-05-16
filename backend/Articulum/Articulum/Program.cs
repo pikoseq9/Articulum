@@ -5,12 +5,12 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Articulum.Application.Articles;
 using Microsoft.AspNetCore.Http.HttpResults;
-using Articulum.WebApplication;
 using Articulum.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.OpenApi.Models;
+using Articulum.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

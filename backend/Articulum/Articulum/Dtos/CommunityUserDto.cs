@@ -1,4 +1,4 @@
-﻿namespace Articulum.Application.DTOs
+﻿namespace Articulum.Dtos
 {
     public class CommunityUserDto
     {

@@ -1,6 +1,6 @@
-﻿namespace Articulum.WebApplication
+﻿namespace Articulum.Dtos
 {
-    public class UpdateBioRequest
+    public class UpdateBioRequestDto
     {
         public string Bio { get; set; } = string.Empty;
     }

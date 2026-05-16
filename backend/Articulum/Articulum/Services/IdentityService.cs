@@ -3,9 +3,9 @@ using Articulum.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.AspNetCore.Identity; // <-- DODANY USING
+using Microsoft.AspNetCore.Identity;
 
-namespace Articulum.WebApplication
+namespace Articulum.Services
 {
     public static class IdentityService
     {

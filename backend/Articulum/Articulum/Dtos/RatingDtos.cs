@@ -1,4 +1,4 @@
-﻿namespace Articulum.Application.DTOs
+﻿namespace Articulum.Dtos
 {
     // To co przychodzi z Frontendu (RatingForm)
     public class CreateRatingDto

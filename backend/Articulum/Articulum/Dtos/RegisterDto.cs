@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Articulum.WebApplication
+namespace Articulum.Dtos
 {
     public class RegisterDto
     {

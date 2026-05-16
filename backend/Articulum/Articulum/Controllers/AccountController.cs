@@ -1,6 +1,7 @@
 ﻿using Articulum.Domain;
+using Articulum.Dtos;
 using Articulum.Infrastructure;
-using Articulum.WebApplication;
+using Articulum.Services;
 using Articulum.WebApplication.Controllers;
 using Google.Authenticator;
 using Microsoft.AspNetCore.Authorization;
@@ -10,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Security.Claims;
 
-namespace Articulum.WebApplication
+namespace Articulum.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -402,7 +403,7 @@ namespace Articulum.WebApplication
 
         [Authorize]
         [HttpPut("update-bio")]
-        public async Task<ActionResult<UserDto>> UpdateBio([FromBody] UpdateBioRequest request)
+        public async Task<ActionResult<UserDto>> UpdateBio([FromBody] UpdateBioRequestDto request)
         {
             // 1. Spójne pobieranie użytkownika (po Emailu, tak jak w reszcie kontrolera)
             var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));

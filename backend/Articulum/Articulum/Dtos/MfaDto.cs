@@ -1,6 +1,6 @@
-﻿namespace Articulum.WebApplication
+﻿namespace Articulum.Dtos
 {
-    public class VerifyEmailDto
+    public class MfaDto
     {
         public string Email { get; set; }
         public string Code { get; set; }

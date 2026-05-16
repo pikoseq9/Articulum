@@ -1,4 +1,4 @@
-﻿namespace Articulum.WebApplication
+﻿namespace Articulum.Dtos
 {
     public class SendEmailCodeDto
     {
