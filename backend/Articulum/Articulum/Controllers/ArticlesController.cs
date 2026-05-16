@@ -73,14 +73,19 @@ namespace Articulum.WebApplication.Controllers
 
         [Authorize(Roles = "Administrator")]
         [HttpPost]
-        public async Task<IActionResult> AddArticle([FromForm] Article article, IFormFile file)
+        public async Task<IActionResult> AddArticle([FromForm] Article article, IFormFile file, IFormFile? additionalFile)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId)) return Unauthorized();
 
             article.AppUserId = userId;
 
-            var result = await Mediator.Send(new Add.Command { Article = article, File = file });
+            var result = await Mediator.Send(new Add.Command
+            {
+                Article = article,
+                File = file,
+                AdditionalFile = additionalFile
+            });
 
             if (result.IsSuccess && result.Value != null)
             {
