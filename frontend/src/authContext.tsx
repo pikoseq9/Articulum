@@ -2,11 +2,9 @@ import { createContext, useContext, useEffect, useState } from "react";
 import api from "./axios";
 import { UserDto } from "./utils/types";
 
-type User = UserDto
-
 interface AuthContextType {
-  user: User | null;
-  login: (user: User) => void;
+  user: UserDto | null;
+  login: (user: UserDto) => void;
   logout: () => void;
   appLoading: boolean;
 }
@@ -14,7 +12,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserDto | null>(null);
   const [appLoading, setAppLoading] = useState(true); 
 
   useEffect(() => {
@@ -24,7 +22,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         return;
     }
 
-    api.get<User>("/api/Account")
+    api.get<UserDto>("/api/Account")
       .then(res => {
         const tokenToSave = res.data.token || token;
         const userWithToken = { ...res.data, token: tokenToSave };
@@ -42,7 +40,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       });
   }, []);
 
-  const login = (userData: User) => {
+  const login = (userData: UserDto) => {
     setUser(userData);
     localStorage.setItem("jwt", userData.token);
   };

@@ -1,112 +1,103 @@
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter, Routes, Route, NavLink, useNavigate } from "react-router-dom";
+// @ts-ignore: CSS module import without type declarations
 import './App.css';
-import Dashboard from './components/dashboard/Dashboard';
-import Details from './components/Details';
-import BookForm from './components/BookForm';
-import ProfilePage from './components/ProfilePage';
-import NotFound from './components/NotFound';
-import LoginModal from './components/loginModal';
-import AllRead from './components/AllRead';
 import { useAuth } from './authContext';
-import { CommunitySidebar } from './components/community/CommunitySidebar';
-import CommunityView from './components/community/CommunityView';
+import LatestArticles from './components/articles/LatestArticles';
+import About from './components/About';
+import ArticleSearch from './components/ArticleSearch';
+
+const Archive = () => <div><h2>Roczniki</h2></div>;
+const Editorial = () => <div><h2>Redakcja</h2></div>;
+const ForAuthors = () => <div><h2>Dla autorów</h2></div>;
+const ReviewProcess = () => <div><h2>Proces recenzji</h2></div>;
+const Reviewers = () => <div><h2>Recenzenci</h2></div>;
+const Contact = () => <div><h2>Kontakt</h2></div>;
+const AdminPanel = () => <div><h2>Panel Administratora</h2></div>;
+const Login = () => <div><h2>Logowanie</h2></div>;
+const NotFound = () => <div><h2>404 - Nie znaleziono strony</h2></div>;
 
 function App() {
-  const { user, login, logout, appLoading } = useAuth(); 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { user, logout, appLoading } = useAuth(); 
 
   if (appLoading) {
     return (
-      <div style={{ 
-        height: '100vh', 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        backgroundColor: '#1e1c1b', 
-        color: '#e3ded9' 
-      }}>
-        <h2>Ładowanie biblioteki...</h2>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#131620', color: 'white' }}>
+        <h2>Ładowanie czasopisma...</h2>
       </div>
     );
   }
 
   return (
     <BrowserRouter>
-        <div className='content'>
-          {user && (
-            <nav className="nav-btns">
-              <div className="nav-left">
-                <Link to="/" className="nav-logo">
-                  <img 
-                    src="/logo.svg" 
-                    alt="Bookapp logo"
-                    className="logo-img"
-                  />
-                </Link>
-              </div>
+      <div className='app-container'>
+        
+        <header className="top-header">
+          <div className="logo-container">
+            <h1 className="logo-text">Articulum</h1>
+          </div>
+          
+          <div className="search-container">
+            <ArticleSearch />
+          </div>
 
-              <div className="nav-right">
-                <Link to="/community">
-                  <button 
-                    className="btn-profile"
-                    style={{ borderColor: 'var(--primary)', color: 'var(--primary)' }}
-                  >
-                    👥 Społeczność
-                  </button>
-                </Link>
+          <div className="admin-container">
+            {user ? (
+              <button onClick={logout} className="admin-lock-btn unlock-btn" title="Wyloguj">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 9.9-1"></path>
+                </svg>
+              </button>
+            ) : (
+              <NavLink to="/login" className="admin-lock-btn" title="Zaloguj jako admin">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </NavLink>
+            )}
+          </div>
+        </header>
 
-                <Link to="/profile">
-                  <button className="btn-profile">Mój Profil</button>
-                </Link>
-
-                <div className="login-btn">
-                  <button onClick={logout}>Wyloguj</button>
-                </div>
-              </div>
+        <div className="layout-wrapper">
+          <aside className="sidebar">
+            <nav className="sidebar-nav">
+              <NavLink to="/" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>O czasopiśmie</NavLink>
+              <NavLink to="/latest" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Najnowsze artykuły</NavLink>
+              <NavLink to="/archive" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Roczniki</NavLink>
+              <NavLink to="/editorial" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Redakcja</NavLink>
+              <NavLink to="/authors" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Dla autorów</NavLink>
+              <NavLink to="/review-process" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Proces recenzji</NavLink>
+              <NavLink to="/reviewers" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Recenzenci</NavLink>
+              <NavLink to="/contact" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Kontakt</NavLink>
+              
+              {user && (
+                <NavLink to="/admin" className={({ isActive }) => isActive ? "nav-link active admin-link" : "nav-link admin-link"}>
+                  Panel Administratora
+                </NavLink>
+              )}
             </nav>
-          )}
+          </aside>
 
-          <LoginModal
-            isOpen={!user} 
-            onClose={() => {}}
-            onLogin={login}
-          />
+          <main className="main-content">
+            <Routes>
+              <Route path="/" element={<About />} />
+              <Route path="/latest" element={<LatestArticles />} />
+              <Route path="/archive" element={<Archive />} />
+              <Route path="/editorial" element={<Editorial />} />
+              <Route path="/authors" element={<ForAuthors />} />
+              <Route path="/review-process" element={<ReviewProcess />} />
+              <Route path="/reviewers" element={<Reviewers />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/admin" element={<AdminPanel />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </main>
 
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/show/:id" element={<Details />} />
-            <Route path="/add" element={<BookForm />} />
-            <Route path="/edit/:id" element={<BookForm />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/community" element={<CommunityView />} />
-            <Route path="/profile/history" element={<AllRead />} />
-            <Route path='/*' element={<NotFound />} />
-          </Routes>
-
-          {user && (
-            <footer className="app-footer">
-              <div className="footer-content">
-                <div className="footer-left">
-                  <p>&copy; {new Date().getFullYear()} BookAPP. Wszystkie prawa zastrzeżone.</p>
-                </div>
-                <div className="footer-right">
-                  <a href="/docs/index.html" target="_blank" rel="noopener noreferrer" className="footer-link">
-                    Dokumentacja
-                  </a>
-                </div>
-              </div>
-            </footer>
-          )}
         </div>
-
-        {user && (
-            <CommunitySidebar 
-                variant="drawer"
-                isOpen={isSidebarOpen} 
-                onClose={() => setIsSidebarOpen(false)} 
-            />
-        )}
+      </div>
     </BrowserRouter>
   );
 }

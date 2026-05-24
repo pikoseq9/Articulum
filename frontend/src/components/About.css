@@ -1,0 +1,141 @@
+.about-container {
+  width: 100%;
+}
+
+.about-header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 50px;
+  gap: 40px;
+}
+
+.about-intro {
+  flex: 1;
+  max-width: 500px;
+}
+
+.about-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 20px;
+}
+
+.about-description {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #555;
+  font-weight: 500;
+}
+
+.about-quick-facts {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #ebebeb;
+  border-radius: 8px;
+  padding: 20px 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+}
+
+.fact-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.fact-divider {
+  width: 1px;
+  height: 40px;
+  background-color: #ebebeb;
+  margin: 0 25px;
+}
+
+.fact-icon-wrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #eef2ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #6c75df;
+}
+
+.fact-icon-wrapper svg {
+  width: 20px;
+  height: 20px;
+}
+
+.fact-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.fact-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 4px;
+}
+
+.fact-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+.about-card {
+  background-color: #fff;
+  border: 1px solid #ebebeb;
+  border-radius: 8px;
+  padding: 30px;
+  transition: box-shadow 0.2s;
+}
+
+.about-card:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.card-icon-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #eef2ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #6c75df;
+}
+
+.card-icon-wrapper svg {
+  width: 22px;
+  height: 22px;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111;
+}
+
+.card-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #111;
+  font-weight: 500;
+}
