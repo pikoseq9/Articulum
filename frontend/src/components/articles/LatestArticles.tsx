@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
 import { useArticles } from '../../hooks/useArticles';
 import { ArticleCategory, CategoryLabels } from '../../utils/types';
+import { usePagination } from '../../hooks/usePagination';
+import { Pagination } from '../Pagination';
 // @ts-ignore: CSS module import without type declarations
 import './LatestArticles.css';
 
 const LatestArticles = () => {
   const { articles, loading, error, stats } = useArticles('/api/Articles/latest');
-  
   const [activeCategory, setActiveCategory] = useState<ArticleCategory | null>(null);
-
-  if (loading) return <div className="la-loading">Ładowanie artykułów...</div>;
-  if (error) return <div className="la-error">{error}</div>;
-
   const filteredArticles = activeCategory === null 
     ? articles 
     : articles.filter(a => a.category === activeCategory);
+
+  const { currentPage, totalPages, currentItems, goToPage } = usePagination(filteredArticles, 4);
+
+  if (loading) return <div className="la-loading">Ładowanie artykułów...</div>;
+  if (error) return <div className="la-error">{error}</div>;
 
   const handleReadPdf = (id: string) => {
     window.open(`http://localhost:5269/api/Articles/${id}/view`, '_blank');
@@ -63,10 +65,10 @@ const LatestArticles = () => {
 
       <div className="la-layout">
         <div className="la-articles-column">
-          {filteredArticles.length === 0 ? (
+          {currentItems.length === 0 ? (
             <p className="la-no-data">Brak artykułów w tej kategorii.</p>
           ) : (
-            filteredArticles.map(article => (
+            currentItems.map(article => (
               <div key={article.id} className="la-article-card">
                 <span className="la-card-category">{CategoryLabels[article.category]}</span>
                 <h2 className="la-card-title">{article.title}</h2>
@@ -87,6 +89,12 @@ const LatestArticles = () => {
               </div>
             ))
           )}
+          
+          <Pagination 
+            currentPage={currentPage} 
+            totalPages={totalPages} 
+            onPageChange={goToPage} 
+          />
         </div>
 
         <div className="la-stats-column">

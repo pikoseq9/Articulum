@@ -1,0 +1,86 @@
+.contact-container {
+  width: 100%;
+}
+
+.contact-header {
+  margin-bottom: 30px;
+}
+
+.contact-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 8px;
+}
+
+.contact-title-underline {
+  width: 60px;
+  height: 4px;
+  background-color: #6c75df;
+  border-radius: 2px;
+}
+
+.contact-card {
+  background-color: #ffffff;
+  border: 1px solid #ebebeb;
+  border-radius: 8px;
+  padding: 40px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+}
+
+.contact-card-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 40px;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 50px;
+  column-gap: 40px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.contact-icon-wrapper {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #eef2ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #6c75df;
+}
+
+.contact-icon-wrapper svg {
+  width: 28px;
+  height: 28px;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  padding-top: 4px;
+}
+
+.contact-label {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 6px;
+}
+
+.contact-value {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #111;
+  font-weight: 500;
+}

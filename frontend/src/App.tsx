@@ -6,13 +6,13 @@ import { useAuth } from './authContext';
 import LatestArticles from './components/articles/LatestArticles';
 import About from './components/About';
 import ArticleSearch from './components/ArticleSearch';
+import Contact from './components/Contact';
 
 const Archive = () => <div><h2>Roczniki</h2></div>;
 const Editorial = () => <div><h2>Redakcja</h2></div>;
 const ForAuthors = () => <div><h2>Dla autorów</h2></div>;
 const ReviewProcess = () => <div><h2>Proces recenzji</h2></div>;
 const Reviewers = () => <div><h2>Recenzenci</h2></div>;
-const Contact = () => <div><h2>Kontakt</h2></div>;
 const AdminPanel = () => <div><h2>Panel Administratora</h2></div>;
 const Login = () => <div><h2>Logowanie</h2></div>;
 const NotFound = () => <div><h2>404 - Nie znaleziono strony</h2></div>;

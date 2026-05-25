@@ -1,13 +1,14 @@
 import { useState, useMemo, useEffect } from 'react';
 
-export const usePagination = <T>(items: T[], itemsPerPage: number = 5) => {
+export const usePagination = <T>(items: T[], itemsPerPage: number = 4) => {
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
         setCurrentPage(1);
-    }, [items.length]);
+    }, [items]);
 
     const totalPages = useMemo(() => {
+        if (items.length === 0) return 0;
         return Math.ceil(items.length / itemsPerPage);
     }, [items.length, itemsPerPage]);
 

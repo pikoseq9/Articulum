@@ -1,4 +1,5 @@
 import React from 'react';
+// @ts-ignore: CSS module import without type declarations
 import './Pagination.css';
 
 interface Props {
