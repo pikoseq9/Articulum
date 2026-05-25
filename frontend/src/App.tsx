@@ -7,6 +7,7 @@ import LatestArticles from './components/articles/LatestArticles';
 import About from './components/About';
 import ArticleSearch from './components/ArticleSearch';
 import Contact from './components/Contact';
+import NotFound from './components/NotFound';
 
 const Archive = () => <div><h2>Roczniki</h2></div>;
 const Editorial = () => <div><h2>Redakcja</h2></div>;
@@ -15,7 +16,6 @@ const ReviewProcess = () => <div><h2>Proces recenzji</h2></div>;
 const Reviewers = () => <div><h2>Recenzenci</h2></div>;
 const AdminPanel = () => <div><h2>Panel Administratora</h2></div>;
 const Login = () => <div><h2>Logowanie</h2></div>;
-const NotFound = () => <div><h2>404 - Nie znaleziono strony</h2></div>;
 
 function App() {
   const { user, logout, appLoading } = useAuth(); 
@@ -92,6 +92,7 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/login" element={<Login />} />
               <Route path="/admin" element={<AdminPanel />} />
+              <Route path="/not-found" element={<NotFound />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>

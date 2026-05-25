@@ -1,0 +1,95 @@
+.nf-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.nf-card {
+    background-color: #ffffff;
+    border: 1px solid #ebebeb;
+    border-radius: 12px;
+    padding: 50px 40px;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.nf-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: #fee2e2;
+    color: #ef4444; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 20px auto;
+}
+
+.nf-icon svg {
+    width: 32px;
+    height: 32px;
+}
+
+.nf-title {
+    font-size: 64px;
+    font-weight: 800;
+    color: #111;
+    margin-bottom: 10px;
+    line-height: 1;
+}
+
+.nf-subtitle {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.nf-text {
+    font-size: 15px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 35px;
+}
+
+.nf-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.nf-btn {
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nf-btn-primary {
+    background-color: #6c75df;
+    color: white;
+}
+
+.nf-btn-primary:hover {
+    background-color: #5b63c7;
+}
+
+.nf-btn-secondary {
+    background-color: #f8f9fa;
+    color: #333;
+    border: 1px solid #e0e0e0;
+}
+
+.nf-btn-secondary:hover {
+    background-color: #e9ecef;
+}

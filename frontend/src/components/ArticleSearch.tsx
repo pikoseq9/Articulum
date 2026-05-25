@@ -2,7 +2,9 @@ import React, { useState, useEffect, useRef, forwardRef } from 'react';
 // @ts-ignore: CSS module import without type declarations
 import './ArticleSearch.css';
 import { Article, CategoryLabels } from '../utils/types';
+
 import api from '../axios';
+import { usePdfOpener } from '../hooks/usePdfOpener';
 
 interface ArticleSearchProps {
   onSelectArticle?: (article: Article) => void;
@@ -13,7 +15,7 @@ const ArticleSearch = forwardRef<HTMLInputElement, ArticleSearchProps>(({ onSele
   const [results, setResults] = useState<Article[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  
+  const { openPdf } = usePdfOpener();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -58,7 +60,7 @@ const ArticleSearch = forwardRef<HTMLInputElement, ArticleSearchProps>(({ onSele
     if (onSelectArticle) {
       onSelectArticle(article);
     } else {
-      window.open(`http://localhost:5269/api/Articles/${article.id}/view`, '_blank');
+      openPdf(article.id);
     }
   };
 

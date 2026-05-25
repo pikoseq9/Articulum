@@ -3,11 +3,13 @@ import { useArticles } from '../../hooks/useArticles';
 import { ArticleCategory, CategoryLabels } from '../../utils/types';
 import { usePagination } from '../../hooks/usePagination';
 import { Pagination } from '../Pagination';
+import { usePdfOpener } from '../../hooks/usePdfOpener';
 // @ts-ignore: CSS module import without type declarations
 import './LatestArticles.css';
 
 const LatestArticles = () => {
   const { articles, loading, error, stats } = useArticles('/api/Articles/latest');
+  const { openPdf } = usePdfOpener();
   const [activeCategory, setActiveCategory] = useState<ArticleCategory | null>(null);
   const filteredArticles = activeCategory === null 
     ? articles 
@@ -19,7 +21,7 @@ const LatestArticles = () => {
   if (error) return <div className="la-error">{error}</div>;
 
   const handleReadPdf = (id: string) => {
-    window.open(`http://localhost:5269/api/Articles/${id}/view`, '_blank');
+    openPdf(id);
   };
 
   return (
