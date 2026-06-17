@@ -1,0 +1,156 @@
+.auth-container {
+  padding: 10px;
+  color: #131620;
+}
+
+.auth-header {
+  margin-bottom: 25px;
+}
+
+.auth-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 8px 0;
+}
+
+.auth-title-underline {
+  width: 60px;
+  height: 4px;
+  background-color: #6c75df; /* Fiolet przewodzący projektu */
+  border-radius: 2px;
+}
+
+.auth-intro {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: #4a5568;
+  margin-bottom: 35px;
+  max-width: 950px;
+}
+
+/* Układ dwukolumnowy z makiety */
+.auth-layout {
+  display: flex;
+  gap: 25px;
+  max-width: 1050px;
+}
+
+/* Główna kolumna po lewej stronie */
+.auth-info-column {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Białe karty informacyjne */
+.auth-card {
+  background: #ffffff;
+  border: 1px solid #ebebeb;
+  border-radius: 8px;
+  padding: 25px 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01);
+}
+
+.auth-card-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 12px 0;
+}
+
+.auth-card-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #111;
+  margin: 0;
+}
+
+/* Link pobierania ze strzałką */
+.auth-download-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.auth-arrow {
+  font-size: 18px;
+  color: #6c75df;
+  font-weight: 500;
+}
+
+.auth-download-link {
+  font-size: 14.5px;
+  color: #6c75df;
+  text-decoration: underline;
+  font-weight: 500;
+  transition: color 0.15s;
+}
+
+.auth-download-link:hover {
+  color: #4f55b3;
+}
+
+/* Panel boczny po prawej stronie */
+.auth-sidebar-column {
+  flex: 1;
+  min-width: 250px;
+}
+
+.auth-sidebar-card {
+  background: #ffffff;
+  border: 1px solid #ebebeb;
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01);
+  position: sticky;
+  top: 20px;
+}
+
+.auth-sidebar-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 15px 0;
+  line-height: 1.2;
+}
+
+.auth-sidebar-text {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #111;
+  margin: 0 0 20px 0;
+}
+
+/* Lista kategorii w panelu bocznym */
+.auth-categories-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.auth-categories-list li {
+  font-size: 14px;
+  color: #111;
+}
+
+.auth-categories-list strong {
+  font-weight: 700;
+  display: inline-block;
+  width: 20px;
+}
+
+/* Elastyczność na mniejszych ekranach */
+@media (max-width: 850px) {
+  .auth-layout {
+    flex-direction: column;
+  }
+  .auth-sidebar-column {
+    width: 100%;
+  }
+}

@@ -1,0 +1,95 @@
+.rp-container {
+  padding: 10px;
+  color: #131620;
+}
+
+.rp-header {
+  margin-bottom: 25px;
+}
+
+.rp-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 8px 0;
+}
+
+.rp-title-underline {
+  width: 60px;
+  height: 4px;
+  background-color: #6c75df; /* Twój fiolet przewodni */
+  border-radius: 2px;
+}
+
+.rp-intro {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: #4a5568;
+  margin-bottom: 30px;
+  max-width: 900px;
+  font-weight: 500;
+}
+
+.rp-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 950px;
+}
+
+/* Wygląd białych boksów/kart z makiety */
+.rp-card {
+  background: #ffffff;
+  border: 1px solid #ebebeb;
+  border-radius: 8px;
+  padding: 25px 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01);
+}
+
+.rp-card p {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: #111;
+  margin: 0 0 15px 0;
+}
+
+.rp-card p:last-child {
+  margin-bottom: 0;
+}
+
+.rp-card strong {
+  font-weight: 700;
+}
+
+/* Specyficzne style dla listy kryteriów */
+.rp-list-title {
+  font-weight: 500;
+  margin-bottom: 10px !important;
+}
+
+.rp-list {
+  list-style: none; /* Rezygnujemy z domyślnych, żeby dać ładne myślniki z makiety */
+  padding: 0;
+  margin: 0;
+}
+
+.rp-list li {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: #111;
+  padding-left: 20px;
+  position: relative;
+  margin-bottom: 6px;
+}
+
+.rp-list li:last-child {
+  margin-bottom: 0;
+}
+
+/* Wstawianie kresek przed elementami listy, dokładnie jak w projekcie */
+.rp-list li::before {
+  content: "•";
+  position: absolute;
+  left: 5px;
+  color: #111;
+}
