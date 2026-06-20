@@ -30,4 +30,6 @@ export interface UserDto {
   userName: string;
   token: string;
   role?: string;
+
+  avatarUrl?: string | null;
 }
