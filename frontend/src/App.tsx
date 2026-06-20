@@ -96,7 +96,7 @@ function AppContent() {
               >
                 {user.avatarUrl ? (
                   <img 
-                    src={`https://localhost:5001${user.avatarUrl}`}
+                    src={`http://localhost:5269${user.avatarUrl}`}
                     alt="Avatar" 
                     style={{ 
                       width: '100%', 
