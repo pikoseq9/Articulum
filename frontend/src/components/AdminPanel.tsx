@@ -1,5 +1,5 @@
 import "./AdminPanel.css";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import api from "../axios";
 import { Article } from "../utils/types";
 
@@ -16,8 +16,9 @@ const AdminPanel = () => {
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [additionalFile, setAdditionalFile] = useState<File | null>(null);
 
-  const [editingArticle, setEditingArticle] =
-    useState<Article | null>(null);
+  const [editingArticle, setEditingArticle] = useState<Article | null>(null);
+  
+  const [error, setError] = useState("");
 
   useEffect(() => {
     loadArticles();
@@ -44,50 +45,58 @@ const AdminPanel = () => {
     setAdditionalFile(null);
 
     setEditingArticle(null);
+    setError("");
   };
 
-  const handleAddArticle = async () => {
-    if (!title.trim()) {
-        alert("Pole 'Tytuł' jest obowiązkowe!");
-        return;
-    }
-    if (!authors.trim()) {
-        alert("Pole 'Autorzy' jest obowiązkowe!");
-        return;
-    }
-    if (!publicationDate) {
-        alert("Pole 'Data publikacji' jest obowiązkowe!");
-        return;
-    }
-    if (!pdfFile) {
-        alert("Musisz wgrać plik PDF artykułu!");
-        return;
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    if (!editingArticle && !pdfFile) {
+      setError("Wgranie pliku PDF jest wymagane przy dodawaniu nowego artykułu.");
+      return;
     }
 
     try {
-        const formData = new FormData();
+      const formData = new FormData();
+      formData.append("Title", title);
+      formData.append("Authors", authors);
+      formData.append("PageRange", pageRange);
+      formData.append("Keywords", keywords);
+      formData.append("PublicationDate", publicationDate);
+      formData.append("Category", category.toString());
 
-        formData.append("Title", title);
-        formData.append("Authors", authors);
-        formData.append("PageRange", pageRange);
-        formData.append("Keywords", keywords);
-        formData.append("PublicationDate", publicationDate);
-        formData.append("Category", category.toString());
-
+      if (pdfFile) {
         formData.append("file", pdfFile);
+      }
 
-        if (additionalFile) {
+      if (additionalFile) {
         formData.append("additionalFile", additionalFile);
-        }
+      }
 
+      if (editingArticle) {
+        await api.put(`/api/articles/${editingArticle.id}`, formData);
+      } else {
         await api.post("/api/articles", formData);
-        await loadArticles();
-        clearForm();
-    } catch (error) {
-        console.error(error);
-        alert("Nie udało się dodać artykułu");
+      }
+
+      await loadArticles();
+      clearForm();
+    } catch (err: any) {
+      console.error(err);
+      if (err.response?.data) {
+        if (typeof err.response.data === 'string') {
+          setError(err.response.data);
+        } else if (Array.isArray(err.response.data)) {
+          setError(err.response.data.map((e: any) => e.description).join(", "));
+        } else {
+          setError(editingArticle ? "Nie udało się zaktualizować artykułu." : "Nie udało się dodać artykułu.");
+        }
+      } else {
+        setError("Błąd połączenia z serwerem.");
+      }
     }
-    };
+  };
 
   const handleDeleteArticle = async (id: string) => {
     if (!window.confirm("Czy na pewno usunąć artykuł?")) {
@@ -96,7 +105,6 @@ const AdminPanel = () => {
 
     try {
       await api.delete(`/api/articles/${id}`);
-
       await loadArticles();
     } catch (error) {
       console.error(error);
@@ -106,57 +114,16 @@ const AdminPanel = () => {
 
   const startEdit = (article: Article) => {
     setEditingArticle(article);
+    setError("");
 
     setTitle(article.title);
     setAuthors(article.authors);
     setPageRange(article.pageRange);
     setKeywords(article.keywords);
 
-    setPublicationDate(
-      article.publicationDate.substring(0, 10)
-    );
-
+    setPublicationDate(article.publicationDate.substring(0, 10));
     setCategory(article.category);
   };
-
-  const handleUpdateArticle = async () => {
-        if (!editingArticle) return;
-
-        if (!title.trim()) {
-            alert("Pole 'Tytuł' nie może być puste!");
-            return;
-        }
-        if (!authors.trim()) {
-            alert("Pole 'Autorzy' nie może być puste!");
-            return;
-        }
-        if (!publicationDate) {
-            alert("Pole 'Data publikacji' nie może być puste!");
-            return;
-        }
-
-        try {
-            const formData = new FormData();
-
-            formData.append("Title", title);
-            formData.append("Authors", authors);
-            formData.append("PageRange", pageRange);
-            formData.append("Keywords", keywords);
-            formData.append("PublicationDate", publicationDate);
-            formData.append("Category", category.toString());
-
-            if (pdfFile) {
-            formData.append("file", pdfFile);
-            }
-
-            await api.put(`/api/articles/${editingArticle.id}`, formData);
-            await loadArticles();
-            clearForm();
-        } catch (error) {
-            console.error(error);
-            alert("Nie udało się zaktualizować artykułu");
-        }
-    };
 
   return (
     <div className="admin-panel">
@@ -170,12 +137,13 @@ const AdminPanel = () => {
               : "Dodaj nowy artykuł poprzez formularz"}
           </h3>
 
-          <div className="admin-form">
+          <form className="admin-form" onSubmit={handleSubmit}>
             <input
               type="text"
               placeholder="Tytuł"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              required
             />
 
             <input
@@ -183,15 +151,24 @@ const AdminPanel = () => {
               placeholder="Autorzy"
               value={authors}
               onChange={(e) => setAuthors(e.target.value)}
+              required
             />
 
             <input
               type="text"
               placeholder="Data publikacji"
-              onFocus={(e) => (e.target.type = "date")}
-              onBlur={(e) => !publicationDate && (e.target.type = "text")}
               value={publicationDate}
+              onFocus={(e) => {
+                e.target.type = "date";
+                try { e.target.showPicker(); } catch (err) { console.log(err); }
+              }}
+              onBlur={(e) => {
+                if (!publicationDate) {
+                  e.target.type = "text";
+                }
+              }}
               onChange={(e) => setPublicationDate(e.target.value)}
+              required
             />
 
             <input
@@ -212,6 +189,7 @@ const AdminPanel = () => {
               className="category-select"
               value={category}
               onChange={(e) => setCategory(Number(e.target.value))}
+              required
             >
               <option value={1}>Matematyka</option>
               <option value={2}>Informatyka</option>
@@ -231,6 +209,7 @@ const AdminPanel = () => {
                 accept=".pdf"
                 className="hidden-file-input"
                 onChange={(e) => setPdfFile(e.target.files?.[0] || null)}
+                required={!editingArticle}
               />
             </div>
 
@@ -249,6 +228,12 @@ const AdminPanel = () => {
               />
             </div>
 
+            {error && (
+              <p className="error-message" style={{ color: "red", margin: "10px 0" }}>
+                {error}
+              </p>
+            )}
+
             <div className="form-actions-row">
               {editingArticle && (
                 <button type="button" onClick={clearForm} className="btn-cancel">
@@ -256,19 +241,11 @@ const AdminPanel = () => {
                 </button>
               )}
               
-              <button
-                type="button"
-                className="btn-submit"
-                onClick={
-                  editingArticle
-                    ? handleUpdateArticle
-                    : handleAddArticle
-                }
-              >
+              <button type="submit" className="btn-submit">
                 {editingArticle ? "Zapisz zmiany" : "Dodaj artykuł"}
               </button>
             </div>
-          </div>
+          </form>
         </div>
 
         <div className="admin-articles">
@@ -284,11 +261,11 @@ const AdminPanel = () => {
                 <span className="views">👁 {article.openCount}</span>
 
                 <div className="action-buttons">
-                  <button onClick={() => handleDeleteArticle(article.id)}>
+                  <button type="button" onClick={() => handleDeleteArticle(article.id)}>
                     Usuń
                   </button>
 
-                  <button onClick={() => startEdit(article)}>
+                  <button type="button" onClick={() => startEdit(article)}>
                     Edytuj
                   </button>
                 </div>
