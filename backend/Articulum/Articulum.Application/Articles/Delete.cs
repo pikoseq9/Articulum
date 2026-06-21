@@ -27,14 +27,13 @@ namespace Articulum.Application.Articles
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var article = await _context.Articles
-                    .FirstOrDefaultAsync(x => x.Id == request.Id &&
-                                                x.AppUser.UserName == _userAccessor.GetUsername(),
-                                            cancellationToken);
+                    .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
                 if (article == null)
                     return Result<Unit>.Failure("Nie znaleziono artykułu lub brak uprawnień do usunięcia");
 
                 var fileNameToDelete = article.PdfFileName;
+                var additionalFileNameToDelete = article.AdditionalFileName;
 
                 _context.Remove(article);
                 var result = await _context.SaveChangesAsync(cancellationToken) > 0;
@@ -45,17 +44,20 @@ namespace Articulum.Application.Articles
                 if (!string.IsNullOrEmpty(fileNameToDelete))
                 {
                     var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/pdfs", fileNameToDelete);
-
                     if (System.IO.File.Exists(filePath))
                     {
-                        try
-                        {
-                            System.IO.File.Delete(filePath);
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine($"Błąd podczas usuwania pliku: {ex.Message}");
-                        }
+                        try { System.IO.File.Delete(filePath); }
+                        catch (Exception ex) { Console.WriteLine($"Błąd podczas usuwania pliku PDF: {ex.Message}"); }
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(additionalFileNameToDelete))
+                {
+                    var additionalFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/additional", additionalFileNameToDelete);
+                    if (System.IO.File.Exists(additionalFilePath))
+                    {
+                        try { System.IO.File.Delete(additionalFilePath); }
+                        catch (Exception ex) { Console.WriteLine($"Błąd podczas usuwania pliku dodatkowego: {ex.Message}"); }
                     }
                 }
 

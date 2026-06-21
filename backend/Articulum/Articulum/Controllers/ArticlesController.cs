@@ -97,11 +97,16 @@ namespace Articulum.WebApplication.Controllers
 
         [Authorize(Roles = "Administrator")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditArticle(Guid id, [FromForm] Article article, IFormFile? file)
+        public async Task<IActionResult> EditArticle(Guid id, [FromForm] Article article, IFormFile? file, IFormFile? additionalFile)
         {
             article.Id = id;
 
-            var result = await Mediator.Send(new Edit.Command { Article = article, File = file });
+            var result = await Mediator.Send(new Edit.Command
+            {
+                Article = article,
+                File = file,
+                AdditionalFile = additionalFile
+            });
 
             if (result.IsSuccess) return Ok();
 

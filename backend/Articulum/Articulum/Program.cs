@@ -1,16 +1,17 @@
-using Microsoft.EntityFrameworkCore;
-using Articulum.Infrastructure;
 using Articulum.Application;
+using Articulum.Application.Articles;
+using Articulum.Domain;
+using Articulum.Infrastructure;
+using Articulum.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Articulum.Application.Articles;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Articulum.Domain;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
-using Articulum.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,7 @@ builder.Services.AddControllers(opt =>
 {
     var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
     opt.Filters.Add(new AuthorizeFilter(policy));
+    opt.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
 }
 );
 
