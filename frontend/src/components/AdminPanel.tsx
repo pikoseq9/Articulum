@@ -1,11 +1,14 @@
+// @ts-ignore: CSS module import without type declarations
 import "./AdminPanel.css";
 import React, { useEffect, useState } from "react";
 import api from "../axios";
 import { Article } from "../utils/types";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const AdminPanel = () => {
   const [articles, setArticles] = useState<Article[]>([]);
-
+  const location = useLocation();
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [authors, setAuthors] = useState("");
   const [pageRange, setPageRange] = useState("");
@@ -17,7 +20,7 @@ const AdminPanel = () => {
   const [additionalFile, setAdditionalFile] = useState<File | null>(null);
 
   const [editingArticle, setEditingArticle] = useState<Article | null>(null);
-  
+
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -32,6 +35,14 @@ const AdminPanel = () => {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    loadArticles();
+    if (location.state && location.state.articleToEdit) {
+      startEdit(location.state.articleToEdit);
+      navigate(location.pathname, { replace: true });
+    }
+  }, [location.state, navigate]);
 
   const clearForm = () => {
     setTitle("");
@@ -53,7 +64,9 @@ const AdminPanel = () => {
     setError("");
 
     if (!editingArticle && !pdfFile) {
-      setError("Wgranie pliku PDF jest wymagane przy dodawaniu nowego artykułu.");
+      setError(
+        "Wgranie pliku PDF jest wymagane przy dodawaniu nowego artykułu.",
+      );
       return;
     }
 
@@ -85,12 +98,16 @@ const AdminPanel = () => {
     } catch (err: any) {
       console.error(err);
       if (err.response?.data) {
-        if (typeof err.response.data === 'string') {
+        if (typeof err.response.data === "string") {
           setError(err.response.data);
         } else if (Array.isArray(err.response.data)) {
           setError(err.response.data.map((e: any) => e.description).join(", "));
         } else {
-          setError(editingArticle ? "Nie udało się zaktualizować artykułu." : "Nie udało się dodać artykułu.");
+          setError(
+            editingArticle
+              ? "Nie udało się zaktualizować artykułu."
+              : "Nie udało się dodać artykułu.",
+          );
         }
       } else {
         setError("Błąd połączenia z serwerem.");
@@ -160,7 +177,11 @@ const AdminPanel = () => {
               value={publicationDate}
               onFocus={(e) => {
                 e.target.type = "date";
-                try { e.target.showPicker(); } catch (err) { console.log(err); }
+                try {
+                  e.target.showPicker();
+                } catch (err) {
+                  console.log(err);
+                }
               }}
               onBlur={(e) => {
                 if (!publicationDate) {
@@ -198,7 +219,10 @@ const AdminPanel = () => {
             </select>
 
             <div className="file-upload-wrapper">
-              <label htmlFor="pdf-file-input" className={`file-upload-label ${pdfFile ? 'has-file' : ''}`}>
+              <label
+                htmlFor="pdf-file-input"
+                className={`file-upload-label ${pdfFile ? "has-file" : ""}`}
+              >
                 <span className="file-placeholder">
                   {pdfFile ? `📄 ${pdfFile.name}` : "Wgraj plik PDF"}
                 </span>
@@ -214,9 +238,14 @@ const AdminPanel = () => {
             </div>
 
             <div className="file-upload-wrapper">
-              <label htmlFor="additional-file-input" className={`file-upload-label ${additionalFile ? 'has-file' : ''}`}>
+              <label
+                htmlFor="additional-file-input"
+                className={`file-upload-label ${additionalFile ? "has-file" : ""}`}
+              >
                 <span className="file-placeholder">
-                  {additionalFile ? `📄 ${additionalFile.name}` : "Wgraj plik opcjonalny"}
+                  {additionalFile
+                    ? `📄 ${additionalFile.name}`
+                    : "Wgraj plik opcjonalny"}
                 </span>
               </label>
               <input
@@ -229,18 +258,25 @@ const AdminPanel = () => {
             </div>
 
             {error && (
-              <p className="error-message" style={{ color: "red", margin: "10px 0" }}>
+              <p
+                className="error-message"
+                style={{ color: "red", margin: "10px 0" }}
+              >
                 {error}
               </p>
             )}
 
             <div className="form-actions-row">
               {editingArticle && (
-                <button type="button" onClick={clearForm} className="btn-cancel">
+                <button
+                  type="button"
+                  onClick={clearForm}
+                  className="btn-cancel"
+                >
                   Anuluj edycję
                 </button>
               )}
-              
+
               <button type="submit" className="btn-submit">
                 {editingArticle ? "Zapisz zmiany" : "Dodaj artykuł"}
               </button>
@@ -261,7 +297,10 @@ const AdminPanel = () => {
                 <span className="views">👁 {article.openCount}</span>
 
                 <div className="action-buttons">
-                  <button type="button" onClick={() => handleDeleteArticle(article.id)}>
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteArticle(article.id)}
+                  >
                     Usuń
                   </button>
 

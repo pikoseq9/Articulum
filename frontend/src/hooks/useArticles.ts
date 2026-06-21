@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import api from '../axios';
 import { Article, ArticleCategory } from '../utils/types';
 
@@ -6,6 +6,11 @@ export const useArticles = (endpoint: string) => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+  const refetch = useCallback(() => {
+    setRefreshTrigger(prev => prev + 1);
+  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -16,7 +21,7 @@ export const useArticles = (endpoint: string) => {
         setError('Nie udało się pobrać artykułów z serwera.');
       })
       .finally(() => setLoading(false));
-  }, [endpoint]);
+  }, [endpoint, refreshTrigger]);
 
   const stats = {
     total: articles.length,
@@ -26,5 +31,5 @@ export const useArticles = (endpoint: string) => {
     popSci: articles.filter(a => a.category === ArticleCategory.PopularScience).length,
   };
 
-  return { articles, loading, error, stats };
+  return { articles, loading, error, stats, refetch };
 };

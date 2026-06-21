@@ -6,9 +6,15 @@ import { ArticleCategory, CategoryLabels, Article } from "../../utils/types";
 import { Pagination } from "../Pagination";
 // @ts-ignore: CSS module import without type declarations
 import "./Archive.css";
+import { useNavigate } from "react-router-dom";
+import api from "../../axios";
+import { useAuth } from "../../authContext";
 
 const Archive: React.FC = () => {
-  const { articles, loading, error } = useArticles("/api/Articles/archive");
+  const navigate = useNavigate();
+  const { articles, loading, error, refetch } = useArticles(
+    "/api/Articles/archive",
+  );
   const { openPdf } = usePdfOpener();
   const [activeCategory, setActiveCategory] = useState<ArticleCategory | null>(
     null,
@@ -32,6 +38,24 @@ const Archive: React.FC = () => {
 
     return { decades: grouped, availableYears: years };
   }, [articles]);
+
+  const handleEditArticle = (article: Article) => {
+    navigate("/admin", { state: { articleToEdit: article } });
+  };
+
+  const handleDeleteArticle = async (id: string) => {
+    if (!window.confirm("Czy na pewno usunąć artykuł?")) return;
+    try {
+      await api.delete(`/api/articles/${id}`);
+      refetch();
+    } catch (err) {
+      console.error(err);
+      alert("Nie udało się usunąć artykułu");
+    }
+  };
+
+  const { user } = useAuth();
+  const isLoggedIn = !!user;
 
   useEffect(() => {
     if (availableYears.length > 0 && selectedYear === null) {
@@ -133,23 +157,42 @@ const Archive: React.FC = () => {
                 </p>
 
                 <div className="arch-card-footer">
-                  <div className="arch-card-meta">
-                    <span>
-                      Autorzy: <b>{article.authors}</b>
-                    </span>
-                    <span>
-                      Data publikacji:{" "}
-                      <b>
-                        {new Date(article.publicationDate).toLocaleDateString(
-                          "pl-PL",
-                        )}{" "}
-                        r.
-                      </b>
-                    </span>
-                    <span>
-                      Liczba stron: <b>{article.pageRange}</b>
-                    </span>
+                  <div>
+                    <div className="arch-card-meta">
+                      <span>
+                        Autorzy: <b>{article.authors}</b>
+                      </span>
+                      <span>
+                        Data publikacji:{" "}
+                        <b>
+                          {new Date(article.publicationDate).toLocaleDateString(
+                            "pl-PL",
+                          )}{" "}
+                          r.
+                        </b>
+                      </span>
+                      <span>
+                        Liczba stron: <b>{article.pageRange}</b>
+                      </span>
+                    </div>
+                    {isLoggedIn && (
+                      <div className="admin-action-links">
+                        <button
+                          className="text-link-btn"
+                          onClick={() => handleDeleteArticle(article.id)}
+                        >
+                          Usuń
+                        </button>
+                        <button
+                          className="text-link-btn"
+                          onClick={() => handleEditArticle(article)}
+                        >
+                          Edytuj
+                        </button>
+                      </div>
+                    )}
                   </div>
+
                   <button
                     className="arch-card-btn"
                     onClick={() => handleReadPdf(article.id)}
