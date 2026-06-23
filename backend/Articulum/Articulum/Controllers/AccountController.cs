@@ -103,6 +103,22 @@ namespace Articulum.Controllers
             };
         }
 
+        [Authorize(Roles = "Administrator")]
+        [HttpGet("all")]
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers()
+        {
+            var users = await _userManager.Users.ToListAsync();
+
+            return Ok(users.Select(u => new UserDto
+            {
+                UserName = u.UserName,
+                DisplayName = u.DisplayName,
+                Email = u.Email,
+                Token = "", 
+                IsMfaEnabled = u.TwoFactorEnabled
+            }));
+        }
+
         [Authorize]
         [HttpGet]
         public async Task<ActionResult<UserDto>> GetCurrentUser()

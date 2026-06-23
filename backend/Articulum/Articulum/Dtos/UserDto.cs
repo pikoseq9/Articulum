@@ -11,5 +11,6 @@
         public bool IsMfaEnabled { get; set; }
         public string? MfaMethod { get; set; }
         public string? AvatarUrl { get; set; }
+        public string? Email { get; set; }
     }
 }

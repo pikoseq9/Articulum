@@ -2,210 +2,217 @@ import React, { useState } from "react";
 import api from "../axios";
 import { useAuth } from "../authContext";
 
-type SetupStep = "idle" | "select" | "setup-auth" | "setup-email" | "disable";
+type SetupStep = "idle" | "setup-auth" | "disable";
 
 export const MfaSettings = () => {
   const { user, login } = useAuth();
+
   const [step, setStep] = useState<SetupStep>("idle");
-  const [code, setCode] = useState("");
+  const [mfaCode, setMfaCode] = useState("");
   const [qrCodeUrl, setQrCodeUrl] = useState("");
   const [manualKey, setManualKey] = useState("");
-  const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
+  const [mfaError, setMfaError] = useState("");
+  const [mfaMessage, setMfaMessage] = useState("");
+
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [pwdMessage, setPwdMessage] = useState("");
+  const [pwdError, setPwdError] = useState("");
 
   if (!user) return null;
 
-  const handleSelectMethod = async (method: "authenticator" | "email") => {
-    setError("");
+  const handleStartSetup = async () => {
+    setMfaError("");
+    setMfaMessage("");
     try {
-      const res = await api.post(`/api/Account/enable-mfa?method=${method}`);
-      if (method === "authenticator") {
-        setQrCodeUrl(res.data.qrCodeSetupImageUrl);
-        setManualKey(res.data.manualEntryKey);
-        setStep("setup-auth");
-      } else {
-        setMessage(res.data.message);
-        setStep("setup-email");
-      }
+      const res = await api.post(
+        `/api/Account/enable-mfa?method=authenticator`,
+      );
+      setQrCodeUrl(res.data.qrCodeSetupImageUrl);
+      setManualKey(res.data.manualEntryKey);
+      setStep("setup-auth");
     } catch (err: any) {
-      setError("Nie udało się rozpocząć konfiguracji.");
+      setMfaError("Nie udało się rozpocząć konfiguracji.");
     }
   };
 
   const handleConfirmSetup = async () => {
-    setError("");
+    setMfaError("");
     try {
       const res = await api.post(
         "/api/Account/confirm-mfa-enable",
-        `"${code}"`,
+        `"${mfaCode}"`,
         {
           headers: { "Content-Type": "application/json" },
         },
       );
       login(res.data);
       setStep("idle");
-      setCode("");
-      setMessage("MFA zostało pomyślnie włączone!");
+      setMfaCode("");
+      setMfaMessage("Weryfikacja dwuetapowa została pomyślnie włączona!");
     } catch (err: any) {
-      setError(err.response?.data || "Nieprawidłowy kod.");
+      setMfaError(err.response?.data || "Nieprawidłowy kod.");
     }
   };
 
   const handleStartDisable = async () => {
-    setError("");
+    setMfaError("");
+    setMfaMessage("");
     try {
       await api.post("/api/Account/send-disable-code");
       setStep("disable");
-      setMessage(
-        "Jeśli używasz e-maila, kod został wysłany. W przeciwnym razie wpisz kod z aplikacji.",
+      setMfaMessage(
+        "Wprowadź kod z aplikacji Authenticator, aby zatwierdzić wyłączenie ochrony.",
       );
     } catch (err) {
-      setError("Błąd podczas żądania wyłączenia.");
+      setMfaError("Błąd podczas żądania wyłączenia.");
     }
   };
 
   const handleConfirmDisable = async () => {
-    setError("");
+    setMfaError("");
     try {
-      await api.post("/api/Account/disable-mfa", { code });
+      await api.post("/api/Account/disable-mfa", { code: mfaCode });
       login({ ...user, isMfaEnabled: false, mfaMethod: null });
       setStep("idle");
-      setCode("");
-      setMessage("MFA zostało wyłączone.");
+      setMfaCode("");
+      setMfaMessage("Weryfikacja dwuetapowa została wyłączona.");
     } catch (err: any) {
-      setError(err.response?.data || "Nieprawidłowy kod.");
+      setMfaError(err.response?.data || "Nieprawidłowy kod.");
+    }
+  };
+
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPwdError("");
+    setPwdMessage("");
+
+    if (newPassword !== confirmPassword) {
+      setPwdError("Nowe hasła nie są identyczne.");
+      return;
+    }
+
+    try {
+      await api.post("/api/Account/change-password", {
+        currentPassword,
+        newPassword,
+      });
+      setPwdMessage("Hasło zostało pomyślnie zmienione.");
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    } catch (err: any) {
+      if (err.response?.data && typeof err.response.data === "string") {
+        setPwdError(err.response.data);
+      } else {
+        setPwdError(
+          "Nie udało się zmienić hasła. Sprawdź obecne hasło i wymagania bezpieczeństwa.",
+        );
+      }
     }
   };
 
   return (
-    <div className="admin-articles" style={{ padding: "20px" }}>
-      <h3>Bezpieczeństwo konta</h3>
+    <div className="admin-articles mfa-settings-container">
+      <section>
+        <h3 className="mfa-section-title">Weryfikacja dwuetapowa (MFA)</h3>
 
-      {message && (
-        <p style={{ color: "#10b981", marginBottom: "15px" }}>{message}</p>
-      )}
-      {error && <p style={{ color: "red", marginBottom: "15px" }}>{error}</p>}
+        {mfaMessage && <p className="mfa-success-text">{mfaMessage}</p>}
+        {mfaError && <p className="mfa-error-text">{mfaError}</p>}
 
-      {step === "idle" && (
-        <div className="article-row">
-          <div className="article-info">
-            <span className="article-title">Weryfikacja dwuetapowa (MFA)</span>
-            <p style={{ fontSize: "13px", color: "#64748b", marginTop: "4px" }}>
-              Stan: <b>{user.isMfaEnabled ? "Włączone" : "Wyłączone"}</b>
-            </p>
+        {step === "idle" && (
+          <div className="article-row mfa-article-row">
+            <div className="article-info">
+              <span className="article-title">Ochrona logowania (MFA)</span>
+              <p className="mfa-status-text">
+                Stan:{" "}
+                <b
+                  className={
+                    user.isMfaEnabled
+                      ? "mfa-status-enabled"
+                      : "mfa-status-disabled"
+                  }
+                >
+                  {user.isMfaEnabled ? "Włączone" : "Wyłączone"}
+                </b>
+              </p>
+            </div>
+            <div className="action-buttons">
+              {user.isMfaEnabled ? (
+                <button
+                  type="button"
+                  className="btn-cancel"
+                  onClick={handleStartDisable}
+                >
+                  Wyłącz MFA
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="btn-submit"
+                  onClick={handleStartSetup}
+                >
+                  Skonfiguruj MFA
+                </button>
+              )}
+            </div>
           </div>
-          <div className="action-buttons">
-            {user.isMfaEnabled ? (
-              <button
-                type="button"
-                className="btn-cancel"
-                onClick={handleStartDisable}
-              >
-                Wyłącz MFA
-              </button>
-            ) : (
-              <button
-                type="button"
-                className="btn-submit"
-                onClick={() => setStep("select")}
-              >
-                Skonfiguruj MFA
-              </button>
+        )}
+
+        {(step === "setup-auth" || step === "disable") && (
+          <div className="mfa-setup-container">
+            <h4 className="mfa-subtitle">
+              {step === "disable"
+                ? "Autoryzuj wyłączenie MFA"
+                : "Konfiguracja aplikacji Authenticator"}
+            </h4>
+
+            {step === "setup-auth" && (
+              <div className="qr-code-container mfa-qr-container">
+                <img src={qrCodeUrl} alt="QR Code" className="mfa-qr-img" />
+                <p className="mfa-manual-key-text">
+                  Klucz ręczny: <b>{manualKey}</b>
+                </p>
+              </div>
             )}
-          </div>
-        </div>
-      )}
 
-      {step === "select" && (
-        <div>
-          <h4>Wybierz metodę autoryzacji:</h4>
-          <div className="mfa-options">
-            <div
-              className="mfa-card"
-              onClick={() => handleSelectMethod("authenticator")}
-            >
-              <span style={{ fontSize: "24px", display: "block" }}>📱</span>
-              <b>Aplikacja Authenticator</b>
-              <p style={{ fontSize: "12px", color: "#666" }}>
-                Skanuj kod QR za pomocą Google/Microsoft Auth
-              </p>
-            </div>
-            <div
-              className="mfa-card"
-              onClick={() => handleSelectMethod("email")}
-            >
-              <span style={{ fontSize: "24px", display: "block" }}>📧</span>
-              <b>Wiadomość E-mail</b>
-              <p style={{ fontSize: "12px", color: "#666" }}>
-                Odbieraj jednorazowe kody na swoją skrzynkę
-              </p>
-            </div>
-          </div>
-          <button
-            className="text-link-btn"
-            style={{ marginTop: "15px" }}
-            onClick={() => setStep("idle")}
-          >
-            Powrót
-          </button>
-        </div>
-      )}
-
-      {(step === "setup-auth" ||
-        step === "setup-email" ||
-        step === "disable") && (
-        <div style={{ maxWidth: "400px" }}>
-          <h4>
-            {step === "disable"
-              ? "Autoryzuj wyłączenie MFA"
-              : "Potwierdź konfigurację"}
-          </h4>
-
-          {step === "setup-auth" && (
-            <div className="qr-code-container">
-              <img
-                src={qrCodeUrl}
-                alt="QR Code"
-                style={{ width: "200px", height: "200px" }}
+            <div className="admin-form">
+              <input
+                type="text"
+                placeholder="Wprowadź 6-cyfrowy kod"
+                value={mfaCode}
+                onChange={(e) => setMfaCode(e.target.value)}
+                maxLength={6}
+                className="mfa-code-input"
               />
-              <p style={{ fontSize: "12px", color: "#666" }}>
-                Klucz ręczny: {manualKey}
-              </p>
-            </div>
-          )}
-
-          <div className="admin-form" style={{ marginTop: "20px" }}>
-            <input
-              type="text"
-              placeholder="Wprowadź 6-cyfrowy kod"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              maxLength={6}
-            />
-            <div className="form-actions-row">
-              <button
-                type="button"
-                className="btn-cancel"
-                onClick={() => {
-                  setStep("idle");
-                  setCode("");
-                }}
-              >
-                Anuluj
-              </button>
-              <button
-                type="button"
-                className="btn-submit"
-                onClick={
-                  step === "disable" ? handleConfirmDisable : handleConfirmSetup
-                }
-              >
-                Zatwierdź
-              </button>
+              <div className="form-actions-row">
+                <button
+                  type="button"
+                  className="btn-cancel"
+                  onClick={() => {
+                    setStep("idle");
+                    setMfaCode("");
+                  }}
+                >
+                  Anuluj
+                </button>
+                <button
+                  type="button"
+                  className="btn-submit"
+                  onClick={
+                    step === "disable"
+                      ? handleConfirmDisable
+                      : handleConfirmSetup
+                  }
+                >
+                  Zatwierdź
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </section>
     </div>
   );
 };

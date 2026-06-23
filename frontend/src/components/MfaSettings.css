@@ -1,0 +1,104 @@
+/* --- STYLE DLA MFA SETTINGS --- */
+
+.mfa-settings-container {
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.mfa-section-title {
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.mfa-subtitle {
+  margin-bottom: 15px;
+}
+
+.mfa-form {
+  max-width: 400px;
+}
+
+.mfa-btn-fit {
+  width: fit-content;
+}
+
+.mfa-error-text {
+  color: #ef4444;
+  margin: 5px 0 15px 0;
+  font-size: 14px;
+}
+
+.mfa-success-text {
+  color: #10b981;
+  margin: 5px 0 15px 0;
+  font-size: 14px;
+}
+
+.mfa-article-row {
+  max-width: 600px;
+  margin: 0;
+}
+
+.mfa-status-text {
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+.mfa-status-enabled {
+  color: #10b981;
+}
+
+.mfa-status-disabled {
+  color: #ef4444;
+}
+
+.mfa-method-select-container {
+  max-width: 600px;
+}
+
+.mfa-icon {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.mfa-card-desc {
+  font-size: 12px;
+  color: #666;
+  margin-top: 5px;
+}
+
+.mfa-back-btn {
+  margin-top: 15px;
+}
+
+.mfa-setup-container {
+  max-width: 400px;
+}
+
+.mfa-qr-container {
+  margin-bottom: 20px;
+}
+
+.mfa-qr-img {
+  width: 200px;
+  height: 200px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.mfa-manual-key-text {
+  font-size: 13px;
+  color: #666;
+  margin-top: 10px;
+}
+
+.mfa-code-input {
+  text-align: center;
+  letter-spacing: 2px;
+  font-size: 18px;
+}
