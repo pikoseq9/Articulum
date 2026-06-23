@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import api from "../axios";
 import { Article } from "../utils/types";
 import { useLocation, useNavigate } from "react-router-dom";
+import { MfaSettings } from "./MfaSettings";
 
 const AdminPanel = () => {
   const [articles, setArticles] = useState<Article[]>([]);
@@ -20,8 +21,11 @@ const AdminPanel = () => {
   const [additionalFile, setAdditionalFile] = useState<File | null>(null);
 
   const [editingArticle, setEditingArticle] = useState<Article | null>(null);
-
   const [error, setError] = useState("");
+
+  const [activeTab, setActiveTab] = useState<"articles" | "settings">(
+    "articles",
+  );
 
   useEffect(() => {
     loadArticles();
@@ -51,10 +55,8 @@ const AdminPanel = () => {
     setKeywords("");
     setPublicationDate("");
     setCategory(1);
-
     setPdfFile(null);
     setAdditionalFile(null);
-
     setEditingArticle(null);
     setError("");
   };
@@ -132,12 +134,10 @@ const AdminPanel = () => {
   const startEdit = (article: Article) => {
     setEditingArticle(article);
     setError("");
-
     setTitle(article.title);
     setAuthors(article.authors);
     setPageRange(article.pageRange);
     setKeywords(article.keywords);
-
     setPublicationDate(article.publicationDate.substring(0, 10));
     setCategory(article.category);
   };
@@ -146,173 +146,199 @@ const AdminPanel = () => {
     <div className="admin-panel">
       <h1>Panel administratora</h1>
 
-      <div className="admin-grid">
-        <div className="admin-form-container">
-          <h3 className="form-section-title">
-            {editingArticle
-              ? "Edycja artykułu"
-              : "Dodaj nowy artykuł poprzez formularz"}
-          </h3>
+      {/* Kontenery dla zakładek z użyciem klas zdefiniowanych w Twoim CSS */}
+      <div className="admin-tabs">
+        <button
+          className={`admin-tab-btn ${activeTab === "articles" ? "active" : ""}`}
+          onClick={() => setActiveTab("articles")}
+        >
+          Zarządzanie artykułami
+        </button>
+        <button
+          className={`admin-tab-btn ${activeTab === "settings" ? "active" : ""}`}
+          onClick={() => setActiveTab("settings")}
+        >
+          Ustawienia i Bezpieczeństwo
+        </button>
+      </div>
 
-          <form className="admin-form" onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="Tytuł"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-            />
+      {activeTab === "articles" && (
+        <div className="admin-grid">
+          <div className="admin-form-container">
+            <h3 className="form-section-title">
+              {editingArticle
+                ? "Edycja artykułu"
+                : "Dodaj nowy artykuł poprzez formularz"}
+            </h3>
 
-            <input
-              type="text"
-              placeholder="Autorzy"
-              value={authors}
-              onChange={(e) => setAuthors(e.target.value)}
-              required
-            />
-
-            <input
-              type="text"
-              placeholder="Data publikacji"
-              value={publicationDate}
-              onFocus={(e) => {
-                e.target.type = "date";
-                try {
-                  e.target.showPicker();
-                } catch (err) {
-                  console.log(err);
-                }
-              }}
-              onBlur={(e) => {
-                if (!publicationDate) {
-                  e.target.type = "text";
-                }
-              }}
-              onChange={(e) => setPublicationDate(e.target.value)}
-              required
-            />
-
-            <input
-              type="text"
-              placeholder="Zakres stron"
-              value={pageRange}
-              onChange={(e) => setPageRange(e.target.value)}
-            />
-
-            <input
-              type="text"
-              placeholder="Słowa kluczowe"
-              value={keywords}
-              onChange={(e) => setKeywords(e.target.value)}
-            />
-
-            <select
-              className="category-select"
-              value={category}
-              onChange={(e) => setCategory(Number(e.target.value))}
-              required
-            >
-              <option value={1}>Matematyka</option>
-              <option value={2}>Informatyka</option>
-              <option value={3}>Dydaktyka</option>
-              <option value={4}>Popularyzacja nauki</option>
-            </select>
-
-            <div className="file-upload-wrapper">
-              <label
-                htmlFor="pdf-file-input"
-                className={`file-upload-label ${pdfFile ? "has-file" : ""}`}
-              >
-                <span className="file-placeholder">
-                  {pdfFile ? `📄 ${pdfFile.name}` : "Wgraj plik PDF"}
-                </span>
-              </label>
+            <form className="admin-form" onSubmit={handleSubmit}>
               <input
-                id="pdf-file-input"
-                type="file"
-                accept=".pdf"
-                className="hidden-file-input"
-                onChange={(e) => setPdfFile(e.target.files?.[0] || null)}
-                required={!editingArticle}
+                type="text"
+                placeholder="Tytuł"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
               />
-            </div>
 
-            <div className="file-upload-wrapper">
-              <label
-                htmlFor="additional-file-input"
-                className={`file-upload-label ${additionalFile ? "has-file" : ""}`}
-              >
-                <span className="file-placeholder">
-                  {additionalFile
-                    ? `📄 ${additionalFile.name}`
-                    : "Wgraj plik opcjonalny"}
-                </span>
-              </label>
               <input
-                id="additional-file-input"
-                type="file"
-                accept=".pdf"
-                className="hidden-file-input"
-                onChange={(e) => setAdditionalFile(e.target.files?.[0] || null)}
+                type="text"
+                placeholder="Autorzy"
+                value={authors}
+                onChange={(e) => setAuthors(e.target.value)}
+                required
               />
-            </div>
 
-            {error && (
-              <p
-                className="error-message"
-                style={{ color: "red", margin: "10px 0" }}
+              <input
+                type="text"
+                placeholder="Data publikacji"
+                value={publicationDate}
+                onFocus={(e) => {
+                  e.target.type = "date";
+                  try {
+                    e.target.showPicker();
+                  } catch (err) {
+                    console.log(err);
+                  }
+                }}
+                onBlur={(e) => {
+                  if (!publicationDate) {
+                    e.target.type = "text";
+                  }
+                }}
+                onChange={(e) => setPublicationDate(e.target.value)}
+                required
+              />
+
+              <input
+                type="text"
+                placeholder="Zakres stron"
+                value={pageRange}
+                onChange={(e) => setPageRange(e.target.value)}
+              />
+
+              <input
+                type="text"
+                placeholder="Słowa kluczowe"
+                value={keywords}
+                onChange={(e) => setKeywords(e.target.value)}
+              />
+
+              <select
+                className="category-select"
+                value={category}
+                onChange={(e) => setCategory(Number(e.target.value))}
+                required
               >
-                {error}
-              </p>
-            )}
+                <option value={1}>Matematyka</option>
+                <option value={2}>Informatyka</option>
+                <option value={3}>Dydaktyka</option>
+                <option value={4}>Popularyzacja nauki</option>
+              </select>
 
-            <div className="form-actions-row">
-              {editingArticle && (
-                <button
-                  type="button"
-                  onClick={clearForm}
-                  className="btn-cancel"
+              <div className="file-upload-wrapper">
+                <label
+                  htmlFor="pdf-file-input"
+                  className={`file-upload-label ${pdfFile ? "has-file" : ""}`}
                 >
-                  Anuluj edycję
-                </button>
+                  <span className="file-placeholder">
+                    {pdfFile ? `📄 ${pdfFile.name}` : "Wgraj plik PDF"}
+                  </span>
+                </label>
+                <input
+                  id="pdf-file-input"
+                  type="file"
+                  accept=".pdf"
+                  className="hidden-file-input"
+                  onChange={(e) => setPdfFile(e.target.files?.[0] || null)}
+                  required={!editingArticle}
+                />
+              </div>
+
+              <div className="file-upload-wrapper">
+                <label
+                  htmlFor="additional-file-input"
+                  className={`file-upload-label ${additionalFile ? "has-file" : ""}`}
+                >
+                  <span className="file-placeholder">
+                    {additionalFile
+                      ? `📄 ${additionalFile.name}`
+                      : "Wgraj plik opcjonalny"}
+                  </span>
+                </label>
+                <input
+                  id="additional-file-input"
+                  type="file"
+                  accept=".pdf"
+                  className="hidden-file-input"
+                  onChange={(e) =>
+                    setAdditionalFile(e.target.files?.[0] || null)
+                  }
+                />
+              </div>
+
+              {error && (
+                <p
+                  className="error-message"
+                  style={{ color: "red", margin: "10px 0" }}
+                >
+                  {error}
+                </p>
               )}
 
-              <button type="submit" className="btn-submit">
-                {editingArticle ? "Zapisz zmiany" : "Dodaj artykuł"}
-              </button>
-            </div>
-          </form>
-        </div>
-
-        <div className="admin-articles">
-          <h3>Statystyki otwarć</h3>
-
-          {articles.map((article) => (
-            <div key={article.id} className="article-row">
-              <div className="article-info">
-                <span className="article-title">{article.title}</span>
-              </div>
-
-              <div className="article-actions">
-                <span className="views">👁 {article.openCount}</span>
-
-                <div className="action-buttons">
+              <div className="form-actions-row">
+                {editingArticle && (
                   <button
                     type="button"
-                    onClick={() => handleDeleteArticle(article.id)}
+                    onClick={clearForm}
+                    className="btn-cancel"
                   >
-                    Usuń
+                    Anuluj edycję
                   </button>
+                )}
 
-                  <button type="button" onClick={() => startEdit(article)}>
-                    Edytuj
-                  </button>
+                <button type="submit" className="btn-submit">
+                  {editingArticle ? "Zapisz zmiany" : "Dodaj artykuł"}
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div className="admin-articles">
+            <h3>Statystyki otwarć</h3>
+
+            {articles.map((article) => (
+              <div key={article.id} className="article-row">
+                <div className="article-info">
+                  <span className="article-title">{article.title}</span>
+                </div>
+
+                <div className="article-actions">
+                  <span className="views">👁 {article.openCount}</span>
+
+                  <div className="action-buttons">
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteArticle(article.id)}
+                    >
+                      Usuń
+                    </button>
+
+                    <button type="button" onClick={() => startEdit(article)}>
+                      Edytuj
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      )}
+
+      {activeTab === "settings" && (
+        <div style={{ marginTop: "20px" }}>
+          <MfaSettings />
+        </div>
+      )}
     </div>
   );
 };
