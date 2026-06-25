@@ -279,7 +279,10 @@ const AdminPanel = () => {
                 type="text"
                 placeholder="Zakres stron"
                 value={pageRange}
-                onChange={(e) => setPageRange(e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/\D/g, "");
+                  setPageRange(value);
+                }}
               />
               <input
                 type="text"
