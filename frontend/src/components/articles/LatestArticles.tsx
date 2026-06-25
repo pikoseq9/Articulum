@@ -55,6 +55,11 @@ const LatestArticles = () => {
 
   return (
     <div className="la-container">
+      <div className="la-header">
+        <h1 className="la-title">Najnowsze artykuły</h1>
+        <div className="la-title-underline"></div>
+      </div>
+
       <div className="la-filters">
         <span className="la-filters-label">Kategorie</span>
         <button
