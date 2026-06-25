@@ -55,6 +55,40 @@ const LatestArticles = () => {
 
   return (
     <div className="la-container">
+      <div className="la-filters">
+        <span className="la-filters-label">Kategorie</span>
+        <button
+          className={`la-filter-btn ${activeCategory === null ? "active" : ""}`}
+          onClick={() => setActiveCategory(null)}
+        >
+          Wszystkie
+        </button>
+        <button
+          className={`la-filter-btn ${activeCategory === ArticleCategory.Mathematics ? "active" : ""}`}
+          onClick={() => setActiveCategory(ArticleCategory.Mathematics)}
+        >
+          Matematyka
+        </button>
+        <button
+          className={`la-filter-btn ${activeCategory === ArticleCategory.ComputerScience ? "active" : ""}`}
+          onClick={() => setActiveCategory(ArticleCategory.ComputerScience)}
+        >
+          Informatyka
+        </button>
+        <button
+          className={`la-filter-btn ${activeCategory === ArticleCategory.Didactics ? "active" : ""}`}
+          onClick={() => setActiveCategory(ArticleCategory.Didactics)}
+        >
+          Dydaktyka
+        </button>
+        <button
+          className={`la-filter-btn ${activeCategory === ArticleCategory.PopularScience ? "active" : ""}`}
+          onClick={() => setActiveCategory(ArticleCategory.PopularScience)}
+        >
+          Popularyzacja nauki
+        </button>
+      </div>
+
       <div className="la-layout">
         <div className="la-articles-column">
           {currentItems.length === 0 ? (
@@ -73,7 +107,6 @@ const LatestArticles = () => {
                 </p>
 
                 <div className="la-card-footer">
-                  {/* Ten div grupuje metadane i przyciski admina, żeby "Czytaj więcej" zostało po prawej stronie */}
                   <div>
                     <div className="la-card-meta">
                       <span>
@@ -93,7 +126,6 @@ const LatestArticles = () => {
                       </span>
                     </div>
 
-                    {/* Zapis z operatorem trójargumentowym jest bezpieczniejszy dla TypeScripta */}
                     {isLoggedIn ? (
                       <div className="admin-action-links">
                         <button
