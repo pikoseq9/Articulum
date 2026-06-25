@@ -5,7 +5,9 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+    Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   color: #1a1a1a;
   background-color: #111420;
   overflow: hidden;
@@ -95,6 +97,7 @@ body {
   align-items: center;
   justify-content: center;
   background-color: #1d2232;
+  color: #6c75df;
   border: none;
   border-radius: 12px;
   width: 48px;
@@ -106,7 +109,7 @@ body {
 
 .admin-logout-btn:hover {
   background-color: #242b3d;
-  transform: scale(1.05); 
+  transform: scale(1.05);
 }
 
 .unlock-btn {
@@ -154,8 +157,8 @@ body {
 }
 
 .nav-link.active {
-  background-color: #313854; 
-  color: #929aeb; 
+  background-color: #313854;
+  color: #929aeb;
   border-left: 4px solid #6c75df;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
@@ -177,7 +180,7 @@ body {
 
 .main-content {
   flex-grow: 1;
-  background-color: #F7FBFF;
+  background-color: #f7fbff;
   border-radius: 12px;
   padding: 40px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -225,22 +228,22 @@ body {
   justify-content: center;
   align-items: center;
 
-  padding: 40px 20px; 
+  padding: 40px 20px;
   box-sizing: border-box;
-  
-  overflow-y: auto; 
+
+  overflow-y: auto;
 }
 
 .login-logo {
   width: 100%;
-  max-width: 700px; 
-  margin-bottom: 30px; 
+  max-width: 700px;
+  margin-bottom: 30px;
   display: flex;
-  justify-content: flex-start; 
+  justify-content: flex-start;
 }
 
 .login-logo img {
-  width: 170px; 
+  width: 170px;
 }
 
 .login-card {
@@ -336,7 +339,9 @@ body {
     width: 100%;
     padding: 30px 20px;
   }
-  .login-card h3, .input-group, .form-actions {
+  .login-card h3,
+  .input-group,
+  .form-actions {
     width: 100%;
   }
 }
