@@ -20,18 +20,10 @@ namespace Articulum.Application.Articles
 
             public async Task<Result<List<Article>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var articles = await _context.Articles.ToListAsync(cancellationToken);
-
-                if (!articles.Any())
-                    return Result<List<Article>>.Success(new List<Article>());
-
-                var maxYear = articles.Max(a => a.PublicationDate.Year);
-
-                var archiveArticles = articles
-                    .Where(a => a.PublicationDate.Year < maxYear)
-                    .OrderByDescending(a => a.PublicationDate.Year)
-                    .ThenByDescending(a => a.PublicationDate)
-                    .ToList();
+                // Pobieramy artykuły od razu posortowane z bazy danych, włączając w to obecny rok
+                var archiveArticles = await _context.Articles
+                    .OrderByDescending(a => a.PublicationDate)
+                    .ToListAsync(cancellationToken);
 
                 return Result<List<Article>>.Success(archiveArticles);
             }

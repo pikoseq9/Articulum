@@ -397,7 +397,7 @@ const AdminPanel = () => {
       {activeTab === "users" && (
         <div className="admin-grid">
           <div className="admin-form-container">
-            <h3 className="form-section-title">Dodaj nowego redaktora</h3>
+            <h3 className="form-section-title">Dodaj nowego administratora</h3>
             <form className="admin-form" onSubmit={handleCreateUser}>
               <input
                 type="text"
