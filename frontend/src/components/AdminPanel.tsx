@@ -35,6 +35,10 @@ const AdminPanel = () => {
   const [userError, setUserError] = useState("");
   const [userMessage, setUserMessage] = useState("");
 
+  // --- STANY DLA DRAG AND DROP ---
+  const [dragActivePdf, setDragActivePdf] = useState(false);
+  const [dragActiveAdditional, setDragActiveAdditional] = useState(false);
+
   useEffect(() => {
     loadArticles();
     if (location.state && location.state.articleToEdit) {
@@ -74,6 +78,7 @@ const AdminPanel = () => {
 
   const handleArticleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Formularz wysłany!");
     setArticleError("");
 
     if (!editingArticle && !pdfFile) {
@@ -209,6 +214,48 @@ const AdminPanel = () => {
     }
   };
 
+  // --- LOGIKA DRAG AND DROP ---
+  const handleDrag = (
+    e: React.DragEvent,
+    setDragActive: React.Dispatch<React.SetStateAction<boolean>>,
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDropPdf = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActivePdf(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      const droppedFile = e.dataTransfer.files[0];
+      if (
+        droppedFile.type === "application/pdf" ||
+        droppedFile.name.endsWith(".pdf")
+      ) {
+        setPdfFile(droppedFile);
+      } else {
+        setArticleError("Plik musi być w formacie PDF lub mniejszy.");
+      }
+    }
+  };
+
+  const handleDropAdditional = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActiveAdditional(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      // Jeśli plik dodatkowy też ma być PDFem wg HTMLa, można dodać ten sam warunek.
+      // Tutaj po prostu chwytamy plik.
+      setAdditionalFile(e.dataTransfer.files[0]);
+    }
+  };
+
   return (
     <div className="admin-panel">
       <h1>Panel administratora</h1>
@@ -303,13 +350,20 @@ const AdminPanel = () => {
                 <option value={4}>Popularyzacja nauki</option>
               </select>
 
+              {/* DND PDF FILE */}
               <div className="file-upload-wrapper">
                 <label
                   htmlFor="pdf-file-input"
-                  className={`file-upload-label ${pdfFile ? "has-file" : ""}`}
+                  className={`file-upload-label ${pdfFile ? "has-file" : ""} ${dragActivePdf ? "drag-active" : ""}`}
+                  onDragEnter={(e) => handleDrag(e, setDragActivePdf)}
+                  onDragLeave={(e) => handleDrag(e, setDragActivePdf)}
+                  onDragOver={(e) => handleDrag(e, setDragActivePdf)}
+                  onDrop={handleDropPdf}
                 >
                   <span className="file-placeholder">
-                    {pdfFile ? `📄 ${pdfFile.name}` : "Wgraj plik PDF"}
+                    {pdfFile
+                      ? `📄 ${pdfFile.name}`
+                      : "Wgraj lub upuść plik PDF tutaj"}
                   </span>
                 </label>
                 <input
@@ -318,19 +372,23 @@ const AdminPanel = () => {
                   accept=".pdf"
                   className="hidden-file-input"
                   onChange={(e) => setPdfFile(e.target.files?.[0] || null)}
-                  required={!editingArticle}
                 />
               </div>
 
+              {/* DND ADDITIONAL FILE */}
               <div className="file-upload-wrapper">
                 <label
                   htmlFor="additional-file-input"
-                  className={`file-upload-label ${additionalFile ? "has-file" : ""}`}
+                  className={`file-upload-label ${additionalFile ? "has-file" : ""} ${dragActiveAdditional ? "drag-active" : ""}`}
+                  onDragEnter={(e) => handleDrag(e, setDragActiveAdditional)}
+                  onDragLeave={(e) => handleDrag(e, setDragActiveAdditional)}
+                  onDragOver={(e) => handleDrag(e, setDragActiveAdditional)}
+                  onDrop={handleDropAdditional}
                 >
                   <span className="file-placeholder">
                     {additionalFile
                       ? `📄 ${additionalFile.name}`
-                      : "Wgraj plik opcjonalny"}
+                      : "Wgraj lub upuść plik opcjonalny tutaj"}
                   </span>
                 </label>
                 <input

@@ -237,6 +237,11 @@ function AppContent() {
                 Panel Administratora
               </NavLink>
             )}
+
+            <div className="sidebar-issn">
+              <div className="issn-label">ISSN</div>
+              <div className="issn-number">1234-5678</div>
+            </div>
           </nav>
         </aside>
 

@@ -319,6 +319,12 @@
   border-bottom: 2px solid #e2e8f0;
 }
 
+.file-upload-label.drag-active {
+  border-color: #9496ff;
+  background-color: #f4f5ff;
+  border-style: dashed;
+}
+
 .admin-tab-btn {
   background: none;
   border: none;

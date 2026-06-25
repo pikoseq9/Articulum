@@ -149,12 +149,27 @@ const LatestArticles = () => {
                     ) : null}
                   </div>
 
-                  <button
-                    className="la-card-btn"
-                    onClick={() => handleReadPdf(article.id)}
-                  >
-                    Czytaj więcej →
-                  </button>
+                  <div style={{ display: "flex", gap: "10px" }}>
+                    {article.additionalFileName && (
+                      <button
+                        className="la-card-btn"
+                        onClick={() =>
+                          window.open(
+                            `http://localhost:5269/api/Articles/${article.id}/download-additional`,
+                            "_blank",
+                          )
+                        }
+                      >
+                        Pobierz załącznik
+                      </button>
+                    )}
+                    <button
+                      className="la-card-btn"
+                      onClick={() => handleReadPdf(article.id)}
+                    >
+                      Czytaj więcej →
+                    </button>
+                  </div>
                 </div>
               </div>
             ))

@@ -21,7 +21,7 @@ export interface Article {
   publicationDate: string;
   category: ArticleCategory;
   pdfFileName: string;
-  additionalFileName?: string;
+  additionalFileName?: string | null;
   openCount: number;
 }
 
